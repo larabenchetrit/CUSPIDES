@@ -2,7 +2,27 @@
    CÚSPIDES — style.css
    Replica fiel del wireframe: nav + hero + ticker
    ============================================================= */
+@font-face {
+    font-family: "Aptly";
+    src: url("fonts/Aptly-Bold.otf") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+}
 
+@font-face {
+    font-family: "Panton Rust";
+    src: url("fonts/panton-rust-heavy-base.ttf") format("truetype");
+    font-weight: 900;
+    font-style: normal;
+}
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+
+@font-face {
+    font-family: "Panton Rust";
+    src: url("fonts/panton-rust-heavy-base.ttf") format("truetype");
+    font-weight: 900;
+    font-style: normal;
+}
 /* ---------------------------------------------------------------
    CSS VARIABLES
 --------------------------------------------------------------- */
@@ -21,7 +41,9 @@
   --color-ticker-text: #2d4a1e;       /* deep olive */
 
   /* Typography */
-  --font-body:         'Inter', sans-serif;
+--font-body: 'Montserrat', sans-serif;
+--font-heading: 'Panton Rust', serif;
+
 
   /* Spacing */
   --nav-height:        72px;
@@ -83,29 +105,10 @@ a {
   color: var(--color-brand-text);
 }
 
-.nav__logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #4a7a3a;
-  border-radius: 8px;
-  width: 46px;
-  height: 36px;
-  flex-shrink: 0;
-}
-
-.nav__logo-icon {
-  width: 32px;
-  height: 22px;
-  color: var(--color-white);
-}
-
-.nav__brand-text {
-  font-family: var(--font-body);
-  font-size: 1.25rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  color: var(--color-white);
+.nav__logo{
+    width: 100px;      /* ajustalo según tu logo */
+    height: auto;
+    display: block;
 }
 
 /* Nav links */
@@ -186,6 +189,7 @@ a {
 
 /* Hero title — two-line, extra-large, condensed weight */
 .hero__title {
+  
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -239,7 +243,7 @@ a {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-cta-text);
-  background: rgba(255,255,255,0.08);
+  background: rgba(105, 41, 41, 0.08);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   transition: background 0.2s, border-color 0.2s;
@@ -279,10 +283,10 @@ a {
 }
 
 .ticker__item {
-  font-family: var(--font-body);
-  font-size: 1.05rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
+  font-family: var(--font-heading);
+  font-size: 1.20rem;
+  font-weight: 1000;
+  letter-spacing: 0.0em;
   text-transform: uppercase;
   color: var(--color-ticker-text);
   flex-shrink: 0;
@@ -299,7 +303,1462 @@ a {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
+/* =============================================================
+   SECCIÓN 1: ABOUT — Somos guías de montaña
+   ============================================================= */
 
+/* Variables locales de sección */
+.about {
+  --about-bg:          #ede8dc;   /* crema/beige del wireframe */
+  --about-green-dark:  #1f4028;   /* verde oscuro títulos y card */
+  --about-green-mid:   #5a7a5a;   /* verde medio card inferior */
+  --about-body-color:  #4a4a4a;
+  --about-stat-red:    #b03a2e;
+  --about-stat-orange: #d4622a;
+  --about-stat-yellow: #e6b832;
+  --about-white:       #ffffff;
+
+  background: var(--about-bg);
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  padding: 80px 72px;
+  min-height: 560px;
+}
+
+/* ---------- COLUMNA IZQUIERDA ---------- */
+.about__left {
+  flex: 0 0 52%;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Título */
+.about__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  line-height: 1;
+}
+
+.about__heading-light {
+  font-family: var(--font-body);
+  font-size: clamp(2rem, 3.8vw, 3.2rem);
+  font-weight: 700;
+  color: var(--about-green-dark);
+  letter-spacing: -0.01em;
+}
+
+.about__heading-bold {
+  font-family: var(--font-body);
+  font-size: clamp(3.4rem, 7.5vw, 7rem);
+  font-weight: 900;
+  color: var(--about-green-dark);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  line-height: 0.92;
+}
+
+/* Párrafo descriptivo */
+.about__body {
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 1.3vw, 1.05rem);
+  font-weight: 400;
+  color: var(--about-body-color);
+  line-height: 1.65;
+}
+
+/* Badges de estadísticas */
+.about__stats {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.about__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  border-radius: 16px;
+  padding: 14px 18px 10px 18px;
+  min-width: 110px;
+}
+
+.about__stat--red    { background: var(--about-stat-red); }
+.about__stat--orange { background: var(--about-stat-orange); }
+.about__stat--yellow { background: var(--about-stat-yellow); }
+
+.about__stat-number {
+  font-family: var(--font-body);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 900;
+  color: var(--about-white);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.about__stat-label {
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--about-white);
+  opacity: 0.88;
+  margin-top: 2px;
+}
+
+/* ---------- COLUMNA DERECHA ---------- */
+.about__right {
+  flex: 1 1 0;
+  display: flex;
+  align-items: stretch;
+  gap: 14px;
+  height: 400px;
+}
+
+/* Tarjeta foto — columna más angosta, altura completa */
+.about__card--photo {
+  flex: 0 0 48%;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.about__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+/* Columna de tarjetas de texto */
+.about__cards-col {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Tarjeta verde oscura con texto */
+.about__card--dark {
+  flex: 0 0 56%;
+  background: var(--about-green-dark);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 22px;
+}
+
+.about__card-text {
+  font-family: var(--font-body);
+  font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+  font-weight: 800;
+  color: var(--about-white);
+  line-height: 1.2;
+  text-align: left;
+}
+
+/* Tarjeta verde media — vacía (decorativa) */
+.about__card--muted {
+  flex: 1 1 0;
+  background: var(--about-green-mid);
+  border-radius: 20px;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 900px) {
+  .about {
+    flex-direction: column;
+    padding: 56px 32px;
+    gap: 40px;
+  }
+
+  .about__left {
+    flex: none;
+    width: 100%;
+  }
+
+  .about__right {
+    width: 100%;
+    height: 340px;
+  }
+}
+
+@media (max-width: 560px) {
+  .about {
+    padding: 48px 20px;
+  }
+
+  .about__right {
+    height: 280px;
+  }
+
+  .about__stat {
+    min-width: 90px;
+    padding: 10px 14px 8px;
+  }
+}
+/* =============================================================
+   SECCIÓN 2: MANIFESTO
+   ============================================================= */
+
+.manifesto {
+  position: relative;
+  width: 100%;
+  min-height: 580px;
+  display: flex;
+  align-items: center;
+}
+
+/* Imagen de fondo */
+.manifesto__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.manifesto__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
+}
+
+/* Overlay: oscurece la mitad izquierda donde está el texto */
+.manifesto__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.52) 0%,
+    rgba(0, 0, 0, 0.30) 45%,
+    rgba(0, 0, 0, 0.04) 75%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+/* Contenido */
+.manifesto__content {
+  position: relative;
+  z-index: 10;
+  padding: 80px 72px;
+  max-width: 660px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Título — tres líneas */
+.manifesto__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.manifesto__line {
+  display: block;
+  font-family: var(--font-body);
+  font-size: clamp(1.9rem, 3.8vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.manifesto__line-plain {
+  color: #ffffff;
+  font-family: "Aptly";
+}
+
+.manifesto__line-accent {
+  color: #f5c842; /* amarillo dorado — mismo del ticker */
+  font-weight: 900;
+  font-family: var(--font-heading);
+}
+
+/* Párrafo */
+.manifesto__body {
+  font-family: var(--font-body);
+  font-size: clamp(0.85rem, 1.3vw, 1rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.7;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 900px) {
+  .manifesto__content {
+    padding: 64px 40px;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .manifesto__content {
+    padding: 56px 24px;
+    gap: 20px;
+  }
+
+  .manifesto__overlay {
+    background: rgba(0, 0, 0, 0.45);
+  }
+}
+/* =============================================================
+   SECCIÓN 3: EL MÉTODO
+   ============================================================= */
+
+.metodo {
+  background: #1f4028;        /* verde oscuro de la marca */
+  padding: 88px 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 64px;
+}
+
+/* ---------- ENCABEZADO ---------- */
+.metodo__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.metodo__eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #f5c842;             /* amarillo dorado */
+}
+
+.metodo__title {
+  font-family: var(--font-body);
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+  max-width: 520px;
+}
+
+/* ---------- PASOS ---------- */
+.metodo__steps {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  width: 100%;
+  max-width: 1100px;
+}
+
+/* Paso individual */
+.metodo__step {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 18px;
+  padding: 0 16px;
+}
+
+/* Ícono */
+.metodo__step-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.metodo__step-icon svg {
+  width: 36px;
+  height: 36px;
+  color: #f5c842;
+}
+
+/* Título del paso */
+.metodo__step-title {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #f5c842;
+}
+
+/* Descripción del paso */
+.metodo__step-body {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.6;
+  max-width: 200px;
+}
+
+/* Conector entre pasos */
+.metodo__connector {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 1.5px;
+  background: rgba(255, 255, 255, 0.2);
+  margin-top: 36px; /* alinea con centro del ícono */
+  flex-shrink: 0;
+}
+
+/* ---------- FOOTER ---------- */
+.metodo__footer {
+  display: flex;
+  justify-content: center;
+}
+
+.metodo__brand {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.05em;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 900px) {
+  .metodo {
+    padding: 64px 40px;
+    gap: 48px;
+  }
+
+  .metodo__steps {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .metodo__step {
+    padding: 24px 0;
+  }
+
+  .metodo__connector {
+    width: 1.5px;
+    height: 32px;
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .metodo {
+    padding: 56px 24px;
+  }
+}
+/* =============================================================
+   SECCIÓN 4: SLIDER DE EXPEDICIONES
+   ============================================================= */
+
+.expediciones {
+  background: #4a7040;        /* verde medio — fondo de la sección */
+  padding: 48px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ---------- FLECHAS ---------- */
+.expediciones__arrow {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s;
+  position: relative;
+}
+
+.expediciones__arrow:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.expediciones__arrow svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ---------- TRACK ---------- */
+.expediciones__track-wrapper {
+  overflow: hidden;
+  flex: 1 1 0;
+  max-width: 900px;
+}
+
+.expediciones__track {
+  display: flex;
+  gap: 16px;
+  transition: transform 0.4s ease;
+  will-change: transform;
+}
+
+/* ---------- TARJETA BASE ---------- */
+.exp-card {
+  flex: 0 0 200px;
+  border-radius: 20px;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  cursor: pointer;
+}
+
+/* Sticker flotante en la esquina superior derecha */
+.exp-card__sticker {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #ede8dc;
+  border-radius: 999px;
+  padding: 6px 10px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.exp-card__sticker-type {
+  font-family: var(--font-body);
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #3a5a30;
+  line-height: 1.2;
+}
+
+/* Zona imagen */
+.exp-card__img-wrap {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
+  background: #d0cfc8;
+}
+
+.exp-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Placeholder imagen (X) */
+.exp-card__img-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #e8e4da;
+  position: relative;
+}
+
+.exp-card__img-placeholder::before,
+.exp-card__img-placeholder::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  margin: auto;
+  width: 85%;
+  height: 1.5px;
+  background: #aaa;
+  border-radius: 1px;
+}
+
+.exp-card__img-placeholder::before {
+  transform: rotate(45deg);
+}
+
+.exp-card__img-placeholder::after {
+  transform: rotate(-45deg);
+}
+
+/* Footer de la tarjeta */
+.exp-card__footer {
+  border-radius: 0 0 16px 16px;
+  padding: 12px 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.exp-card__titles {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  gap: 1px;
+}
+
+.exp-card__pre {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.exp-card__name {
+  font-family: var(--font-body);
+  font-size: 1.35rem;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: #ffffff;
+  line-height: 1;
+}
+
+/* Barra de dificultad */
+.exp-card__difficulty {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.exp-card__difficulty-label {
+  font-family: var(--font-body);
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.exp-card__difficulty-bar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.exp-card__difficulty-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: #6fcf4a;
+}
+
+.exp-card__difficulty-fill--low  { width: 30%; }
+.exp-card__difficulty-fill--mid  { width: 60%; }
+.exp-card__difficulty-fill--high { width: 95%; }
+
+/* ---------- COLORES POR TARJETA ---------- */
+.exp-card--yellow .exp-card__footer { background: #d4a020; }
+.exp-card--yellow .exp-card__img-wrap { border-radius: 16px; }
+.exp-card--yellow { border: 2.5px solid #d4a020; border-radius: 18px; }
+
+.exp-card--orange .exp-card__footer { background: #c95f20; }
+.exp-card--orange { border: 2.5px solid #c95f20; border-radius: 18px; }
+
+.exp-card--red .exp-card__footer { background: #8b2020; }
+.exp-card--red { border: 2.5px solid #8b2020; border-radius: 18px; }
+
+.exp-card--dark .exp-card__footer { background: #2a1a0e; }
+.exp-card--dark .exp-card__img-wrap { border-radius: 16px; }
+.exp-card--dark { border: 2.5px solid #2a1a0e; border-radius: 18px; }
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 760px) {
+  .expediciones {
+    gap: 8px;
+    padding: 40px 0;
+  }
+
+  .exp-card {
+    flex: 0 0 160px;
+  }
+
+  .exp-card__name {
+    font-size: 1.1rem;
+  }
+}
+/* =============================================================
+   SECCIÓN 5: INSTRUÍTE PARA LA AVENTURA
+   ============================================================= */
+
+.cursos {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  overflow: hidden;
+  padding-bottom: 0;
+}
+
+/* Título */
+.cursos__title {
+  position: relative;
+  z-index: 10;
+  font-family: var(--font-body);
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 700;
+  color: #1f4028;
+  text-align: center;
+  padding: 56px 24px 0;
+  background: #ede8dc;
+  width: 100%;
+}
+
+.cursos__title-accent {
+  color: #2a7a2a;
+  font-weight: 900;
+}
+
+/* Fondo con imagen de montañas */
+.cursos__bg {
+  position: absolute;
+  inset: 0;
+  top: 120px; /* empieza debajo del título */
+  z-index: 0;
+}
+
+.cursos__bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  display: block;
+}
+
+.cursos__bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.08);
+}
+
+/* Tarjetas de cursos */
+.cursos__cards {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 24px;
+  padding: 48px 72px 0;
+  width: 100%;
+  /* fondo crema solo en la parte superior donde están las tarjetas */
+  background: linear-gradient(to bottom, #ede8dc 40%, transparent 100%);
+}
+
+/* ---------- TARJETA BASE ---------- */
+.curso-card {
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  border-radius: 140px 140px 24px 24px; /* forma de arco / stadium top */
+  overflow: hidden;
+  border-width: 5px;
+  border-style: solid;
+  flex-shrink: 0;
+}
+
+.curso-card--featured {
+  width: 272px;
+  /* La tarjeta central sobresale más arriba */
+  margin-bottom: 0;
+  align-self: flex-end;
+  position: relative;
+  top: 0;
+}
+
+/* Zona interior de la tarjeta (crema) */
+.curso-card__inner {
+  background: #ede8dc;
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px 32px;
+  min-height: 220px;
+}
+
+.curso-card__icon-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: #888;
+}
+
+.curso-card__icon-wrap svg {
+  width: 52px;
+  height: 52px;
+  opacity: 0.4;
+}
+
+.curso-card__icon-label {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #aaa;
+  letter-spacing: 0.04em;
+}
+
+/* Footer coloreado */
+.curso-card__footer {
+  padding: 16px 20px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.curso-card__name {
+  font-family: var(--font-body);
+  font-size: 1.3rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #ffffff;
+  line-height: 1.1;
+}
+
+/* Colores de borde y footer */
+.curso-card--yellow {
+  border-color: #d4a020;
+}
+.curso-card--yellow .curso-card__footer {
+  background: #d4a020;
+}
+
+.curso-card--red {
+  border-color: #8b2020;
+}
+.curso-card--red .curso-card__footer {
+  background: #8b2020;
+}
+
+.curso-card--orange {
+  border-color: #c95f20;
+}
+.curso-card--orange .curso-card__footer {
+  background: #c95f20;
+}
+
+/* =============================================================
+   SECCIÓN 6: ¿POR QUÉ ENTRENAR MESES?
+   ============================================================= */
+
+.porque {
+  position: relative;
+  overflow: hidden;
+  padding: 0 48px 80px;
+}
+
+/* Fondo imagen */
+.porque__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.porque__bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 60%;
+  display: block;
+}
+
+.porque__bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.25);
+}
+
+/* Tarjeta contenido */
+.porque__card {
+  position: relative;
+  z-index: 10;
+  background: #ede8dc;
+  border-radius: 20px;
+  padding: 56px 56px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+  max-width: 900px;
+  margin: 80px auto 0;
+}
+
+/* Columna izquierda */
+.porque__title {
+  font-family: var(--font-body);
+  font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+  font-weight: 900;
+  color: #1f4028;
+  line-height: 1.1;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.porque__title-accent {
+  color: #1f4028;
+}
+
+.porque__body {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: #4a4a4a;
+  line-height: 1.65;
+}
+
+/* Lista numerada */
+.porque__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.porque__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.porque__num {
+  font-family: var(--font-body);
+  font-size: 1.6rem;
+  font-weight: 900;
+  line-height: 1;
+  flex-shrink: 0;
+  width: 32px;
+}
+
+/* Números en colores degradados del amarillo al oscuro */
+.porque__num--1 { color: #d4a020; }
+.porque__num--2 { color: #c95f20; }
+.porque__num--3 { color: #8b2020; }
+.porque__num--4 { color: #3a1a0e; }
+
+.porque__item-text {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: #3a3a3a;
+  line-height: 1.55;
+  padding-top: 4px;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 900px) {
+  .cursos__cards {
+    padding: 40px 32px 0;
+    gap: 16px;
+  }
+
+  .curso-card {
+    width: 180px;
+  }
+
+  .curso-card--featured {
+    width: 210px;
+  }
+
+  .porque__card {
+    grid-template-columns: 1fr;
+    padding: 40px 32px;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 560px) {
+  .cursos__cards {
+    padding: 32px 16px 0;
+    gap: 10px;
+  }
+
+  .curso-card {
+    width: 140px;
+  }
+
+  .curso-card--featured {
+    width: 160px;
+  }
+
+  .curso-card__inner {
+    min-height: 160px;
+    padding: 28px 16px 20px;
+  }
+
+  .porque {
+    padding: 0 20px 56px;
+  }
+
+  .porque__card {
+    padding: 32px 24px;
+    margin-top: 48px;
+  }
+}
+/* =============================================================
+   SECCIÓN 7: TESTIMONIOS
+   ============================================================= */
+
+.testimonios {
+  background: #ede8dc;
+  padding: 88px 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+/* ---------- ENCABEZADO ---------- */
+.testimonios__head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.testimonios__eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #c95f20;
+}
+
+.testimonios__title {
+  font-family: var(--font-body);
+  font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+  font-weight: 800;
+  color: #1f4028;
+  line-height: 1.1;
+}
+
+/* ---------- LAYOUT PRINCIPAL ---------- */
+.testimonios__layout {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 56px;
+  align-items: start;
+}
+
+/* ---------- COLUMNA IZQUIERDA: CITA DESTACADA ---------- */
+.testimonios__featured {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  position: sticky;
+  top: 32px;
+}
+
+.testimonios__quote {
+  font-family: var(--font-body);
+  font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+  font-weight: 700;
+  color: #1f4028;
+  line-height: 1.35;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.testimonios__rating-global {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.testimonios__rating-num {
+  font-family: var(--font-body);
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: #1f4028;
+  line-height: 1;
+}
+
+.testimonios__stars {
+  display: flex;
+  gap: 3px;
+}
+
+.testimonios__star {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.testimonios__star--full  { color: #d4a020; }
+.testimonios__star--half  { color: #d4a020; opacity: 0.5; }
+.testimonios__star--empty { color: #ccc; }
+
+/* ---------- COLUMNA DERECHA: TARJETAS ---------- */
+.testimonios__cards {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Tarjeta de reseña */
+.reseña {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 28px 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Header de reseña */
+.reseña__header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.reseña__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #d0cfc8;
+  flex-shrink: 0;
+}
+
+.reseña__meta {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.reseña__name {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #1a1a1a;
+  text-transform: uppercase;
+}
+
+.reseña__sub {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #888;
+}
+
+/* Puntuación individual */
+.reseña__score {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.reseña__score-num {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1f4028;
+  line-height: 1;
+}
+
+.reseña__stars {
+  display: flex;
+  gap: 2px;
+}
+
+.reseña__star {
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.reseña__star--full  { color: #d4a020; }
+.reseña__star--empty { color: #ddd; }
+
+/* Título y cuerpo de reseña */
+.reseña__title {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+}
+
+.reseña__body {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #555;
+  line-height: 1.65;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 900px) {
+  .testimonios {
+    padding: 64px 40px;
+    gap: 40px;
+  }
+
+  .testimonios__layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .testimonios__featured {
+    position: static;
+  }
+}
+
+@media (max-width: 560px) {
+  .testimonios {
+    padding: 56px 24px;
+  }
+
+  .reseña {
+    padding: 20px 20px 18px;
+  }
+}
+/* =============================================================
+   SECCIÓN 8: CTA FINAL
+   ============================================================= */
+
+.cta-final {
+  background: #1f4028;
+  padding: 88px 72px;
+}
+
+.cta-final__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ---------- COLUMNA IZQUIERDA ---------- */
+.cta-final__title {
+  font-family: var(--font-body);
+  font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.cta-final__title-accent {
+  color: #f5c842;
+}
+
+.cta-final__body {
+  font-family: var(--font-body);
+  font-size: clamp(0.85rem, 1.3vw, 1rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.65;
+}
+
+/* ---------- COLUMNA DERECHA: FORMULARIO ---------- */
+.cta-final__form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cta-final__input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 16px 20px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #ffffff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.cta-final__input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.cta-final__input:focus {
+  border-color: #f5c842;
+}
+
+.cta-final__btn {
+  width: 100%;
+  background: #f5c842;
+  border: none;
+  border-radius: 10px;
+  padding: 17px 24px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #1f4028;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  margin-top: 4px;
+}
+
+.cta-final__btn:hover {
+  background: #ffd85a;
+}
+
+.cta-final__btn:active {
+  transform: scale(0.98);
+}
+
+/* =============================================================
+   FOOTER
+   ============================================================= */
+
+.footer {
+  background: #111f14;
+  padding: 56px 72px;
+}
+
+.footer__inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 80px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Brand */
+.footer__brand-col {
+  flex-shrink: 0;
+}
+
+.footer__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #2d5a22;
+  border-radius: 8px;
+  width: 46px;
+  height: 36px;
+  flex-shrink: 0;
+  color: #ffffff;
+}
+
+.footer__logo svg {
+  width: 30px;
+  height: 20px;
+}
+
+.footer__brand-name {
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+}
+
+/* Nav links */
+.footer__nav {
+  flex: 1 1 0;
+}
+
+.footer__nav-col {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer__nav-heading {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  margin-bottom: 4px;
+}
+
+.footer__link {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.55);
+  transition: color 0.2s;
+}
+
+.footer__link:hover {
+  color: #ffffff;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 900px) {
+  .cta-final {
+    padding: 64px 40px;
+  }
+
+  .cta-final__inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .footer {
+    padding: 48px 40px;
+  }
+
+  .footer__inner {
+    flex-direction: column;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 560px) {
+  .cta-final {
+    padding: 56px 24px;
+  }
+
+  .footer {
+    padding: 40px 24px;
+  }
+}
+.hero__title-line,
+.about__heading-light,
+.about__heading-bold,
+.manifesto__line,
+.metodo__title,
+.cursos__title,
+.porque__title,
+.testimonios__title,
+.cta-final__title,
+.exp-card__name,
+.curso-card__name {
+    font-family: var(--font-heading);
+}
 /* ---------------------------------------------------------------
    RESPONSIVE
 --------------------------------------------------------------- */
