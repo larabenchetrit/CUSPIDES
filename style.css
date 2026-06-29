@@ -189,7 +189,6 @@ a {
 
 /* Hero title — two-line, extra-large, condensed weight */
 .hero__title {
-  
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1634,7 +1633,7 @@ a {
    ============================================================= */
 
 .footer {
-  background: #111f14;
+  background: #1f4028;
   padding: 56px 72px;
 }
 
