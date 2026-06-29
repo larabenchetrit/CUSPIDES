@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cúspides — Viví la montaña desde adentro</title>
+  <meta name="description" content="Expediciones, formación y acompañamiento profesional en la Patagonia.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav" id="nav">
+    <a href="index.html" class="nav__brand">
+      <div class="nav__logo">
+        <!-- Logo: mountain peak SVG -->
+        <svg class="nav__logo-icon" viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <polyline points="2,30 16,8 24,18 32,6 46,30" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
+        </svg>
+      </div>
+      <span class="nav__brand-text">cúspides</span>
+    </a>
+    <nav class="nav__links" aria-label="Navegación principal">
+      <a href="#quienes" class="nav__link">QUIÉNES SOMOS</a>
+      <a href="#cursos" class="nav__link">CURSOS</a>
+      <a href="#expediciones" class="nav__link">EXPEDICIONES</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <!-- Imagen de fondo: senderista en montaña patagónica -->
+    <div class="hero__bg">
+      <img
+        class="hero__img"
+        src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1600&q=80"
+        alt="Senderista en sendero de montaña patagónica con glaciar al fondo"
+      >
+      <div class="hero__overlay"></div>
+    </div>
+
+    <div class="hero__content">
+      <h1 class="hero__title">
+        <span class="hero__title-line hero__title-line--top">VIVÍ LA MONTAÑA</span>
+        <span class="hero__title-line hero__title-line--bottom">DESDE ADENTRO</span>
+      </h1>
+      <p class="hero__subtitle">
+        Expediciones, formación y<br>
+        acompañamiento profesional en la<br>
+        Patagonia.
+      </p>
+      <a href="#servicios" class="hero__cta">
+        VER MÁS
+        <span class="hero__cta-arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- TICKER / MARQUEE -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker__track">
+      <span class="ticker__item">MÉTODO CÚSPIDES</span>
+      <span class="ticker__dot">●</span>
+      <span class="ticker__item">MÉTODO CÚSPIDES</span>
+      <span class="ticker__dot">●</span>
+      <span class="ticker__item">MÉTODO CÚSPIDES</span>
+      <span class="ticker__dot">●</span>
+      <span class="ticker__item">MÉTODO CÚSPIDES</span>
+      <span class="ticker__dot">●</span>
+      <span class="ticker__item">MÉTODO CÚSPIDES</span>
+      <span class="ticker__dot">●</span>
+      <span class="ticker__item">MÉTODO CÚSPIDES</span>
+      <span class="ticker__dot">●</span>
+      <span class="ticker__item">MÉTODO CÚSPIDES</span>
+      <span class="ticker__dot">●</span>
+      <span class="ticker__item">MÉTODO CÚSPIDES</span>
+      <span class="ticker__dot">●</span>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
