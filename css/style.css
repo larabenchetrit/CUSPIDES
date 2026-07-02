@@ -851,7 +851,8 @@ ul {
 
 .course-card__cta {
   margin-top: auto;
-  pointer-events: none; /* el click lo maneja la card entera */
+  position: relative;
+  z-index: 2;
 }
 
 /* ---------- Back ---------- */
@@ -1273,7 +1274,6 @@ ul {
   .training__point-marker::before { width: 20px; }
 }
 
-
 /* ============================================
    SECTION 7 — CON CÚSPIDES COLECCIONÁ EXPERIENCIAS
    (usa variables globales: --font-script, --font-block, --font-body,
@@ -1493,4 +1493,356 @@ ul {
 @media (max-width: 600px) {
   .experiences__grid { grid-template-columns: 1fr; }
   .exp-card__inner { min-height: clamp(380px, 100vw, 460px); }
+}
+
+/* ============================================
+   SECTION 8 — ESCUELA DE GUÍAS 2027 + CERTIFICACIONES
+   (usa variables globales: --font-script, --font-block, --font-body,
+   --color-red, --color-cream, --container-pad, .btn)
+   ============================================ */
+
+.school {
+  background: var(--color-cream, #f4efe3);
+  padding: clamp(48px, 7vw, 96px) var(--container-pad, clamp(20px, 4vw, 64px));
+}
+
+.school__inner {
+  max-width: 1360px;
+  margin: 0 auto;
+}
+
+.school__top {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(36px, 5vw, 56px);
+  margin-bottom: clamp(48px, 6vw, 72px);
+}
+
+.school__eyebrow {
+  margin: 0 0 8px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-red, #ff4e3a);
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+}
+
+.school__title {
+  margin: 0;
+  font-family: var(--font-script);
+  font-weight: 700;
+  color: #354832;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  line-height: 1;
+}
+
+.school__title-accent {
+  display: inline-block;
+  margin-top: 4px;
+  font-family: var(--font-block);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #354832;
+  font-size: clamp(2.2rem, 4.4vw, 3.1rem);
+}
+
+.school__title-year {
+  display: inline-block;
+  margin-top: 2px;
+  font-family: var(--font-block);
+  font-weight: 800;
+  color: var(--color-red, #ff4e3a);
+  font-size: clamp(3.2rem, 6.4vw, 4.6rem);
+  line-height: 0.95;
+}
+
+.school__desc {
+  margin: clamp(14px, 2vw, 20px) 0 clamp(18px, 2.4vw, 26px);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: #5b6350;
+}
+
+/* ---------- Cards Rescate en Grietas / Primeros Auxilios ---------- */
+.school__cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(16px, 2vw, 24px);
+}
+
+.school__card {
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--color-red, #ff4e3a);
+  display: flex;
+  flex-direction: column;
+}
+
+.school__card-photo {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+}
+.school__card-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.school__card-body {
+  padding: clamp(14px, 1.8vw, 20px) clamp(16px, 2vw, 22px) clamp(18px, 2.2vw, 24px);
+}
+
+.school__card-kind {
+  margin: 0;
+  font-family: var(--font-script);
+  font-weight: 700;
+  color: #f4efe3;
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+}
+
+.school__card-name {
+  margin: 0;
+  font-family: var(--font-block);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #f4efe3;
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  line-height: 1;
+}
+
+/* ---------- Certificaciones ---------- */
+.school__certs {
+  display: flex;
+  justify-content: center;
+}
+.school__certs img {
+  width: 100%;
+  max-width: 1100px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (min-width: 860px) {
+  .school__top {
+    grid-template-columns: 0.9fr 1.1fr;
+    align-items: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .school__cards { grid-template-columns: 1fr; }
+}
+
+
+/* ============================================
+   SECTION 9 — TESTIMONIO
+   (usa variables globales: --font-script, --color-yellow, --container-pad)
+   ============================================ */
+
+.testimonial {
+  background: var(--color-cream, #f4efe3);
+  padding: clamp(32px, 5vw, 56px) var(--container-pad, clamp(20px, 4vw, 64px));
+}
+
+.testimonial__box {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #5c7350;
+  border-radius: 24px;
+  padding: clamp(36px, 6vw, 64px) clamp(24px, 5vw, 60px);
+  text-align: center;
+}
+
+.testimonial__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: clamp(18px, 2.6vw, 28px);
+}
+
+.testimonial__score {
+  font-family: var(--font-block);
+  font-weight: 800;
+  color: var(--color-yellow, #e7ff33);
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+}
+
+.testimonial__star {
+  color: var(--color-yellow, #e7ff33);
+}
+
+.testimonial__quote {
+  margin: 0 auto;
+  max-width: 26ch;
+  font-family: var(--font-script);
+  font-weight: 700;
+  font-style: italic;
+  color: #f4efe3;
+  font-size: clamp(1.3rem, 2.6vw, 2rem);
+  line-height: 1.3;
+}
+
+.testimonial__quote::before,
+.testimonial__quote::after {
+  content: '"';
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 600px) {
+  .testimonial__box { border-radius: 18px; }
+}
+
+
+/* ============================================
+   SECTION 10 — CTA FINAL + FOOTER
+   (usa variables globales: --font-script, --font-block, --font-body,
+   --color-red, --color-cream, --container-pad, .btn)
+   ============================================ */
+
+.final-cta {
+  position: relative;
+  background: var(--color-cream, #f4efe3);
+}
+
+.final-cta__inner {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: clamp(56px, 8vw, 96px) var(--container-pad, clamp(20px, 4vw, 64px)) clamp(72px, 10vw, 120px);
+  text-align: center;
+}
+
+.final-cta__title {
+  margin: 0;
+  font-family: var(--font-script);
+  font-weight: 700;
+  color: #354832;
+  font-size: clamp(1.9rem, 3.8vw, 2.9rem);
+  line-height: 1.15;
+}
+
+.final-cta__title-accent {
+  font-family: var(--font-block);
+  font-weight: 800;
+  color: var(--color-red, #ff4e3a);
+}
+
+.final-cta__desc {
+  margin: clamp(16px, 2.4vw, 24px) auto 0;
+  max-width: 48ch;
+  font-family: var(--font-body);
+  font-size: clamp(0.92rem, 1.1vw, 1.05rem);
+  line-height: 1.6;
+  color: #5b6350;
+}
+
+/* ---------- Form ---------- */
+.final-cta__form {
+  margin: clamp(28px, 4vw, 40px) auto 0;
+  max-width: 640px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  background: #eae3d3;
+  border: 1px solid #d8d0bd;
+  border-radius: 999px;
+  padding: 8px 8px;
+}
+
+.final-cta__input {
+  flex: 1 1 200px;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: #354832;
+  padding: 12px 18px;
+  outline: none;
+}
+.final-cta__input::placeholder { color: #7c8270; }
+.final-cta__input + .final-cta__input {
+  border-left: 1px solid #d8d0bd;
+}
+
+.final-cta__submit {
+  flex: 0 0 auto;
+  border: none;
+  cursor: pointer;
+}
+
+/* ---------- Divisor tipo montaña ---------- */
+.final-cta__divider {
+  display: block;
+  width: 100%;
+  height: clamp(40px, 6vw, 90px);
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  background: #5c7350;
+  padding: clamp(28px, 4vw, 44px) var(--container-pad, clamp(20px, 4vw, 64px));
+  margin-top: -1px;
+}
+
+.site-footer__inner {
+  max-width: 1360px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.site-footer__logo {
+  height: clamp(28px, 3vw, 36px);
+  width: auto;
+}
+
+.site-footer__col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.site-footer__col a {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #f4efe3;
+  text-decoration: none;
+  opacity: 0.9;
+}
+.site-footer__col a:hover { opacity: 1; text-decoration: underline; }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 600px) {
+  .final-cta__form {
+    border-radius: 20px;
+    flex-direction: column;
+    align-items: stretch;
+    background: transparent;
+    border: none;
+    padding: 0;
+    gap: 10px;
+  }
+  .final-cta__input {
+    background: #eae3d3;
+    border: 1px solid #d8d0bd;
+    border-radius: 999px;
+  }
+  .final-cta__input + .final-cta__input { border-left: 1px solid #d8d0bd; }
+  .final-cta__submit { width: 100%; justify-content: center; }
+
+  .site-footer__inner { flex-direction: column; align-items: flex-start; }
 }

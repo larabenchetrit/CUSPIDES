@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curso Habitar la montaña — Cúspides</title>
+<link rel="stylesheet" href="detalle-habitar.css">
+</head>
+<body>
+
+<!-- ============================================
+     HEADER (igual al de la home)
+     ============================================ -->
+<header class="site-header">
+  <div class="site-header__inner">
+    <a href="index.html" class="site-header__logo" aria-label="Cúspides - Inicio">
+      <img src="assets/img/logo-cuspides.png" alt="Cúspides">
+    </a>
+    <button class="site-header__toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="siteNav">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="site-header__nav" id="siteNav">
+      <ul class="site-header__nav-list">
+        <li><a href="index.html#quienes-somos">Quiénes somos</a></li>
+        <li><a href="index.html#cursos">Cursos</a></li>
+        <li><a href="index.html#expediciones">Expediciones</a></li>
+        <li><a href="index.html">Biblioteca Ui</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- ============================================
+     HERO + TICKER
+     ============================================ -->
+<section class="course-hero">
+  <picture class="course-hero__bg">
+    <img src="assets/detalle/hero.jpg" alt="">
+  </picture>
+  <div class="course-hero__overlay" aria-hidden="true"></div>
+
+  <div class="course-hero__content">
+    <h1 class="course-hero__title">
+      <span class="course-hero__title-block">HABiTAR</span>
+      <span class="course-hero__title-script">la montaña</span>
+    </h1>
+    <p class="course-hero__desc">
+      Desarrollá las capacidades necesarias para construir un vínculo
+      duradero con la montaña.
+    </p>
+    <a href="#inscribirme" class="btn btn--primary course-hero__cta">
+      VER MÁS
+      <svg class="btn__arrow" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M1 7H17M17 7L11 1M17 7L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<div class="tags-ticker" aria-hidden="true">
+  <div class="tags-ticker__track">
+    <span class="tags-ticker__item">
+      <svg class="tags-ticker__icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.6"/><path d="M8 16l2.5-6 2 4 1.5-3L18 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Aventura
+    </span>
+    <span class="tags-ticker__item">
+      <svg class="tags-ticker__icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="16" cy="7" r="1.6" fill="currentColor"/><path d="M12 20l2-6 2 2.5 3-1M8 20l2-7-3-2 1-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Superación
+    </span>
+    <span class="tags-ticker__item">
+      <svg class="tags-ticker__icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.6"/><path d="M8 16l2.5-6 2 4 1.5-3L18 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Desafío
+    </span>
+    <span class="tags-ticker__item">
+      <svg class="tags-ticker__icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="16" cy="7" r="1.6" fill="currentColor"/><path d="M12 20l2-6 2 2.5 3-1M8 20l2-7-3-2 1-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Supervivencia
+    </span>
+    <span class="tags-ticker__item">
+      <svg class="tags-ticker__icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.6"/><path d="M8 16l2.5-6 2 4 1.5-3L18 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Aventura
+    </span>
+    <span class="tags-ticker__item">
+      <svg class="tags-ticker__icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="16" cy="7" r="1.6" fill="currentColor"/><path d="M12 20l2-6 2 2.5 3-1M8 20l2-7-3-2 1-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Superación
+    </span>
+    <span class="tags-ticker__item">
+      <svg class="tags-ticker__icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.6"/><path d="M8 16l2.5-6 2 4 1.5-3L18 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Desafío
+    </span>
+    <span class="tags-ticker__item">
+      <svg class="tags-ticker__icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="16" cy="7" r="1.6" fill="currentColor"/><path d="M12 20l2-6 2 2.5 3-1M8 20l2-7-3-2 1-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Supervivencia
+    </span>
+  </div>
+</div>
+
+<!-- ============================================
+     INTRO + INFO CARDS
+     ============================================ -->
+<section class="course-intro" id="detalle-curso">
+  <div class="course-intro__inner">
+    <h2 class="course-intro__title">
+      Si te atrae <span class="course-intro__accent">LA MONTAÑA</span><br>
+      Si querés <span class="course-intro__accent">APRENDER</span><br>
+      Si tenés <span class="course-intro__accent">COMPROMiSO</span>
+    </h2>
+
+    <p class="course-intro__desc">
+      Este programa propone otra forma de vivirla: aprender a comprender
+      el entorno, moverte con confianza y construir una base sólida.
+    </p>
+
+    <div class="course-info">
+      <div class="course-info__card">
+        <span class="course-info__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4.5" width="18" height="16" rx="1.8" stroke="currentColor" stroke-width="1.8"/><path d="M3 9.5h18M7.5 2.5v4M16.5 2.5v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </span>
+        <p class="course-info__label">Duración</p>
+        <p class="course-info__value">4 MESES</p>
+      </div>
+
+      <div class="course-info__card">
+        <span class="course-info__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="2.5" y="4" width="19" height="13" rx="1.5" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 20.5h7M12 17v3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </span>
+        <p class="course-info__label">Modalidad</p>
+        <p class="course-info__value">MiXTA</p>
+      </div>
+
+      <div class="course-info__card">
+        <span class="course-info__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-width="1.8"/><path d="M7.5 12.5l3 3 6-6.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <p class="course-info__label">Nivel</p>
+        <p class="course-info__value">PRiNCiPiANTE</p>
+      </div>
+    </div>
+
+    <a href="#inscribirme" class="btn btn--primary course-intro__cta">INSCRIBIRME</a>
+  </div>
+</section>
+
+<!-- ============================================
+     ¿QUÉ INCLUYE?
+     ============================================ -->
+<section class="course-includes">
+  <div class="course-includes__inner">
+    <h2 class="course-includes__title">¿Qué incluye?</h2>
+
+    <ul class="course-includes__list">
+      <li class="course-includes__item">
+        <svg class="course-includes__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/><path d="M9 12h6M13 9l3 3-3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Plan de <strong>ENTRENAMiENTO</strong></span>
+      </li>
+      <li class="course-includes__item">
+        <svg class="course-includes__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/><path d="M9 12h6M13 9l3 3-3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Guías <strong>PROFESiONALES</strong></span>
+      </li>
+      <li class="course-includes__item">
+        <svg class="course-includes__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/><path d="M9 12h6M13 9l3 3-3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Formación <strong>TÉCNiCA</strong></span>
+      </li>
+      <li class="course-includes__item">
+        <svg class="course-includes__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/><path d="M9 12h6M13 9l3 3-3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Material de <strong>ESTUDiO</strong></span>
+      </li>
+      <li class="course-includes__item">
+        <svg class="course-includes__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/><path d="M9 12h6M13 9l3 3-3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Salidas <strong>PRÁCTiCAS</strong></span>
+      </li>
+      <li class="course-includes__item">
+        <svg class="course-includes__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/><path d="M9 12h6M13 9l3 3-3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Seguimiento <strong>PERSONALiZADO</strong></span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================
+     PROGRAMA PERSONALIZADO
+     ============================================ -->
+<section class="course-steps">
+  <div class="course-steps__inner">
+    <h2 class="course-steps__title">
+      Programa<br>
+      <span class="course-steps__title-accent">PERSONALiZADO</span>
+    </h2>
+
+    <div class="course-steps__grid">
+      <article class="course-step">
+        <span class="course-step__number">01</span>
+        <div class="course-step__body">
+          <h3 class="course-step__title">Preparar el cuerpo</h3>
+          <p class="course-step__desc">Entrenamos para responder a la exigencia del terreno.</p>
+        </div>
+      </article>
+      <article class="course-step">
+        <span class="course-step__number">02</span>
+        <div class="course-step__body">
+          <h3 class="course-step__title">Aprender el lenguaje</h3>
+          <p class="course-step__desc">Orientación, lectura del clima, seguridad y progresión.</p>
+        </div>
+      </article>
+      <article class="course-step">
+        <span class="course-step__number">03</span>
+        <div class="course-step__body">
+          <h3 class="course-step__title">Ganar confianza</h3>
+          <p class="course-step__desc">Cada salida es una oportunidad para tomar mejores decisiones.</p>
+        </div>
+      </article>
+      <article class="course-step">
+        <span class="course-step__number">04</span>
+        <div class="course-step__body">
+          <h3 class="course-step__title">Habitar</h3>
+          <p class="course-step__desc">La montaña empieza a sentirse como un lugar conocido.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     TODO EL EQUIPO NECESARIO
+     ============================================ -->
+<section class="course-gear">
+  <div class="course-gear__inner">
+    <h2 class="course-gear__title">
+      Todo el <span class="course-gear__title-accent">EQUiPO</span> necesario<br>
+      para habitarla
+    </h2>
+
+    <div class="course-gear__grid">
+      <article class="gear-card">
+        <div class="gear-card__photo"><img src="assets/detalle/sectiond1.jpg" alt="Arnés de escalada"></div>
+        <div class="gear-card__body">
+          <div class="gear-card__head">
+            <h3 class="gear-card__title">Arnes de escalada</h3>
+            <span class="gear-card__badge" aria-hidden="true"></span>
+          </div>
+          <p class="gear-card__desc">
+            Dispositivo textil que rodea la cintura y las piernas, punto de
+            anclaje seguro para la cuerda durante la escalada.
+          </p>
+        </div>
+      </article>
+
+      <article class="gear-card">
+        <div class="gear-card__photo"><img src="assets/detalle/sectiond2.jpg" alt="Crampones"></div>
+        <div class="gear-card__body">
+          <div class="gear-card__head">
+            <h3 class="gear-card__title">Crampones</h3>
+            <span class="gear-card__badge" aria-hidden="true"></span>
+          </div>
+          <p class="gear-card__desc">
+            Dispositivos metálicos con púas que se ajustan a tus botas.
+            Te dan agarre seguro al caminar o escalar sobre nieve dura o hielo.
+          </p>
+        </div>
+      </article>
+
+      <article class="gear-card">
+        <div class="gear-card__photo"><img src="assets/detalle/sectiond3.jpg" alt="Piolet de montaña"></div>
+        <div class="gear-card__body">
+          <div class="gear-card__head">
+            <h3 class="gear-card__title">Piolet de montaña</h3>
+            <span class="gear-card__badge" aria-hidden="true"></span>
+          </div>
+          <p class="gear-card__desc">
+            Herramienta de mango largo con pico metálico. Da estabilidad
+            al caminar y permite autodetenerte en caso de resbalar.
+          </p>
+        </div>
+      </article>
+
+      <article class="gear-card">
+        <div class="gear-card__photo"><img src="assets/detalle/sectiond4.jpg" alt="Mosquetones"></div>
+        <div class="gear-card__body">
+          <div class="gear-card__head">
+            <h3 class="gear-card__title">Mosquetones</h3>
+            <span class="gear-card__badge" aria-hidden="true"></span>
+          </div>
+          <p class="gear-card__desc">
+            Anillos metálicos con cierre de seguridad que conectan cuerda,
+            arnés y anclajes durante la progresión.
+          </p>
+        </div>
+      </article>
+
+      <article class="gear-card">
+        <div class="gear-card__photo"><img src="assets/detalle/sectiond5.jpg" alt="Polea de seguridad"></div>
+        <div class="gear-card__body">
+          <div class="gear-card__head">
+            <h3 class="gear-card__title">Polea de seguridad</h3>
+            <span class="gear-card__badge" aria-hidden="true"></span>
+          </div>
+          <p class="gear-card__desc">
+            Dispositivo que reduce la fricción de la cuerda, clave para
+            maniobras de rescate y aseguramiento en el glaciar.
+          </p>
+        </div>
+      </article>
+
+      <article class="gear-card">
+        <div class="gear-card__photo"><img src="assets/detalle/sectiond6.jpg" alt="Botas de montaña"></div>
+        <div class="gear-card__body">
+          <div class="gear-card__head">
+            <h3 class="gear-card__title">Botas</h3>
+            <span class="gear-card__badge" aria-hidden="true"></span>
+          </div>
+          <p class="gear-card__desc">
+            Calzado rígido y aislado, compatible con crampones, pensado
+            para terreno de nieve, hielo y alta montaña.
+          </p>
+        </div>
+      </article>
+    </div>
+
+    <div class="course-gear__cta-wrap">
+      <a href="#" class="btn btn--primary course-gear__cta">CONSEGUIR</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     FORMULARIO DE CONTACTO
+     ============================================ -->
+<section class="course-form" id="inscribirme">
+  <div class="course-form__inner">
+    <h2 class="course-form__title">
+      Primer paso para<br>
+      <span class="course-form__title-accent">HABITAR LA MONTAÑA</span>
+    </h2>
+
+    <p class="course-form__desc">
+      Completá este formulario y nos pondremos en contacto para conocer
+      tus objetivos, evaluar tu experiencia y acompañarte en la elección
+      del programa más adecuado.
+    </p>
+
+    <img class="course-form__watermark" src="assets/img/logo-cuspides-dark.png" alt="" aria-hidden="true">
+
+    <form class="course-form__form" id="courseForm">
+      <div class="course-form__row">
+        <input type="text" name="nombre" class="course-form__input" placeholder="Nombre y Apellido" required>
+        <input type="email" name="email" class="course-form__input" placeholder="Correo electrónico" required>
+      </div>
+      <div class="course-form__row">
+        <input type="tel" name="telefono" class="course-form__input" placeholder="Número de teléfono" required>
+        <select name="edad" class="course-form__input course-form__select" required>
+          <option value="" disabled selected>Edad</option>
+          <option value="18-25">18 a 25</option>
+          <option value="26-35">26 a 35</option>
+          <option value="36-45">36 a 45</option>
+          <option value="46+">46 o más</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn--primary course-form__submit">INSCRIBIRME</button>
+    </form>
+  </div>
+</section>
+
+<!-- ============================================
+     EXPLORÁ OTROS CURSOS
+     ============================================ -->
+<section class="other-courses">
+  <div class="other-courses__inner">
+    <h2 class="other-courses__title">
+      Explorá otros<br>
+      <span class="other-courses__title-accent">CURSOS</span> que pueden interesarte
+    </h2>
+
+    <div class="other-courses__grid">
+      <article class="other-course-card">
+        <div class="other-course-card__photo">
+          <img src="assets/home/section4c.jpg" alt="Andinista escalando una roca">
+        </div>
+        <div class="other-course-card__body">
+          <p class="other-course-card__kind">Curso</p>
+          <h3 class="other-course-card__name">EXPEDICiÓN</h3>
+          <a href="detalle-expedicion.html" class="btn btn--primary other-course-card__cta">
+            VER MÁS
+            <svg class="btn__arrow" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M1 7H17M17 7L11 1M17 7L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="other-course-card">
+        <div class="other-course-card__photo">
+          <img src="assets/home/section4a.jpg" alt="Andinista con bastones de trekking">
+        </div>
+        <div class="other-course-card__body">
+          <p class="other-course-card__kind">Curso</p>
+          <h3 class="other-course-card__name">AUTONOMÍA</h3>
+          <a href="detalle-autonomia.html" class="btn btn--primary other-course-card__cta">
+            VER MÁS
+            <svg class="btn__arrow" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M1 7H17M17 7L11 1M17 7L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     FOOTER (igual al de la home)
+     ============================================ -->
+<svg class="final-cta__divider" viewBox="0 0 1456 90" preserveAspectRatio="none" aria-hidden="true" style="display:block;width:100%;height:clamp(40px,6vw,90px);">
+  <path d="M0,90 L0,55 L180,20 L340,55 L520,10 L700,50 L860,25 L1040,58 L1220,15 L1456,50 L1456,90 Z" fill="#5c7350"/>
+</svg>
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <img class="site-footer__logo" src="assets/home/logo1.png" alt="Cúspides">
+    <nav class="site-footer__col">
+      <a href="#">Lorem ipsum</a>
+      <a href="#">Lorem ipsum</a>
+    </nav>
+    <nav class="site-footer__col">
+      <a href="#">Lorem ipsum</a>
+      <a href="#">Lorem ipsum</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="header-hero.js"></script>
+<script src="detalle-form.js"></script>
+</body>
+</html>

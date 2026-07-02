@@ -214,3 +214,29 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 });
+
+
+// ============================================
+// SECTION 10 — CTA FINAL
+// Evita que el form recargue la página (todavía no hay backend conectado)
+// Reemplazá el contenido del if por tu integración real (fetch a tu API,
+// Mailchimp, Google Sheets, etc.)
+// ============================================
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('startForm');
+  if (!form) return;
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const nombre = form.nombre.value.trim();
+    const email = form.email.value.trim();
+
+    if (!nombre || !email) return;
+
+    // TODO: reemplazar por el envío real (fetch/AJAX a tu backend o servicio de email)
+    console.log('Formulario listo para enviar:', { nombre, email });
+
+    form.reset();
+  });
+});
