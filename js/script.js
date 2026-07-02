@@ -188,3 +188,29 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 });
+
+
+// ============================================
+// SECTION 7 — CON CÚSPIDES COLECCIONÁ EXPERIENCIAS
+// Flip de card al hacer click/tap o Enter/Espacio
+// ============================================
+document.addEventListener('DOMContentLoaded', function () {
+  const cards = document.querySelectorAll('.exp-card');
+  if (!cards.length) return;
+
+  function toggleCard(card) {
+    const isFlipped = card.classList.toggle('is-flipped');
+    card.setAttribute('aria-pressed', isFlipped ? 'true' : 'false');
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', () => toggleCard(card));
+
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleCard(card);
+      }
+    });
+  });
+});

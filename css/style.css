@@ -1,0 +1,1496 @@
+/* =====================================================
+   CÚSPIDES — NAV + HERO
+   ===================================================== */
+
+/* ---------- Fuentes ---------- */
+@font-face {
+  font-family: 'Bogart';
+  src: url('../assets/fonts/Bogart-Bold-trial.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Panton Rust';
+  src: url('../assets/fonts/panton-rust-heavy-base.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/Inter-VariableFont_opsz_wght.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- Variables ---------- */
+:root {
+  --color-red: #FF523C;
+  --color-lime: #ECFF2A;
+  --color-white: #FFFFFF;
+  --color-dark: #17240F;
+
+  --font-display: 'Bogart', sans-serif;
+  --font-script: 'Panton Rust', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  --nav-padding-x: clamp(24px, 3.3vw, 64px);
+  --nav-padding-y: clamp(20px, 2.2vw, 42px);
+
+  --hero-scroll-distance: 90vh; /* espacio extra que se scrollea para tapar el título */
+}
+
+/* ---------- Reset básico ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-dark);
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+/* =====================================================
+   HERO
+   ===================================================== */
+
+.hero {
+  position: relative;
+  height: calc(100vh + var(--hero-scroll-distance));
+}
+
+.hero__pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* ---------- Capas de imagen (fondo / frente) ---------- */
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero__bg--back {
+  z-index: 1;
+}
+
+/* La capa "adelante" arranca fuera de pantalla (abajo) y se desliza hacia
+   arriba con el scroll, tapando el título progresivamente. */
+.hero__bg--front {
+  z-index: 3;
+  transform: translateY(100%);
+  will-change: transform;
+}
+
+/* ---------- Navbar ---------- */
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--nav-padding-y) var(--nav-padding-x);
+}
+
+.navbar__logo img {
+  width: clamp(110px, 8vw, 150px);
+  height: auto;
+}
+
+.navbar__list {
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 3vw, 48px);
+}
+
+.navbar__link {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: clamp(14px, 1vw, 18px);
+  color: var(--color-white);
+  white-space: nowrap;
+  transition: opacity 0.25s ease;
+}
+
+.navbar__link:hover,
+.navbar__link:focus-visible {
+  opacity: 0.7;
+}
+
+/* ---------- Contenido central ---------- */
+.hero__content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 clamp(16px, 4vw, 40px);
+  gap: clamp(28px, 5vh, 56px);
+}
+
+.hero__title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+
+.hero__title-line {
+  color: var(--color-red);
+}
+
+.hero__title-line--script {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4.6vw, 5.4rem);
+  font-weight: 400;
+  margin-bottom: clamp(-10px, -0.5vw, -2px);
+}
+
+.hero__title-line--display {
+  font-family: var(--font-script);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(2.6rem, 9.8vw, 11.6rem);
+  line-height: 0.92;
+}
+
+.hero__subtitle {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: clamp(15px, 1.35vw, 24px);
+  line-height: 1.5;
+  color: var(--color-white);
+}
+
+.hero__button {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(10px, 1vw, 16px);
+  background: var(--color-lime);
+  color: var(--color-dark);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: clamp(14px, 1vw, 17px);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: clamp(14px, 1.6vw, 20px) clamp(24px, 2.4vw, 34px);
+  border-radius: 999px;
+  border: 1.5px solid var(--color-dark);
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.hero__button:hover,
+.hero__button:focus-visible {
+  transform: translateY(-3px);
+}
+
+.hero__button-icon {
+  flex-shrink: 0;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+/* Notebook / Desktop chico (1200px) */
+@media (max-width: 1200px) {
+  .navbar__list {
+    gap: clamp(18px, 2.4vw, 36px);
+  }
+}
+
+/* Tablet horizontal */
+@media (max-width: 1024px) {
+  .hero__content {
+    gap: clamp(22px, 4vh, 40px);
+  }
+}
+
+/* Tablet vertical */
+@media (max-width: 768px) {
+  :root {
+    --hero-scroll-distance: 70vh;
+  }
+
+  .navbar {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .navbar__list {
+    gap: 16px;
+  }
+
+  .navbar__link {
+    font-size: 12px;
+  }
+
+  .hero__title-line--display {
+    font-size: clamp(2.4rem, 13vw, 6rem);
+  }
+
+  .hero__title-line--script {
+    font-size: clamp(1.5rem, 6vw, 3rem);
+  }
+
+  .hero__subtitle br {
+    display: none;
+  }
+
+  .hero__subtitle {
+    max-width: 32ch;
+    margin: 0 auto;
+  }
+}
+
+/* Mobile grande */
+@media (max-width: 480px) {
+  :root {
+    --hero-scroll-distance: 55vh;
+  }
+
+  .navbar__list {
+    gap: 10px;
+  }
+
+  .navbar__link {
+    font-size: 10.5px;
+  }
+
+  .navbar__logo img {
+    width: 90px;
+  }
+
+  .hero__title-line--display {
+    font-size: clamp(2.2rem, 15vw, 4.2rem);
+  }
+
+  .hero__title-line--script {
+    font-size: clamp(1.3rem, 7.5vw, 2.2rem);
+  }
+
+  .hero__button {
+    padding: 12px 22px;
+    font-size: 12px;
+  }
+}
+
+/* Mobile pequeño */
+@media (max-width: 360px) {
+  .navbar__list {
+    gap: 8px;
+  }
+
+  .navbar__link {
+    font-size: 9px;
+  }
+}
+
+/* ============================================
+   SECTION 1 — QUIÉNES SOMOS + ESTADÍSTICAS
+   (usa las mismas variables definidas en header-hero.css:
+   --font-script, --font-block, --font-body, --color-red, --color-cream)
+   ============================================ */
+
+.about-stats {
+  background: var(--color-cream, #f4efe3);
+  padding: clamp(56px, 9vw, 120px) var(--container-pad, clamp(20px, 4vw, 64px));
+}
+
+.about-stats__inner {
+  max-width: 1360px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 6vw, 80px);
+  align-items: center;
+}
+
+/* ---------- Texto ---------- */
+.about-stats__text {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-stats__heading {
+  margin: 0 0 clamp(18px, 2.4vw, 28px);
+  font-family: var(--font-script);
+  font-weight: 700;
+  font-style: normal;
+  color: #354832;
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  line-height: 1.05;
+}
+
+.about-stats__heading-accent {
+  color: var(--color-red, #ff4e3a);
+}
+
+.about-stats__heading-block {
+  display: inline-block;
+  font-family: var(--font-block);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--color-red, #ff4e3a);
+  font-size: clamp(2.6rem, 5.2vw, 4.2rem);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  margin: 2px 0;
+}
+
+.about-stats__desc {
+  margin: 0;
+  max-width: 42ch;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  line-height: 1.6;
+  color: #5b6350;
+}
+
+/* ---------- Media (imagen + stats) ---------- */
+.about-stats__media {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 3vw, 36px);
+}
+
+.about-stats__image {
+  margin: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 902 / 377;
+  box-shadow: 0 12px 32px rgba(53, 72, 50, 0.12);
+}
+
+.about-stats__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  justify-content: space-between;
+  gap: clamp(12px, 2vw, 24px);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.stat__number {
+  font-family: var(--font-block);
+  font-weight: 800;
+  color: #354832;
+  font-size: clamp(2.2rem, 4.6vw, 3.6rem);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat__label {
+  margin-top: 6px;
+  font-family: var(--font-block);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #354832;
+  font-size: clamp(0.85rem, 1.2vw, 1.05rem);
+  letter-spacing: 0.01em;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+/* Tablet horizontal */
+@media (max-width: 1024px) {
+  .about-stats__inner { gap: 40px; }
+}
+
+/* Tablet vertical — apila columnas */
+@media (max-width: 820px) {
+  .about-stats__inner {
+    grid-template-columns: 1fr;
+  }
+  .about-stats__text { order: 1; }
+  .about-stats__media { order: 2; }
+}
+
+/* Mobile grande */
+@media (max-width: 600px) {
+  .about-stats__heading { font-size: clamp(1.8rem, 8vw, 2.4rem); }
+  .about-stats__heading-block { font-size: clamp(2.4rem, 12vw, 3rem); }
+  .stats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .stat__number { font-size: clamp(1.8rem, 9vw, 2.6rem); }
+  .stat__label { font-size: clamp(0.7rem, 3vw, 0.85rem); }
+}
+
+/* Mobile pequeño 360px */
+@media (max-width: 380px) {
+  .about-stats { padding-left: 16px; padding-right: 16px; }
+}
+
+
+/* ============================================
+   SECTION 2 — NO PROMETEMOS COMODIDAD
+   (usa variables globales: --font-script, --font-block, --font-body,
+   --color-yellow, --container-pad)
+   ============================================ */
+
+.manifesto {
+  position: relative;
+  min-height: clamp(480px, 78vh, 820px);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.manifesto__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+.manifesto__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+}
+
+.manifesto__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    100deg,
+    rgba(20, 20, 15, 0.55) 0%,
+    rgba(20, 20, 15, 0.35) 35%,
+    rgba(20, 20, 15, 0.05) 65%
+  );
+}
+
+.manifesto__content {
+  max-width: 720px;
+  padding: clamp(48px, 8vw, 90px) var(--container-pad, clamp(20px, 4vw, 64px));
+}
+
+.manifesto__title {
+  margin: 0;
+  font-family: var(--font-script);
+  font-weight: 700;
+  color: #f4efe3;
+  font-size: clamp(1.9rem, 4.4vw, 3.2rem);
+  line-height: 1.12;
+}
+
+.manifesto__title-accent {
+  font-family: var(--font-block);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--color-yellow, #e7ff33);
+  letter-spacing: -0.005em;
+}
+
+.manifesto__desc {
+  margin: clamp(18px, 2.4vw, 26px) 0 0;
+  max-width: 42ch;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  line-height: 1.6;
+  color: #f4efe3;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 820px) {
+  .manifesto { min-height: clamp(440px, 70vh, 700px); }
+}
+
+@media (max-width: 600px) {
+  .manifesto { align-items: flex-end; }
+  .manifesto__overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(20, 20, 15, 0.15) 0%,
+      rgba(20, 20, 15, 0.75) 75%
+    );
+  }
+  .manifesto__content { padding-bottom: 56px; }
+}
+
+
+/* ============================================
+   SECTION 3 — EL MÉTODO CÚSPIDES
+   (usa variables globales: --font-script, --font-block, --font-body,
+   --color-red, --color-cream, --container-pad)
+   ============================================ */
+
+.method {
+  background: var(--color-cream, #f4efe3);
+  overflow: hidden;
+}
+
+/* ---------- Ticker / marquee ---------- */
+.method__ticker {
+  background: var(--color-red, #ff4e3a);
+  overflow: hidden;
+  padding: clamp(14px, 2vw, 20px) 0;
+}
+
+.method__ticker-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  will-change: transform;
+  /* el JS controla el transform según el scroll */
+}
+
+.method__ticker-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+  padding: 0 clamp(20px, 3vw, 36px);
+  font-family: var(--font-block);
+  font-weight: 800;
+  color: #f4efe3;
+  font-size: clamp(1.3rem, 2.4vw, 1.8rem);
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
+.method__ticker-icon {
+  width: clamp(24px, 3vw, 32px);
+  height: auto;
+  color: #f4efe3;
+  flex-shrink: 0;
+}
+
+/* ---------- Body ---------- */
+.method__body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(48px, 7vw, 88px) var(--container-pad, clamp(20px, 4vw, 64px));
+  text-align: center;
+}
+
+.method__title {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 1.4vw, 16px);
+  flex-wrap: wrap;
+  font-family: var(--font-script);
+  font-weight: 700;
+  color: #354832;
+  font-size: clamp(1.8rem, 3.6vw, 2.8rem);
+}
+
+.method__title-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-block);
+  font-weight: 800;
+}
+
+.method__title-icon {
+  width: clamp(30px, 3.4vw, 40px);
+  height: auto;
+  color: #354832;
+}
+
+.method__subtitle {
+  margin: clamp(10px, 1.6vw, 16px) 0 clamp(36px, 5vw, 56px);
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+  color: #5b6350;
+}
+
+/* ---------- Steps ---------- */
+.method__steps {
+  border: 1.5px solid #d8d0bd;
+  border-radius: 20px;
+  padding: clamp(28px, 4vw, 44px);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(24px, 3vw, 40px);
+  text-align: left;
+}
+
+.step__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(46px, 4.4vw, 56px);
+  height: clamp(46px, 4.4vw, 56px);
+  border-radius: 12px;
+  background: #5c7350;
+  color: #f4efe3;
+  margin-bottom: clamp(14px, 2vw, 20px);
+}
+.step__icon svg { width: 55%; height: 55%; }
+
+.step__title {
+  margin: 0 0 8px;
+  font-family: var(--font-script);
+  font-weight: 700;
+  color: #354832;
+  font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+}
+
+.step__desc {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(0.88rem, 1vw, 0.98rem);
+  line-height: 1.5;
+  color: #5b6350;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 1024px) {
+  .method__steps { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .method__steps {
+    grid-template-columns: 1fr;
+    padding: 24px;
+    gap: 28px;
+  }
+  .method__title { font-size: clamp(1.6rem, 7vw, 2rem); }
+}
+
+
+
+/* ============================================
+   SECTION 4 — CURSOS (cards con flip)
+   (usa variables globales: --font-script, --font-block, --font-body,
+   --color-red, --color-yellow, --color-cream, --container-pad, .btn)
+   ============================================ */
+
+.courses {
+  background: var(--color-cream, #f4efe3);
+  padding: clamp(48px, 7vw, 96px) var(--container-pad, clamp(20px, 4vw, 64px));
+}
+
+.courses__inner {
+  max-width: 1360px;
+  margin: 0 auto;
+}
+
+.courses__title {
+  margin: 0 0 clamp(28px, 4vw, 48px);
+  font-family: var(--font-script);
+  font-weight: 700;
+  color: #354832;
+  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+  text-align: center;
+}
+
+.courses__title-accent {
+  font-family: var(--font-block);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--color-red, #ff4e3a);
+}
+
+.courses__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(20px, 2.4vw, 32px);
+}
+
+/* ---------- Card / flip mechanics ---------- */
+.course-card {
+  perspective: 1600px;
+  cursor: pointer;
+  outline: none;
+  border-radius: 22px;
+}
+.course-card:focus-visible .course-card__inner {
+  box-shadow: 0 0 0 3px #354832;
+  border-radius: 22px;
+}
+
+.course-card__inner {
+  position: relative;
+  width: 100%;
+  min-height: clamp(400px, 42vw, 480px);
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.4, 0.15, 0.2, 1);
+}
+
+.course-card.is-flipped .course-card__inner {
+  transform: rotateY(180deg);
+}
+
+.course-card__face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 22px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Front ---------- */
+.course-card__face--front {
+  background: var(--color-red, #ff4e3a);
+}
+
+.course-card__photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 407 / 370;
+}
+.course-card__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.course-card__front-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: clamp(16px, 2vw, 26px) clamp(20px, 2.4vw, 28px) clamp(22px, 2.6vw, 30px);
+}
+
+.course-card__eyebrow {
+  margin: 0;
+  font-family: var(--font-script);
+  font-weight: 700;
+  color: #f4efe3;
+  font-size: clamp(1.2rem, 1.6vw, 1.5rem);
+}
+
+.course-card__name {
+  margin: 0;
+  font-family: var(--font-block);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #f4efe3;
+  font-size: clamp(1.8rem, 2.8vw, 2.4rem);
+  line-height: 1;
+}
+
+.course-card__level {
+  margin: 4px 0 clamp(12px, 1.6vw, 18px);
+  font-family: var(--font-body);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: #f4efe3;
+  opacity: 0.9;
+}
+
+.course-card__cta {
+  margin-top: auto;
+  pointer-events: none; /* el click lo maneja la card entera */
+}
+
+/* ---------- Back ---------- */
+.course-card__face--back {
+  transform: rotateY(180deg);
+}
+
+.course-card__back-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.course-card__back-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20, 20, 15, 0.55) 0%, rgba(20, 20, 15, 0.8) 100%);
+  z-index: 1;
+}
+
+.course-card__back-body {
+  position: relative;
+  z-index: 2;
+  padding: clamp(20px, 2.6vw, 30px);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* ---- fila de íconos: Modalidad / Duración ---- */
+.course-card__back-top {
+  display: flex;
+  gap: clamp(20px, 2.6vw, 32px);
+  margin: 0 0 clamp(14px, 1.8vw, 20px);
+}
+
+.course-card__meta-item {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.course-card__back-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(30px, 3vw, 38px);
+  height: clamp(30px, 3vw, 38px);
+  border: 1.6px solid var(--color-yellow, #e7ff33);
+  border-radius: 8px;
+  color: var(--color-yellow, #e7ff33);
+  margin-bottom: 8px;
+}
+.course-card__back-icon svg { width: 60%; height: 60%; }
+
+.course-card__meta-item dt {
+  font-family: var(--font-body);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+  color: #f4efe3;
+  opacity: 0.8;
+  border-bottom: 1px solid rgba(244, 239, 227, 0.4);
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+}
+
+.course-card__meta-item dd {
+  margin: 0;
+  font-family: var(--font-script);
+  font-weight: 700;
+  color: #f4efe3;
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+}
+
+/* ---- Descripción ---- */
+.course-card__back-desc-block {
+  margin-bottom: clamp(14px, 2vw, 20px);
+}
+
+.course-card__back-label {
+  margin: 0 0 6px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+  color: #f4efe3;
+  opacity: 0.8;
+  border-bottom: 1px solid rgba(244, 239, 227, 0.4);
+  padding-bottom: 5px;
+  display: inline-block;
+}
+
+.course-card__back-desc {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(0.82rem, 0.95vw, 0.92rem);
+  line-height: 1.5;
+  color: #f4efe3;
+}
+
+/* ---- Footer: Curso + nombre + nivel + CTA ---- */
+.course-card__back-footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 1024px) {
+  .courses__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .courses__grid { grid-template-columns: 1fr; }
+  .course-card__inner { min-height: clamp(420px, 120vw, 520px); }
+}
+
+
+
+/* ============================================
+   SECTION 5 — ¿POR QUÉ ENTRENAR DURANTE MESES?
+   (usa variables globales: --font-script, --font-block, --font-body,
+   --color-red, --color-yellow, --container-pad)
+   ============================================ */
+
+.why-train {
+  position: relative;
+  overflow: hidden;
+}
+
+.why-train__bg {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 60vh;
+  overflow: hidden;
+}
+.why-train__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+.why-train__panel {
+  position: relative;
+  margin-top: clamp(-140px, -18vw, -80px);
+  background: #5c7350;
+  border-radius: 28px 28px 0 0;
+  padding: clamp(36px, 6vw, 64px) 0 clamp(48px, 7vw, 80px);
+}
+
+.why-train__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--container-pad, clamp(20px, 4vw, 64px));
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(28px, 4vw, 44px);
+}
+
+.why-train__title {
+  margin: 0;
+  font-family: var(--font-script);
+  font-weight: 700;
+  color: #f4efe3;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  line-height: 1.1;
+}
+
+.why-train__title-accent {
+  font-family: var(--font-block);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--color-yellow, #e7ff33);
+}
+
+.why-train__desc {
+  margin: clamp(14px, 2vw, 20px) 0 0;
+  max-width: 46ch;
+  font-family: var(--font-body);
+  font-size: clamp(0.92rem, 1.1vw, 1.05rem);
+  line-height: 1.6;
+  color: #f4efe3;
+  opacity: 0.95;
+}
+
+/* ---------- Lista numerada (card cream) ---------- */
+.why-train__list {
+  list-style: none;
+  margin: 0;
+  padding: clamp(20px, 3vw, 32px) clamp(24px, 3.4vw, 40px);
+  background: #f4efe3;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.why-train__item {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(14px, 2vw, 22px);
+  padding: clamp(14px, 2vw, 20px) 0;
+}
+.why-train__item + .why-train__item {
+  border-top: 1px solid rgba(53, 72, 50, 0.15);
+}
+
+.why-train__number {
+  flex-shrink: 0;
+  font-family: var(--font-script);
+  font-weight: 700;
+  color: var(--color-red, #ff4e3a);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  line-height: 1;
+}
+
+.why-train__text {
+  margin: 0;
+  font-family: var(--font-script);
+  font-weight: 700;
+  color: #354832;
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  line-height: 1.35;
+}
+
+.why-train__accent {
+  font-family: var(--font-block);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--color-red, #ff4e3a);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (min-width: 860px) {
+  .why-train__inner {
+    grid-template-columns: 0.9fr 1.1fr;
+    align-items: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .why-train__panel { margin-top: -60px; border-radius: 22px 22px 0 0; }
+  .why-train__item { flex-direction: column; gap: 4px; }
+  .why-train__number { font-size: 1.6rem; }
+}
+
+
+
+/* ============================================
+   SECTION 6 — EL MEJOR ENTRENAMIENTO PARA LA MONTAÑA
+   (usa variables globales: --font-script, --font-block, --font-body,
+   --color-yellow, --container-pad)
+   ============================================ */
+
+.training {
+  position: relative;
+  min-height: clamp(560px, 92vh, 900px);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.training__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+.training__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 70% center;
+}
+
+.training__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    100deg,
+    rgba(10, 20, 15, 0.6) 0%,
+    rgba(10, 20, 15, 0.25) 40%,
+    rgba(10, 20, 15, 0) 65%
+  );
+}
+
+.training__content {
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: clamp(90px, 12vw, 140px) var(--container-pad, clamp(20px, 4vw, 64px)) clamp(48px, 6vw, 80px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(48px, 8vw, 100px);
+}
+
+.training__intro {
+  max-width: 560px;
+}
+
+.training__title {
+  margin: 0;
+  font-family: var(--font-script);
+  font-weight: 700;
+  color: #f4efe3;
+  font-size: clamp(2.1rem, 4.6vw, 3.4rem);
+  line-height: 1.05;
+}
+
+.training__title-accent {
+  font-family: var(--font-block);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--color-yellow, #e7ff33);
+}
+
+.training__desc {
+  margin: clamp(16px, 2.4vw, 24px) 0 0;
+  max-width: 40ch;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: clamp(0.92rem, 1.1vw, 1.05rem);
+  line-height: 1.6;
+  color: #f4efe3;
+}
+
+/* ---------- Puntos (Eficiencia / Resiliencia / Adaptación) ---------- */
+.training__points {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-self: flex-end;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 3.4vw, 36px);
+  max-width: 420px;
+}
+
+.training__point {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(14px, 2vw, 20px);
+}
+
+.training__point-marker {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  margin-top: 6px;
+  border: 2px solid var(--color-yellow, #e7ff33);
+  border-radius: 4px;
+  position: relative;
+}
+.training__point-marker::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: clamp(24px, 3vw, 40px);
+  height: 1.5px;
+  background: var(--color-yellow, #e7ff33);
+  transform: translateY(-50%);
+}
+
+.training__point-title {
+  margin: 0 0 4px;
+  font-family: var(--font-block);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--color-yellow, #e7ff33);
+  font-size: clamp(1.15rem, 1.8vw, 1.5rem);
+}
+
+.training__point-desc {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(0.85rem, 1vw, 0.95rem);
+  line-height: 1.45;
+  color: #f4efe3;
+  max-width: 26ch;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (min-width: 900px) {
+  .training__content {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .training__points { align-self: center; }
+}
+
+@media (max-width: 600px) {
+  .training { min-height: clamp(520px, 100vh, 760px); align-items: flex-start; }
+  .training__overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(10, 20, 15, 0.15) 0%,
+      rgba(10, 20, 15, 0.7) 55%,
+      rgba(10, 20, 15, 0.85) 100%
+    );
+  }
+  .training__point-marker::before { width: 20px; }
+}
+
+
+/* ============================================
+   SECTION 7 — CON CÚSPIDES COLECCIONÁ EXPERIENCIAS
+   (usa variables globales: --font-script, --font-block, --font-body,
+   --color-red, --color-yellow, --color-cream, --container-pad, .btn)
+   ============================================ */
+
+.experiences {
+  background: var(--color-cream, #f4efe3);
+  padding: clamp(48px, 7vw, 96px) var(--container-pad, clamp(20px, 4vw, 64px));
+}
+
+.experiences__inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.experiences__title {
+  margin: 0 0 clamp(32px, 4.6vw, 52px);
+  text-align: center;
+  font-family: var(--font-script);
+  font-weight: 700;
+  color: #354832;
+  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+  line-height: 1.15;
+}
+
+.experiences__title-accent {
+  font-family: var(--font-block);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--color-red, #ff4e3a);
+}
+
+.experiences__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(18px, 2vw, 28px);
+}
+
+/* ---------- Card / flip mechanics ---------- */
+.exp-card {
+  perspective: 1500px;
+  cursor: pointer;
+  outline: none;
+  border-radius: 18px;
+}
+.exp-card:focus-visible .exp-card__inner {
+  box-shadow: 0 0 0 3px #354832;
+  border-radius: 18px;
+}
+
+.exp-card__inner {
+  position: relative;
+  width: 100%;
+  min-height: clamp(360px, 32vw, 420px);
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.4, 0.15, 0.2, 1);
+}
+
+.exp-card.is-flipped .exp-card__inner {
+  transform: rotateY(180deg);
+}
+
+.exp-card__face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Front ---------- */
+.exp-card__face--front {
+  background: var(--color-red, #ff4e3a);
+}
+
+.exp-card__photo {
+  position: relative;
+  width: 100%;
+  flex: 1;
+}
+.exp-card__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.exp-card__front-body {
+  padding: clamp(14px, 1.8vw, 20px) clamp(16px, 2vw, 22px) clamp(18px, 2.2vw, 24px);
+}
+
+.exp-card__kind {
+  margin: 0;
+  font-family: var(--font-script);
+  font-weight: 700;
+  color: #f4efe3;
+  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+}
+
+.exp-card__name {
+  margin: 0 0 8px;
+  font-family: var(--font-block);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #f4efe3;
+  font-size: clamp(1.3rem, 1.9vw, 1.6rem);
+  line-height: 1;
+}
+
+.exp-card__difficulty {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.exp-card__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(244, 239, 227, 0.35);
+}
+.exp-card__dot.is-filled {
+  background: #f4efe3;
+}
+
+.exp-card__difficulty-label {
+  margin: 0 0 0 6px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.66rem;
+  letter-spacing: 0.03em;
+  color: #f4efe3;
+  opacity: 0.85;
+}
+
+/* ---------- Back ---------- */
+.exp-card__face--back {
+  background: var(--color-red, #ff4e3a);
+  transform: rotateY(180deg);
+}
+
+.exp-card__back-body {
+  padding: clamp(20px, 2.4vw, 28px);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.exp-card__back-body .exp-card__kind { opacity: 0.9; }
+.exp-card__back-body .exp-card__name { margin-bottom: clamp(12px, 1.6vw, 18px); }
+
+.exp-card__meta {
+  margin: 0 0 clamp(12px, 1.6vw, 18px);
+}
+.exp-card__meta dt {
+  font-family: var(--font-body);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+  color: #f4efe3;
+  opacity: 0.8;
+  border-bottom: 1px solid rgba(244, 239, 227, 0.4);
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+  display: inline-block;
+}
+.exp-card__meta dd {
+  margin: 0;
+  font-family: var(--font-script);
+  font-weight: 700;
+  color: #f4efe3;
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+}
+
+.exp-card__back-label {
+  margin: 0 0 6px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+  color: #f4efe3;
+  opacity: 0.8;
+  border-bottom: 1px solid rgba(244, 239, 227, 0.4);
+  padding-bottom: 5px;
+  display: inline-block;
+}
+
+.exp-card__back-desc {
+  margin: 0;
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: clamp(0.78rem, 0.92vw, 0.88rem);
+  line-height: 1.5;
+  color: #f4efe3;
+}
+
+.exp-card__cta {
+  margin-top: clamp(12px, 1.6vw, 18px);
+  align-self: flex-start;
+  pointer-events: none;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 1024px) {
+  .experiences__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .experiences__grid { grid-template-columns: 1fr; }
+  .exp-card__inner { min-height: clamp(380px, 100vw, 460px); }
+}
