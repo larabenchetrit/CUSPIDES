@@ -1,25 +1,51 @@
-/* =============================================================
-   CÚSPIDES — script.js
-   El wireframe no indica interacciones complejas.
-   Solo se agrega comportamiento mínimo al nav al hacer scroll.
-   ============================================================= */
+/* =====================================================
+   CÚSPIDES — HERO SCROLL REVEAL
+   La imagen "heroadelante" arranca oculta debajo del viewport
+   y se desliza hacia arriba a medida que se scrollea la sección
+   .hero, tapando progresivamente el título hasta cubrirlo del todo.
+   ===================================================== */
 
 (function () {
-  'use strict';
+  const hero = document.querySelector('.hero');
+  const front = document.getElementById('heroFront');
 
-  const nav = document.getElementById('nav');
-  if (!nav) return;
+  if (!hero || !front) return;
 
-  // Agrega clase al nav cuando el usuario hace scroll hacia abajo
-  // para darle fondo sólido y mejorar legibilidad.
+  let ticking = false;
+
+  function getProgress() {
+    const rect = hero.getBoundingClientRect();
+    const scrollable = hero.offsetHeight - window.innerHeight;
+
+    if (scrollable <= 0) return 0;
+
+    // rect.top va de 0 (inicio del hero) a -scrollable (fin del hero, pineado)
+    const scrolled = -rect.top;
+    const progress = scrolled / scrollable;
+
+    return Math.min(Math.max(progress, 0), 1);
+  }
+
+  function updateHero() {
+    const progress = getProgress();
+
+    // De 100% (totalmente oculta abajo) a 0% (tapando toda la pantalla)
+    const translateY = (1 - progress) * 100;
+    front.style.transform = `translateY(${translateY}%)`;
+
+    ticking = false;
+  }
+
   function onScroll() {
-    if (window.scrollY > 40) {
-      nav.classList.add('nav--scrolled');
-    } else {
-      nav.classList.remove('nav--scrolled');
+    if (!ticking) {
+      window.requestAnimationFrame(updateHero);
+      ticking = true;
     }
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll(); // estado inicial
+  window.addEventListener('resize', onScroll);
+
+  // Estado inicial
+  updateHero();
 })();

@@ -4,612 +4,66 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cúspides — Viví la montaña desde adentro</title>
-  <meta name="description" content="Expediciones, formación y acompañamiento profesional en la Patagonia.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- NAV -->
-  <header class="nav" id="nav">
-    <a href="index.html" class="nav__brand">
-    <img src="assets/logo.png" alt="Cúspides" class="nav__logo">
-</a>
-      
-    </a>
-    <nav class="nav__links" aria-label="Navegación principal">
-      <a href="#quienes" class="nav__link">QUIÉNES SOMOS</a>
-      <a href="#cursos" class="nav__link">CURSOS</a>
-      <a href="#expediciones" class="nav__link">EXPEDICIONES</a>
-    </nav>
-  </header>
+  <!-- ======= HERO (nav + imagen + título) ======= -->
+  <section class="hero">
+    <div class="hero__pin">
 
-  <!-- HERO -->
-  <section class="hero" id="hero">
-    <!-- Imagen de fondo: senderista en montaña patagónica -->
-    <div class="hero__bg">
-      <img
-        class="hero__img"
-        src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1600&q=80"
-        alt="Senderista en sendero de montaña patagónica con glaciar al fondo"
-      >
-      <div class="hero__overlay"></div>
-    </div>
+      <!-- Capa de fondo: montaña con cielo celeste -->
+      <div class="hero__bg hero__bg--back">
+        <img src="assets/img/heroatras.jpg" alt="Montaña patagónica con cielo despejado">
+      </div>
 
-    <div class="hero__content">
-      <h1 class="hero__title">
-        <span class="hero__title-line hero__title-line--top">VIVÍ LA MONTAÑA</span>
-        <span class="hero__title-line hero__title-line--bottom">DESDE ADENTRO</span>
-      </h1>
-      <p class="hero__subtitle">
-        Expediciones, formación y<br>
-        acompañamiento profesional en la<br>
-        Patagonia.
-      </p>
-      <a href="#servicios" class="hero__cta">
-        VER MÁS
-        <span class="hero__cta-arrow" aria-hidden="true">→</span>
-      </a>
+      <!-- Navbar -->
+      <header class="navbar">
+        <a href="#" class="navbar__logo">
+          <img src="assets/img/logo.png" alt="Cúspides">
+        </a>
+        <nav class="navbar__nav">
+          <ul class="navbar__list">
+            <li class="navbar__item"><a href="#" class="navbar__link">Quiénes somos</a></li>
+            <li class="navbar__item"><a href="#" class="navbar__link">Cursos</a></li>
+            <li class="navbar__item"><a href="#" class="navbar__link">Expediciones</a></li>
+            <li class="navbar__item"><a href="#" class="navbar__link">Biblioteca Ui</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <!-- Contenido del hero -->
+      <div class="hero__content">
+        <h1 class="hero__title">
+          <span class="hero__title-line hero__title-line--script">Viví la montaña</span>
+          <span class="hero__title-line hero__title-line--display">Desde adentro</span>
+        </h1>
+        <p class="hero__subtitle">
+          Expediciones, formación y acompañamiento<br>
+          profesional en la Patagonia.
+        </p>
+        <a href="#" class="hero__button">
+          <span>Ver más</span>
+          <svg class="hero__button-icon" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 7H17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M11 1L17 7L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Capa frontal: se desliza hacia arriba con el scroll y tapa el título -->
+      <div class="hero__bg hero__bg--front" id="heroFront">
+        <img src="assets/img/heroadelante.jpg" alt="">
+      </div>
+
     </div>
   </section>
 
-  <!-- TICKER / MARQUEE -->
-  <div class="ticker" aria-hidden="true">
-    <div class="ticker__track">
-      <span class="ticker__item">MÉTODO CÚSPIDES</span>
-      <span class="ticker__dot">●</span>
-      <span class="ticker__item">MÉTODO CÚSPIDES</span>
-      <span class="ticker__dot">●</span>
-      <span class="ticker__item">MÉTODO CÚSPIDES</span>
-      <span class="ticker__dot">●</span>
-      <span class="ticker__item">MÉTODO CÚSPIDES</span>
-      <span class="ticker__dot">●</span>
-      <span class="ticker__item">MÉTODO CÚSPIDES</span>
-      <span class="ticker__dot">●</span>
-      <span class="ticker__item">MÉTODO CÚSPIDES</span>
-      <span class="ticker__dot">●</span>
-      <span class="ticker__item">MÉTODO CÚSPIDES</span>
-      <span class="ticker__dot">●</span>
-      <span class="ticker__item">MÉTODO CÚSPIDES</span>
-      <span class="ticker__dot">●</span>
-    </div>
-  </div>
-
-  <!-- SECCIÓN 1: QUIÉNES SOMOS / ABOUT -->
-<section class="about">
-  <div class="about__left">
-    <h2 class="about__heading">
-      <span class="about__heading-light">Somos guías de</span>
-      <span class="about__heading-bold">MONTAÑA</span>
-    </h2>
-    <p class="about__body">
-      Diseñamos programas de aventura a medida<br>
-      porque entendemos que cada objetivo exige<br>
-      un camino diferente.
-    </p>
-    <div class="about__stats">
-      <div class="about__stat about__stat--red">
-        <span class="about__stat-number">1459</span>
-        <span class="about__stat-label">EXPEDICIONES</span>
-      </div>
-      <div class="about__stat about__stat--orange">
-        <span class="about__stat-number">789</span>
-        <span class="about__stat-label">GUÍAS</span>
-      </div>
-      <div class="about__stat about__stat--yellow">
-        <span class="about__stat-number">972</span>
-        <span class="about__stat-label">SOCIOS</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="about__right">
-    <div class="about__card about__card--photo">
-      <img
-        class="about__photo"
-        src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=80"
-        alt="Guía escalando una roca con cielo azul de fondo"
-      >
-    </div>
-    <div class="about__cards-col">
-      <div class="about__card about__card--dark">
-        <p class="about__card-text">Nacidos y formados en La Patagonia</p>
-      </div>
-      <div class="about__card about__card--muted"></div>
-    </div>
-  </div>
-</section>
-<!-- FIN SECCIÓN 1: QUIÉNES SOMOS / ABOUT -->
-
-
- <!-- SECCIÓN 2: MANIFIESTO -->
-<section class="manifesto">
-  <div class="manifesto__bg">
-        <img src="assets/manifiesto__img.jpg" alt="Cúspides" class="nav__logo">
-
-    <div class="manifesto__overlay"></div>
-  </div>
-
-  <div class="manifesto__content">
-    <h2 class="manifesto__heading">
-      <span class="manifesto__line">
-        <span class="manifesto__line-plain">No prometemos </span><span class="manifesto__line-accent">COMODIDAD.</span>
-      </span>
-      <span class="manifesto__line">
-        <span class="manifesto__line-plain">No vendemos </span><span class="manifesto__line-accent">TURISMO.</span>
-      </span>
-      <span class="manifesto__line">
-        <span class="manifesto__line-plain">No somos </span><span class="manifesto__line-accent">PARA TODOS.</span>
-      </span>
-    </h2>
-    <p class="manifesto__body">
-      Somos para quienes sienten atracción por el<br>
-      desafío y entienden que cada expedición comienza<br>
-      mucho antes de dar el primer paso en la montaña.
-    </p>
-  </div>
-</section>
-<!-- FIN SECCIÓN 2: MANIFIESTO -->
- <!-- SECCIÓN 3: EL MÉTODO -->
-<section class="metodo">
-
-  <div class="metodo__head">
-    <p class="metodo__eyebrow">EL MÉTODO</p>
-    <h2 class="metodo__title">Un método diseñado para llegar preparado.</h2>
-  </div>
-
-  <div class="metodo__steps">
-
-    <!-- Paso 1: Diagnóstico -->
-    <article class="metodo__step">
-      <div class="metodo__step-icon">
-        <!-- Ícono: lupa / diagnóstico -->
-        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="20" cy="20" r="11" stroke="currentColor" stroke-width="3"/>
-          <line x1="28.5" y1="28.5" x2="40" y2="40" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <h3 class="metodo__step-title">DIAGNÓSTICO</h3>
-      <p class="metodo__step-body">Analizamos tu experiencia, condición física y objetivo.</p>
-    </article>
-
-    <div class="metodo__connector" aria-hidden="true"></div>
-
-    <!-- Paso 2: Planificación -->
-    <article class="metodo__step">
-      <div class="metodo__step-icon">
-        <!-- Ícono: clipboard / planificación -->
-        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="10" y="8" width="28" height="34" rx="4" stroke="currentColor" stroke-width="3"/>
-          <line x1="17" y1="18" x2="31" y2="18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-          <line x1="17" y1="25" x2="31" y2="25" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-          <line x1="17" y1="32" x2="24" y2="32" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <h3 class="metodo__step-title">PLANIFICACIÓN</h3>
-      <p class="metodo__step-body">Diseñamos un programa personalizado de entrenamiento y preparación.</p>
-    </article>
-
-    <div class="metodo__connector" aria-hidden="true"></div>
-
-    <!-- Paso 3: Formación -->
-    <article class="metodo__step">
-      <div class="metodo__step-icon">
-        <!-- Ícono: montaña / formación -->
-        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <polyline points="4,40 18,16 26,28 34,18 44,40" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <h3 class="metodo__step-title">FORMACIÓN</h3>
-      <p class="metodo__step-body">Desarrollás técnica, criterio y habilidades para moverte en montaña.</p>
-    </article>
-
-    <div class="metodo__connector" aria-hidden="true"></div>
-
-    <!-- Paso 4: Expedición -->
-    <article class="metodo__step">
-      <div class="metodo__step-icon">
-        <!-- Ícono: bandera / expedición -->
-        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <line x1="14" y1="8" x2="14" y2="42" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-          <path d="M14 10 L36 18 L14 26" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
-        </svg>
-      </div>
-      <h3 class="metodo__step-title">EXPEDICIÓN</h3>
-      <p class="metodo__step-body">Aplicás todo el proceso acompañado por guías profesionales.</p>
-    </article>
-
-  </div>
-
-  <!-- Logo Cúspides al pie -->
-  <div class="metodo__footer">
-    <span class="metodo__brand">cúspides</span>
-  </div>
-
-</section>
-<!-- FIN SECCIÓN 3: EL MÉTODO -->
-<!-- SECCIÓN 4: SLIDER DE EXPEDICIONES -->
-<section class="expediciones">
-
-  <button class="expediciones__arrow expediciones__arrow--prev" aria-label="Anterior">
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <polyline points="15,6 9,12 15,18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </button>
-
-  <div class="expediciones__track-wrapper">
-    <div class="expediciones__track" id="expTrack">
-
-      <!-- Tarjeta 1: Cerro Huemul (amarillo) -->
-      <article class="exp-card exp-card--yellow">
-        <div class="exp-card__sticker">
-          <span class="exp-card__sticker-type">SENDERISMO</span><!-- inferido del PDF -->
-        </div>
-        <div class="exp-card__img-wrap">
-        <img src="assets/expedicion3.jpg" alt="Cúspides" class="nav__logo">
-        </div>
-        <div class="exp-card__footer">
-          <div class="exp-card__titles">
-            <span class="exp-card__pre">CERRO</span>
-            <span class="exp-card__name">HUEMUL</span>
-          </div>
-          <div class="exp-card__difficulty">
-            <span class="exp-card__difficulty-label">DIFICULTAD</span>
-            <div class="exp-card__difficulty-bar">
-              <div class="exp-card__difficulty-fill exp-card__difficulty-fill--mid"></div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- Tarjeta 2: Circuito Huemul (naranja) -->
-      <article class="exp-card exp-card--orange">
-        <div class="exp-card__sticker">
-          <span class="exp-card__sticker-type">SENDERISMO</span>
-        </div>
-        <div class="exp-card__img-wrap">
-                  <img src="assets/expedicion2.jpg" alt="Cúspides" class="nav__logo">
-
-        </div>
-        <div class="exp-card__footer">
-          <div class="exp-card__titles">
-            <span class="exp-card__pre">CIRCUITO</span>
-            <span class="exp-card__name">HUEMUL</span>
-          </div>
-          <div class="exp-card__difficulty">
-            <span class="exp-card__difficulty-label">PRINCIPIANTE</span>
-            <div class="exp-card__difficulty-bar">
-              <div class="exp-card__difficulty-fill exp-card__difficulty-fill--low"></div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- Tarjeta 3: Expedición Fitz Roy (rojo) -->
-      <article class="exp-card exp-card--red">
-        <div class="exp-card__sticker">
-          <span class="exp-card__sticker-type">ALPINISMO</span>
-        </div>
-        <div class="exp-card__img-wrap">
-        <img src="assets/expedicion1.jpg" alt="Cúspides" class="nav__logo">
-
-        </div>
-        <div class="exp-card__footer">
-          <div class="exp-card__titles">
-            <span class="exp-card__pre">EXPEDICIÓN</span>
-            <span class="exp-card__name">FITZ ROY</span>
-          </div>
-          <div class="exp-card__difficulty">
-            <span class="exp-card__difficulty-label">EXPERTO</span>
-            <div class="exp-card__difficulty-bar">
-              <div class="exp-card__difficulty-fill exp-card__difficulty-fill--high"></div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- Tarjeta 4: Cerro Huemul (marrón oscuro) -->
-      <article class="exp-card exp-card--dark">
-        <div class="exp-card__sticker">
-          <span class="exp-card__sticker-type">ALPINISMO</span>
-        </div>
-        <div class="exp-card__img-wrap">
-          <div class="exp-card__img-placeholder" aria-label="Imagen Cerro Huemul alpinismo"></div>
-        </div>
-        <div class="exp-card__footer">
-          <div class="exp-card__titles">
-            <span class="exp-card__pre">CERRO</span>
-            <span class="exp-card__name">HUEMUL</span>
-          </div>
-          <div class="exp-card__difficulty">
-            <span class="exp-card__difficulty-label">DIFICULTAD</span>
-            <div class="exp-card__difficulty-bar">
-              <div class="exp-card__difficulty-fill exp-card__difficulty-fill--mid"></div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-    </div>
-  </div>
-
-  <button class="expediciones__arrow expediciones__arrow--next" aria-label="Siguiente">
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <polyline points="9,6 15,12 9,18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </button>
-
-</section>
-<!-- FIN SECCIÓN 4: SLIDER DE EXPEDICIONES -->
-<!-- SECCIÓN 5: INSTRUÍTE PARA LA AVENTURA -->
-<section class="cursos">
-
-  <h2 class="cursos__title">
-    Instruíte para la <span class="cursos__title-accent">AVENTURA</span>
-  </h2>
-
-  <div class="cursos__bg">
-    <img
-      class="cursos__bg-img"
-      src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1400&q=80"
-      alt="Montañas nevadas con glaciares en la Patagonia"
-    >
-    <div class="cursos__bg-overlay"></div>
-  </div>
-
-  <div class="cursos__cards">
-
-    <!-- Tarjeta 1: Autonomía -->
-    <article class="curso-card curso-card--yellow">
-      <div class="curso-card__inner">
-        <div class="curso-card__icon-wrap">
-          <!-- Ícono curso placeholder -->
-          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <circle cx="32" cy="24" r="12" stroke="currentColor" stroke-width="3"/>
-            <path d="M16 52c0-8.837 7.163-16 16-16s16 7.163 16 16" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-          </svg>
-          <span class="curso-card__icon-label">icono curso</span>
-        </div>
-      </div>
-      <div class="curso-card__footer">
-        <span class="curso-card__name">AUTONOMÍA</span>
-      </div>
-    </article>
-
-    <!-- Tarjeta 2: Expedición Cúspide (centro, más grande) -->
-    <article class="curso-card curso-card--red curso-card--featured">
-      <div class="curso-card__inner">
-        <div class="curso-card__icon-wrap">
-          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <polyline points="8,52 24,24 36,38 46,20 56,52" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
-          </svg>
-          <span class="curso-card__icon-label">icono curso</span>
-        </div>
-      </div>
-      <div class="curso-card__footer">
-        <span class="curso-card__name">EXPEDICIÓN<br>CÚSPIDE</span>
-      </div>
-    </article>
-
-    <!-- Tarjeta 3: Habitar -->
-    <article class="curso-card curso-card--orange">
-      <div class="curso-card__inner">
-        <div class="curso-card__icon-wrap">
-          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M12 28L32 10l20 18v24H40V38H24v14H12V28z" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
-          </svg>
-          <span class="curso-card__icon-label">icono curso</span>
-        </div>
-      </div>
-      <div class="curso-card__footer">
-        <span class="curso-card__name">HABITAR</span>
-      </div>
-    </article>
-
-  </div>
-
-</section>
-<!-- FIN SECCIÓN 5: INSTRUÍTE PARA LA AVENTURA -->
-
-
-<!-- SECCIÓN 6: ¿POR QUÉ ENTRENAR MESES? -->
-<section class="porque">
-
-  <div class="porque__bg">
-        <img src="assets/expedicion.jpg" alt="Cúspides" class="nav__logo">
-
-    <div class="porque__bg-overlay"></div>
-  </div>
-
-  <div class="porque__card">
-    <div class="porque__left">
-      <h2 class="porque__title">¿POR QUÉ ENTRENAR <span class="porque__title-accent">MESES?</span></h2>
-      <p class="porque__body">
-        Porque el día de la expedición no es<br>
-        el momento para improvisar.<br>
-        Cada paso en la montaña depende<br>
-        de cientos de decisiones previas.
-      </p>
-    </div>
-
-    <ol class="porque__list">
-      <li class="porque__item">
-        <span class="porque__num porque__num--1">1.</span>
-        <p class="porque__item-text">Preparar el cuerpo reduce el desgaste.</p>
-      </li>
-      <li class="porque__item">
-        <span class="porque__num porque__num--2">2.</span>
-        <p class="porque__item-text">Preparar la técnica aumenta la seguridad.</p>
-      </li>
-      <li class="porque__item">
-        <span class="porque__num porque__num--3">3.</span>
-        <p class="porque__item-text">Preparar la mente permite disfrutar el proceso.</p>
-      </li>
-      <li class="porque__item">
-        <span class="porque__num porque__num--4">4.</span>
-        <p class="porque__item-text">La diferencia entre sobrevivir la experiencia y vivirla plenamente suele construirse durante los meses anteriores.</p>
-      </li>
-    </ol>
-  </div>
-
-</section>
-<!-- FIN SECCIÓN 6: ¿POR QUÉ ENTRENAR MESES? -->v
-<!-- SECCIÓN 7: TESTIMONIOS -->
-<section class="testimonios">
-
-  <div class="testimonios__head">
-    <p class="testimonios__eyebrow">CLIENTES FELICES</p>
-    <h2 class="testimonios__title">
-      cuentan su experiencia
-    </h2>
-  </div>
-
-  <div class="testimonios__layout">
-
-    <!-- Columna izquierda: cita destacada -->
-    <div class="testimonios__featured">
-      <blockquote class="testimonios__quote">
-        "Llegué buscando una expedición y terminé aprendiendo a moverme con confianza."
-      </blockquote>
-      <div class="testimonios__rating-global">
-        <span class="testimonios__rating-num">4,9</span>
-        <div class="testimonios__stars" aria-label="4.9 de 5 estrellas">
-          <span class="testimonios__star testimonios__star--full">★</span>
-          <span class="testimonios__star testimonios__star--full">★</span>
-          <span class="testimonios__star testimonios__star--full">★</span>
-          <span class="testimonios__star testimonios__star--full">★</span>
-          <span class="testimonios__star testimonios__star--half">★</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Columna derecha: tarjetas de reseñas -->
-    <div class="testimonios__cards">
-
-      <!-- Reseña 1 -->
-      <article class="reseña">
-        <div class="reseña__header">
-          <div class="reseña__avatar" aria-hidden="true"></div>
-          <div class="reseña__meta">
-            <p class="reseña__name">LOREM IPSUM</p>
-            <p class="reseña__sub">Lorem ipsum dolor sit.</p>
-          </div>
-          <div class="reseña__score">
-            <span class="reseña__score-num">4,0</span>
-            <div class="reseña__stars" aria-label="4 de 5 estrellas">
-              <span class="reseña__star reseña__star--full">★</span>
-              <span class="reseña__star reseña__star--full">★</span>
-              <span class="reseña__star reseña__star--full">★</span>
-              <span class="reseña__star reseña__star--full">★</span>
-              <span class="reseña__star reseña__star--empty">★</span>
-            </div>
-          </div>
-        </div>
-        <p class="reseña__title">LOREM IPSUM</p>
-        <p class="reseña__body">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie.</p>
-      </article>
-
-      <!-- Reseña 2 -->
-      <article class="reseña">
-        <div class="reseña__header">
-          <div class="reseña__avatar" aria-hidden="true"></div>
-          <div class="reseña__meta">
-            <p class="reseña__name">LOREM IPSUM</p>
-            <p class="reseña__sub">Lorem ipsum dolor sit.</p>
-          </div>
-          <div class="reseña__score">
-            <span class="reseña__score-num">5,0</span>
-            <div class="reseña__stars" aria-label="5 de 5 estrellas">
-              <span class="reseña__star reseña__star--full">★</span>
-              <span class="reseña__star reseña__star--full">★</span>
-              <span class="reseña__star reseña__star--full">★</span>
-              <span class="reseña__star reseña__star--full">★</span>
-              <span class="reseña__star reseña__star--full">★</span>
-            </div>
-          </div>
-        </div>
-        <p class="reseña__title">LOREM IPSUM</p>
-        <p class="reseña__body">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie.</p>
-      </article>
-
-    </div>
-
-  </div>
-
-</section>
-<!-- FIN SECCIÓN 7: TESTIMONIOS -->
-
-<!-- SECCIÓN 8: CTA FINAL / CONTACTO -->
-<section class="cta-final">
-
-  <div class="cta-final__inner">
-
-    <div class="cta-final__left">
-      <h2 class="cta-final__title">
-        ¿Listo para iniciar el<br>
-        <span class="cta-final__title-accent">#MÉTODOCÚSPIDES?</span>
-      </h2>
-      <p class="cta-final__body">
-        Si te atrae el desafío, el proceso y el aprendizaje, podemos ayudarte
-        a prepararte para vivir la montaña desde adentro.
-      </p>
-    </div>
-
-    <div class="cta-final__right">
-      <div class="cta-final__form">
-        <input
-          class="cta-final__input"
-          type="text"
-          placeholder="Nombre y Apellido"
-          aria-label="Nombre y Apellido"
-        >
-        <input
-          class="cta-final__input"
-          type="email"
-          placeholder="Correo electrónico"
-          aria-label="Correo electrónico"
-        >
-        <button class="cta-final__btn" type="button">COMENZAR</button>
-      </div>
-    </div>
-
-  </div>
-
-</section>
-<!-- FIN SECCIÓN 8: CTA FINAL -->
-
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer__inner">
-
-    <div class="footer__brand-col">
-      <div class="footer__brand">
-        <div class="footer__logo">
-          <svg viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <polyline points="2,30 16,8 24,18 32,6 46,30" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
-          </svg>
-        </div>
-        <span class="footer__brand-name">cúspides</span>
-      </div>
-    </div>
-
-    <nav class="footer__nav" aria-label="Footer navigation">
-      <ul class="footer__nav-col">
-        <li class="footer__nav-heading"><!-- inferido: columna de links --></li>
-        <li><a class="footer__link" href="#">Lorem ipsum</a></li>
-        <li><a class="footer__link" href="#">Lorem ipsum</a></li>
-        <li><a class="footer__link" href="#">Lorem ipsum</a></li>
-        <li><a class="footer__link" href="#">Lorem ipsum</a></li>
-      </ul>
-    </nav>
-
-  </div>
-</footer>
-<!-- FIN FOOTER -->
- 
-  <script src="script.js"></script>
+  <!-- Sección siguiente, solo para poder demostrar el scroll -->
+  <section class="next-section">
+    <p>Siguiente sección…</p>
+  </section>
+
+  <script src="js/script.js"></script>
 </body>
 </html>
