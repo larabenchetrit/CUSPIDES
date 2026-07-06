@@ -144,7 +144,7 @@ ul {
 
 .navbar__link:hover,
 .navbar__link:focus-visible {
-  color: var(--color-fucsia);
+  color: var(--color-red);
   text-decoration: underline;
 }
 
@@ -202,7 +202,7 @@ ul {
   font-weight: 400;
   font-size: clamp(15px, 1.35vw, 24px);
   line-height: 1.5;
-  color: var(--color-white);
+  color: var(--color-dark);
 }
 
 .hero__button {
