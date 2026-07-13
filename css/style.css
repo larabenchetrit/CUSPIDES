@@ -30,11 +30,10 @@
 /* ---------- Variables ---------- */
 :root {
   --color-red: #FF523C;
-  --color-lime: #ECFF2A;
-  --color-white: #FFFFFF;
-  --color-dark: #17240F;
-  --color-green: #5C7350;
-  --color-fucsia: #FF2E9A;
+  --color-lime: #EeFF2A;
+  --color-white: #f2eddf;
+  --color-dark: #293f27;
+  --color-green: #5c734f;
 
   --font-display: 'Bogart', sans-serif;
   --font-script: 'Panton Rust', sans-serif;
@@ -42,6 +41,11 @@
 
   --nav-padding-x: clamp(24px, 3.3vw, 64px);
   --nav-padding-y: clamp(20px, 2.2vw, 42px);
+
+  /* Radio de la "solapa": usado por .about-stats (esquinas inferiores)
+     y por .manifesto (para que se meta justo ese mismo tanto por
+     debajo), así ambos quedan siempre sincronizados. */
+  --flap-radius: clamp(28px, 4vw, 64px);
 }
 
 /* ---------- Reset básico ---------- */
@@ -81,17 +85,48 @@ ul {
 
 .hero {
   position: relative;
-  height: 100vh;
 }
 
+/* .hero__pin ya no fuerza 100vh: su altura ahora la define la propia
+   imagen (heroabajo.jpg, 1925x1081 ⇒ ratio 1925/1081), vía aspect-ratio,
+   para que la foto se vea siempre completa, sin recortes de
+   object-fit:cover en relaciones de aspecto distintas a la de la imagen
+   (pantallas muy angostas/altas, ultrawide, etc.).
+   container-type:size habilita unidades cqh/cqb más abajo (título,
+   separaciones del contenido), para que esas medidas escalen según la
+   altura REAL del hero (la de la foto) y no según el 100vh del viewport,
+   que ya no coincide con la altura del hero. */
 .hero__pin {
   position: relative;
-  height: 100%;
   width: 100%;
+  aspect-ratio: 1925 / 1081;
+  max-height: 100vh;
+  max-height: 100svh;
   overflow: hidden;
+  container-type: size;
+  container-name: hero;
 }
 
-/* ---------- Capa de imagen de fondo (única, estática) ---------- */
+/* ---------- Capas del hero (de atrás hacia adelante, las 5 estáticas) ----------
+   1. .hero__bg--back  → heroabajo.jpg: foto completa, detrás de todo.
+   2. .hero__title     → título, entre las dos imágenes.
+   3. .hero__bg--front → heroarriba.jpg: MISMO tamaño y posición que la
+                          capa de fondo (mismo object-fit: cover, mismo
+                          100%x100%): quedan perfectamente superpuestas,
+                          sin diferencias de ancho/alto entre ambas.
+                          Para que no tape el título, se le aplica un
+                          mask-image (--front-reveal-start/-end más abajo)
+                          que la desvanece en su franja superior — así el
+                          título se lee siempre, sin depender de que el
+                          PNG original tenga o no transparencia ahí. Si
+                          en el navegador se ve que sigue tapando de más
+                          (o de menos), ajustar esos dos porcentajes.
+                          Ninguna de las dos imágenes se mueve con el
+                          scroll: quedan fijas (ver hero.js).
+   4. .hero__content (subtítulo + botón) → por encima de las 3 capas
+      anteriores.
+   5. .navbar → siempre la capa más alta de todas, para que sus links
+      queden clickeables pase lo que pase debajo. */
 .hero__bg {
   position: absolute;
   inset: 0;
@@ -107,13 +142,51 @@ ul {
   object-position: center;
 }
 
-/* ---------- Navbar ---------- */
+.hero__bg--back {
+  z-index: 1;
+}
+
+.hero__bg--front {
+  z-index: 3;
+  pointer-events: none;
+  /* Franja (en % de la altura del hero) que se desvanece para que el
+     título siempre se lea: totalmente transparente hasta -start, y
+     totalmente visible desde -end. Subir -start/-end si todavía tapa
+     el título; bajarlos si se pierde demasiado pico. */
+  --front-reveal-start: 44%;
+  --front-reveal-end: 68%;
+}
+
+.hero__bg--front img {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent var(--front-reveal-start),
+    black var(--front-reveal-end),
+    black 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent var(--front-reveal-start),
+    black var(--front-reveal-end),
+    black 100%
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+/* ---------- Navbar ----------
+   z-index más alto de todo el hero: siempre queda clickeable por
+   encima de las demás capas (fondo, título, frente y contenido). */
 .navbar {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 4;
+  z-index: 6;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -123,6 +196,18 @@ ul {
 .navbar__logo img {
   width: clamp(110px, 8vw, 150px);
   height: auto;
+}
+
+/* Los 5 links quedan centrados respecto de toda la pantalla (no del
+   espacio libre junto al logo): se sacan del flujo flex y se centran
+   de forma absoluta dentro de .navbar, que ocupa left:0/right:0. En
+   mobile/tablet vertical se revierte a flujo normal (ver responsive),
+   porque ahí el nav se envuelve en varias líneas junto al logo. */
+.navbar__nav {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .navbar__list {
@@ -148,33 +233,112 @@ ul {
   text-decoration: underline;
 }
 
-/* ---------- Contenido central ---------- */
+/* ---------- Título (capa del medio: sobre el fondo, debajo del frente) ----------
+   Se posiciona absoluto para poder vivir en su propia capa de z-index,
+   entre .hero__bg--back y .hero__bg--front. Reutiliza el mismo padding
+   superior que antes tenía .hero__content, así que su posición visual
+   no cambia. */
+.hero__title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  line-height: 1;
+  padding: clamp(60px, 20cqh, 240px) clamp(16px, 4vw, 40px) 0;
+}
+
+/* Aparición al cargar la página: difuminado + escala, de menor a mayor,
+   hasta llegar a su tamaño y posición final. Cada línea se anima por
+   separado con un pequeño desfasaje para dar más fluidez. */
+.hero__title-line {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(18px);
+  transform: scale(0.72);
+  animation: heroTitleReveal 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero__title-line--script {
+  animation-delay: 0.15s;
+}
+
+.hero__title-line--display {
+  animation-delay: 0.32s;
+}
+
+@keyframes heroTitleReveal {
+  0% {
+    opacity: 0;
+    filter: blur(18px);
+    transform: scale(0.72);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__title-line {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    animation: none;
+  }
+}
+
+/* Desvanecido al scrollear: mismo efecto que la aparición (blur + escala)
+   pero en reversa, para que el título se "disuelva" a medida que se
+   scrollea el hero. Se controla 100% desde hero.js, que va escribiendo
+   --hero-scroll-fade (0 → 1) en este mismo elemento; el filtro/escala/
+   opacidad de acá son independientes de la animación de entrada (esa
+   vive en .hero__title-line, un nivel más abajo) así que no compiten
+   entre sí: se combinan (aparece con blur, y ya "aparecido" se le suma
+   el desvanecido de salida al scrollear). */
+.hero__title {
+  --hero-scroll-fade: 0;
+  opacity: calc(1 - var(--hero-scroll-fade));
+  filter: blur(calc(var(--hero-scroll-fade) * 18px));
+  transform: scale(calc(1 - var(--hero-scroll-fade) * 0.28));
+  will-change: opacity, filter, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__title {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
+
+/* ---------- Resto del contenido (subtítulo + botón) ----------
+   Por encima de las 3 capas del hero (fondo, título, frente), pero por
+   debajo del navbar (que siempre queda como capa más alta). */
 .hero__content {
   position: relative;
-  z-index: 2;
+  z-index: 5;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-end;
   text-align: center;
-  padding: clamp(140px, 20vh, 240px) clamp(16px, 4vw, 40px) 0;
-}
-
-.hero__title {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  line-height: 1;
+  padding: 0 clamp(16px, 4vw, 40px);
 }
 
 .hero__title-line {
-  color: var(--color-red);
+  color: var(--color-dark);
 }
 
 .hero__title-line--script {
   font-family: var(--font-display);
-  font-size: clamp(1.9rem, 4.6vw, 5.4rem);
+  font-size: clamp(1.6rem, 4vw, 4.6rem);
   font-weight: 400;
   margin-bottom: clamp(-10px, -0.5vw, -2px);
 }
@@ -183,51 +347,61 @@ ul {
   font-family: var(--font-script);
   font-weight: 700;
   text-transform: uppercase;
-  font-size: clamp(2.6rem, 9.8vw, 11.6rem);
+  font-size: clamp(2.2rem, 8.3vw, 9.9rem);
   line-height: 0.92;
 }
 
-/* Agrupa subtítulo + botón y los empuja hacia abajo del hero */
+/* Agrupa subtítulo + botón y los empuja hacia abajo del hero, cerca del
+   borde inferior de la pantalla para que gane legibilidad. */
 .hero__bottom {
   margin-top: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(20px, 3vh, 32px);
-  padding-bottom: clamp(48px, 8vh, 96px);
+  gap: clamp(8px, 3cqh, 20px);
+  padding-bottom: clamp(10px, 6cqh, 40px);
 }
 
+/* Texto más chico (antes llegaba a 24px) y apoyado sobre la franja
+   crema/rosada de la foto (nubes al amanecer), para ganar legibilidad
+   sin depender de una sombra o velo oscuro sobre la imagen. */
 .hero__subtitle {
   font-family: var(--font-body);
   font-weight: 400;
-  font-size: clamp(15px, 1.35vw, 24px);
+  font-size: clamp(0.8rem, 1.05vw, 0.98rem);
   line-height: 1.5;
   color: var(--color-dark);
 }
 
+/* Mismo tamaño de botón lima que el resto de la página (ver .school__cta
+   en la sección "Habitar la Montaña" — misma tipografía, padding y
+   grosor de trazo). Antes era notablemente más grande que el resto. */
 .hero__button {
   display: inline-flex;
   align-items: center;
-  gap: clamp(10px, 1vw, 16px);
+  gap: 8px;
   background: var(--color-lime);
   color: var(--color-dark);
   font-family: var(--font-body);
-  font-weight: 600;
-  font-size: clamp(14px, 1vw, 17px);
-  letter-spacing: 0.02em;
+  font-weight: 700;
+  font-size: clamp(0.7rem, 1vw, 0.85rem);
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  padding: clamp(14px, 1.6vw, 20px) clamp(24px, 2.4vw, 34px);
+  padding: clamp(10px, 1.2vw, 13px) clamp(18px, 2.2vw, 24px);
   border-radius: 999px;
-  border: 1.5px solid var(--color-dark);
-  transition: transform 0.25s ease, background 0.25s ease;
+  border: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .hero__button:hover,
 .hero__button:focus-visible {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
 }
 
 .hero__button-icon {
+  width: 15px;
+  height: 12px;
   flex-shrink: 0;
 }
 
@@ -245,12 +419,12 @@ ul {
 
 /* Tablet horizontal */
 @media (max-width: 1024px) {
-  .hero__content {
-    padding-top: clamp(110px, 16vh, 180px);
+  .hero__title {
+    padding-top: clamp(40px, 16cqh, 180px);
   }
 
   .hero__bottom {
-    gap: clamp(16px, 3vh, 28px);
+    gap: clamp(6px, 3cqh, 16px);
   }
 }
 
@@ -259,6 +433,14 @@ ul {
   .navbar {
     flex-direction: row;
     align-items: center;
+  }
+
+  /* Por debajo de este ancho el nav vuelve al flujo normal, junto al
+     logo (como antes): centrarlo de forma absoluta en pantallas
+     angostas lo haría chocar con el logo o desbordar. */
+  .navbar__nav {
+    position: static;
+    transform: none;
   }
 
   .navbar__list {
@@ -270,11 +452,11 @@ ul {
   }
 
   .hero__title-line--display {
-    font-size: clamp(2.4rem, 13vw, 6rem);
+    font-size: clamp(2rem, 11vw, 5.1rem);
   }
 
   .hero__title-line--script {
-    font-size: clamp(1.5rem, 6vw, 3rem);
+    font-size: clamp(1.3rem, 5.1vw, 2.6rem);
   }
 
   .hero__subtitle br {
@@ -287,9 +469,35 @@ ul {
   }
 }
 
+/* Celular (retoma una altura fija tipo 100vh) ----------
+   El aspect-ratio de la foto (1925/1081, bien "panorámica") funciona
+   perfecto de tablet para arriba: a esos anchos da una franja alta
+   como para que título + subtítulo + botón respiren sin tocarse.
+   Pero en un celular angosto esa misma franja queda demasiado baja
+   (ej. ~210px en 375px de ancho) y navbar+título+subtítulo+botón ya no
+   entran sin superponerse. Por eso acá, solo en celular, se vuelve a
+   una altura fija (100svh, con fallback a 100vh) y la foto vuelve a
+   object-fit:cover (recortando un poco los bordes, como antes) para
+   priorizar que el contenido de arriba no se pise. */
+@media (max-width: 639px) {
+  .hero__pin {
+    aspect-ratio: auto;
+    height: 100vh;
+    height: 100svh;
+  }
+}
+
 /* Mobile grande */
 @media (max-width: 480px) {
+  .navbar {
+    flex-wrap: wrap;
+    row-gap: 10px;
+  }
+
   .navbar__list {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    row-gap: 6px;
     gap: 10px;
   }
 
@@ -302,16 +510,16 @@ ul {
   }
 
   .hero__title-line--display {
-    font-size: clamp(2.2rem, 15vw, 4.2rem);
+    font-size: clamp(1.9rem, 12.8vw, 3.6rem);
   }
 
   .hero__title-line--script {
-    font-size: clamp(1.3rem, 7.5vw, 2.2rem);
+    font-size: clamp(1.1rem, 6.4vw, 1.9rem);
   }
 
   .hero__button {
-    padding: 12px 22px;
-    font-size: 12px;
+    padding: 9px 16px;
+    font-size: 11px;
   }
 }
 
@@ -328,117 +536,133 @@ ul {
 
 /* ============================================
    SECTION 1 — QUIÉNES SOMOS + ESTADÍSTICAS
-   (usa las mismas variables definidas en header-hero.css:
-   --font-script, --font-block, --font-body, --color-red, --color-cream)
+   (usa variables globales: --font-display, --font-script, --font-body,
+   --color-red, --color-cream, --container-pad)
    ============================================ */
 
 .about-stats {
-  background: var(--color-cream, #f4efe3);
+  position: relative;
+  /* Por encima de .manifesto (ver margin-top negativo ahí): así, en la
+     franja donde ambas se solapan, esta sección tapa a la siguiente
+     con su fondo, EXCEPTO justo en las puntas inferiores redondeadas
+     —ahí no hay nada pintado (el border-radius "recorta" el fondo)— y
+     por esas dos esquinas asoma la foto de la sección 2, a modo de
+     solapa. */
+  z-index: 2;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  /* Color de base + textura de fondo (montañas punteadas), superpuesta
+     como recorte transparente sobre el color de base. sect1_1.png es
+     un PNG angosto (1917×557) con solo los puntitos verdes y el resto
+     transparente, por eso va con background-size: 100% auto —ocupa
+     todo el ancho y conserva su propia proporción— en vez de "cover",
+     que la estiraría verticalmente y correría el dibujo hacia arriba
+     en pantallas muy altas. */
+  background-color: var(--color-cream, #f4efe3);
+  background-image: url('../assets/img/sect1_1.png');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: 100% auto;
   padding: clamp(56px, 9vw, 120px) var(--container-pad, clamp(20px, 4vw, 64px));
+  /* La sección "termina" con las puntas redondeadas (solo abajo, arriba
+     queda a nivel con el hero). */
+  border-radius: 0 0 var(--flap-radius) var(--flap-radius);
 }
 
 .about-stats__inner {
-  max-width: 1360px;
+  width: 100%;
+  max-width: 960px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(32px, 6vw, 80px);
-  align-items: center;
-}
-
-/* ---------- Texto ---------- */
-.about-stats__text {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .about-stats__heading {
-  margin: 0 0 clamp(18px, 2.4vw, 28px);
-  font-family: var(--font-script);
-  font-weight: 700;
-  font-style: normal;
-  color: #354832;
-  font-size: clamp(2rem, 3.6vw, 3rem);
-  line-height: 1.05;
-}
-
-.about-stats__heading-accent {
-  color: var(--color-red, #ff4e3a);
+  margin: 0 0 clamp(20px, 2.6vw, 30px);
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: #293F27;
+  font-size: clamp(1.9rem, 4vw, 3.1rem);
+  line-height: 1.15;
 }
 
 .about-stats__heading-block {
-  display: inline-block;
-  font-family: var(--font-block);
-  font-weight: 800;
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-script);
+  font-weight: 700;
   text-transform: uppercase;
-  color: var(--color-red, #ff4e3a);
-  font-size: clamp(2.6rem, 5.2vw, 4.2rem);
+  color: var(--color-red, #ff523c);
+  font-size: clamp(2.6rem, 6.4vw, 4.8rem);
   line-height: 0.95;
   letter-spacing: -0.01em;
-  margin: 2px 0;
 }
 
 .about-stats__desc {
-  margin: 0;
-  max-width: 42ch;
+  margin: 0 0 clamp(36px, 5.5vw, 60px);
+  max-width: 52ch;
   font-family: var(--font-body);
   font-weight: 400;
-  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
-  line-height: 1.6;
-  color: #5b6350;
+  font-size: clamp(0.95rem, 1.55vw, 1.15rem);
+  line-height: 1.55;
+  color: #293F27;
 }
 
-/* ---------- Media (imagen + stats) ---------- */
-.about-stats__media {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(24px, 3vw, 36px);
-}
-
-.about-stats__image {
-  margin: 0;
-  border-radius: 20px;
-  overflow: hidden;
-  aspect-ratio: 902 / 377;
-  box-shadow: 0 12px 32px rgba(53, 72, 50, 0.12);
-}
-
-.about-stats__image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
+/* ---------- Números animados (misma lógica de section-1.js: cuenta
+   de 0 al valor de data-target cuando entra en el viewport) ----------
+   Los tres rectángulos ya no reparten el ancho en columnas iguales
+   (1fr): en el wireframe cada uno se ajusta al ancho de su propio
+   contenido (782 / 1219 / 94), por eso el del medio ("Aventuras") es
+   visiblemente más ancho. Con flex + wrap centrado se logra ese mismo
+   comportamiento y además el layout resuelve solo el paso a una fila
+   por rectángulo en pantallas angostas. */
 .stats {
-  display: grid;
-  grid-template-columns: repeat(3, auto);
-  justify-content: space-between;
-  gap: clamp(12px, 2vw, 24px);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(10px, 2.2vw, 22px);
+  width: 100%;
 }
 
 .stat {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  /* Fondo sólido: con la textura de montañas punteadas detrás de toda
+     la sección, sin este relleno los puntos del fondo se ven "adentro"
+     del rectángulo, atrás del número, y le restan legibilidad. */
+  background-color: var(--color-cream, #f4efe3);
+  border: 1.5px solid #293F27;
+  border-radius: 16px;
+  padding: clamp(12px, 1.8vw, 20px) clamp(16px, 2.2vw, 26px);
 }
 
+/* Número: vuelve a Panton Rust (--font-script), igual que el label.
+   Se había probado Bogart (--font-display), pero el archivo instalado
+   es "Bogart-Bold-trial.ttf" —una fuente de prueba que deshabilita los
+   dígitos y los reemplaza por el símbolo ⊘— así que los números no se
+   veían. Apenas tengas la licencia completa de Bogart y reemplaces ese
+   .ttf, se puede volver a cambiar esta línea a var(--font-display). */
 .stat__number {
-  font-family: var(--font-block);
-  font-weight: 800;
-  color: #354832;
-  font-size: clamp(2.2rem, 4.6vw, 3.6rem);
+  font-family: var(--font-script);
+  font-weight: 700;
+  color: #293F27;
+  font-size: clamp(1.8rem, 4.4vw, 3.4rem);
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
 
 .stat__label {
   margin-top: 6px;
-  font-family: var(--font-block);
-  font-weight: 800;
+  font-family: var(--font-script);
+  font-weight: 700;
   text-transform: uppercase;
-  color: #354832;
-  font-size: clamp(0.85rem, 1.2vw, 1.05rem);
+  color: #293F27;
+  font-size: clamp(0.78rem, 1.3vw, 1.05rem);
   letter-spacing: 0.01em;
 }
 
@@ -446,49 +670,59 @@ ul {
    RESPONSIVE
    ============================================ */
 
-/* Tablet horizontal */
-@media (max-width: 1024px) {
-  .about-stats__inner { gap: 40px; }
-}
-
-/* Tablet vertical — apila columnas */
+/* Tablet vertical */
 @media (max-width: 820px) {
-  .about-stats__inner {
-    grid-template-columns: 1fr;
-  }
-  .about-stats__text { order: 1; }
-  .about-stats__media { order: 2; }
+  .about-stats__heading { font-size: clamp(1.7rem, 5.5vw, 2.4rem); }
+  .about-stats__heading-block { font-size: clamp(2.2rem, 9vw, 3rem); }
 }
 
 /* Mobile grande */
 @media (max-width: 600px) {
-  .about-stats__heading { font-size: clamp(1.8rem, 8vw, 2.4rem); }
-  .about-stats__heading-block { font-size: clamp(2.4rem, 12vw, 3rem); }
-  .stats {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-  }
-  .stat__number { font-size: clamp(1.8rem, 9vw, 2.6rem); }
-  .stat__label { font-size: clamp(0.7rem, 3vw, 0.85rem); }
+  .stats { gap: clamp(6px, 2.4vw, 14px); }
+  .stat { padding: 8px 10px; border-radius: 10px; }
+  .stat__number { font-size: clamp(1.3rem, 6.5vw, 1.9rem); }
+  .stat__label { font-size: clamp(0.55rem, 2.4vw, 0.72rem); }
 }
 
 /* Mobile pequeño 360px */
 @media (max-width: 380px) {
-  .about-stats { padding-left: 16px; padding-right: 16px; }
+  .about-stats { padding-left: 16px; padding-right: 16px; border-radius: 0 0 24px 24px; }
+  .stats { flex-direction: column; align-items: stretch; gap: 10px; }
+  .stat { width: 100%; flex-direction: row; align-items: baseline; justify-content: space-between; padding: 10px 14px; }
+  .stat__number { font-size: clamp(1.6rem, 8vw, 2rem); }
+  .stat__label { margin-top: 0; }
 }
 
 
 /* ============================================
-   SECTION 2 — NO PROMETEMOS COMODIDAD
-   (usa variables globales: --font-script, --font-block, --font-body,
-   --color-yellow, --container-pad)
+   SECTION 2 — CITA "CADA EXPEDICIÓN COMIENZA..."
+   (usa variables globales: --font-display, --color-lime, --container-pad)
+
+   .manifesto mide 220vh: es el "riel" de scroll que le da tiempo a la
+   revelación palabra por palabra. .manifesto__sticky se pinea
+   (position: sticky) durante ese recorrido, así que en pantalla
+   siempre se ve UNA sola pantalla (100vh) — el texto no cambia de
+   lugar, solo se va iluminando palabra por palabra (ver manifesto.js).
    ============================================ */
 
 .manifesto {
   position: relative;
-  min-height: clamp(480px, 78vh, 820px);
+  height: 220vh;
+  /* Efecto "solapa": se corre hacia arriba justo lo que mide el radio
+     de las puntas redondeadas de .about-stats, para quedar por debajo
+     de ella en esa franja. Como .about-stats tiene z-index más alto,
+     tapa esta sección salvo en las dos esquinas recortadas por su
+     border-radius — ahí es donde asoma esta foto, como una solapa. */
+  margin-top: calc(-1 * var(--flap-radius));
+}
+
+.manifesto__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
   display: flex;
   align-items: center;
+  justify-content: center;
   overflow: hidden;
   isolation: isolate;
 }
@@ -510,118 +744,119 @@ ul {
   inset: 0;
   z-index: -1;
   background: linear-gradient(
-    100deg,
-    rgba(20, 20, 15, 0.55) 0%,
-    rgba(20, 20, 15, 0.35) 35%,
-    rgba(20, 20, 15, 0.05) 65%
+    180deg,
+    rgba(20, 20, 15, 0.1) 0%,
+    rgba(20, 20, 15, 0.4) 50%,
+    rgba(20, 20, 15, 0.15) 100%
   );
 }
 
 .manifesto__content {
-  max-width: 720px;
-  padding: clamp(48px, 8vw, 90px) var(--container-pad, clamp(20px, 4vw, 64px));
+  max-width: 900px;
+  padding: 0 var(--container-pad, clamp(20px, 4vw, 64px));
+  text-align: center;
 }
 
-.manifesto__title {
+.manifesto__quote {
   margin: 0;
-  font-family: var(--font-script);
+  font-family: var(--font-display);
   font-weight: 700;
   color: #f4efe3;
-  font-size: clamp(1.9rem, 4.4vw, 3.2rem);
-  line-height: 1.12;
+  font-size: clamp(1.5rem, 3.6vw, 3rem);
+  line-height: 1.28;
 }
 
-.manifesto__title-accent {
-  font-family: var(--font-block);
-  font-weight: 800;
-  text-transform: uppercase;
-  color: var(--color-yellow, #e7ff33);
-  letter-spacing: -0.005em;
+/* Cada palabra arranca "apagada" y JS anima su opacidad en función
+   del progreso de scroll dentro del riel pineado. */
+.manifesto__word {
+  display: inline-block;
+  opacity: 0.16;
 }
 
-.manifesto__desc {
-  margin: clamp(18px, 2.4vw, 26px) 0 0;
-  max-width: 42ch;
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
-  line-height: 1.6;
-  color: #f4efe3;
+.manifesto__word--accent {
+  color: var(--color-lime, #ecff2a);
 }
 
 /* ============================================
    RESPONSIVE
    ============================================ */
 @media (max-width: 820px) {
-  .manifesto { min-height: clamp(440px, 70vh, 700px); }
+  .manifesto { height: 200vh; }
 }
 
 @media (max-width: 600px) {
-  .manifesto { align-items: flex-end; }
+  .manifesto { height: 180vh; }
   .manifesto__overlay {
     background: linear-gradient(
       180deg,
-      rgba(20, 20, 15, 0.15) 0%,
-      rgba(20, 20, 15, 0.75) 75%
+      rgba(20, 20, 15, 0.2) 0%,
+      rgba(20, 20, 15, 0.5) 50%,
+      rgba(20, 20, 15, 0.25) 100%
     );
   }
-  .manifesto__content { padding-bottom: 56px; }
 }
 
 
 /* ============================================
    SECTION 3 — EL MÉTODO CÚSPIDES
-   (usa variables globales: --font-script, --font-block, --font-body,
-   --color-red, --color-cream, --container-pad)
+   (usa variables globales: --font-script, --font-body, --color-lime,
+   --color-cream, --flap-radius, --container-pad)
+
+   Comportamiento (method.js):
+   - Por defecto (sin JS, o con prefers-reduced-motion) .method__cards
+     es una lista vertical normal: las cards se ven una debajo de la
+     otra, con scroll de página nativo.
+   - Con JS y sin "menos movimiento", se agrega la clase .method--pinned:
+     .method__sticky se pinea (position: sticky) y .method mide 100vh +
+     una pantalla extra por cada card (menos la última). Todas las
+     cards quedan superpuestas en el mismo lugar (misma celda de grid),
+     mismo tamaño, acorde a su contenido (no se estiran a llenar la
+     pantalla). Al scrollear, la card actual se desliza hacia la
+     izquierda y sale de escena, revelando a la siguiente que ya
+     estaba esperando en ese mismo lugar — así hasta la última.
+   - El stage ocupa el espacio vertical que sobra dentro de los 100vh
+     (bajada aparte), así toda la info de la sección entra siempre en
+     una sola pantalla, sin scroll interno.
+   - Además del scroll vertical, se puede arrastrar a mano (mouse/
+     touch) directamente sobre las cards — ver pointerdown/move/up en
+     method.js.
    ============================================ */
 
 .method {
+  position: relative;
+  /* Mismo crema que .about-stats, con las puntas de arriba redondeadas
+     (--flap-radius, la misma variable que usa la sección 1 para las
+     suyas de abajo) para continuar esa identidad visual. */
   background: var(--color-cream, #f4efe3);
-  overflow: hidden;
+
+  border-radius: var(--flap-radius) var(--flap-radius) 0 0;
 }
 
-/* ---------- Ticker / marquee ---------- */
-.method__ticker {
-  background: var(--color-red, #ff4e3a);
-  overflow: hidden;
-  padding: clamp(14px, 2vw, 20px) 0;
-}
-
-.method__ticker-track {
+.method__sticky {
   display: flex;
-  align-items: center;
-  width: max-content;
-  will-change: transform;
-  /* el JS controla el transform según el scroll */
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(24px, 4vw, 40px);
+  padding: clamp(56px, 8vw, 96px) 0;
 }
 
-.method__ticker-item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+.method.method--pinned {
+  height: var(--method-pin-height, 100vh);
+}
+
+.method.method--pinned .method__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  padding: clamp(24px, 5vw, 48px) 0;
+}
+
+/* ---------- Intro (título + bajada) ---------- */
+.method__intro {
   flex-shrink: 0;
-  padding: 0 clamp(20px, 3vw, 36px);
-  font-family: var(--font-block);
-  font-weight: 800;
-  color: #f4efe3;
-  font-size: clamp(1.3rem, 2.4vw, 1.8rem);
-  text-transform: lowercase;
-  white-space: nowrap;
-}
-
-.method__ticker-icon {
-  width: clamp(24px, 3vw, 32px);
-  height: auto;
-  color: #f4efe3;
-  flex-shrink: 0;
-}
-
-/* ---------- Body ---------- */
-.method__body {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: clamp(48px, 7vw, 88px) var(--container-pad, clamp(20px, 4vw, 64px));
   text-align: center;
+  padding: 0 var(--container-pad, clamp(20px, 4vw, 64px));
 }
 
 .method__title {
@@ -637,48 +872,98 @@ ul {
   font-size: clamp(1.8rem, 3.6vw, 2.8rem);
 }
 
-.method__title-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-block);
-  font-weight: 800;
-}
-
-.method__title-icon {
-  width: clamp(30px, 3.4vw, 40px);
-  height: auto;
-  color: #354832;
+/* El isotipo "cúspides" es la imagen de marca (logo1_2.png), no texto +
+   ícono SVG: se integra en la misma línea que "El método" porque
+   .method__title ya es un flex row centrado. */
+.method__title-logo {
+  height: clamp(34px, 4.6vw, 56px);
+  width: auto;
 }
 
 .method__subtitle {
-  margin: clamp(10px, 1.6vw, 16px) 0 clamp(36px, 5vw, 56px);
+  margin: clamp(8px, 1.4vw, 14px) 0 0;
   font-family: var(--font-body);
   font-size: clamp(0.95rem, 1.1vw, 1.1rem);
   color: #5b6350;
 }
 
-/* ---------- Steps ---------- */
-.method__steps {
-  border: 1.5px solid #d8d0bd;
-  border-radius: 20px;
-  padding: clamp(28px, 4vw, 44px);
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(24px, 3vw, 40px);
-  text-align: left;
+/* ---------- Stage: contenedor de las cards ---------- */
+.method__stage {
+  position: relative;
+  width: 100%;
+  padding: 0 var(--container-pad, clamp(20px, 4vw, 64px));
 }
 
+/* Pineada, el stage ocupa el espacio vertical que sobra (bajada
+   aparte) dentro de los 100vh, y ahí centra el mazo de cards. */
+.method.method--pinned .method__stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+}
+
+.method.method--pinned .method__stage.is-dragging {
+  cursor: grabbing;
+}
+
+/* Sin pin (fallback): lista vertical normal, una card debajo de la otra. */
+.method__cards {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 3vw, 32px);
+  width: 100%;
+  align-items: center;
+}
+
+/* Pineada: todas las cards ocupan la misma celda de grid (quedan
+   superpuestas, en el mismo lugar). method.js las desliza hacia la
+   izquierda con transform, de a una, para revelar a la siguiente. */
+.method.method--pinned .method__cards {
+  display: grid;
+  place-items: center;
+}
+
+.method.method--pinned .step {
+  grid-area: 1 / 1;
+}
+
+/* ---------- Card ---------- */
+/* Tamaño acorde al contenido (no se estira a llenar la pantalla),
+   cuadrada e igual en las 4. Contenido anclado arriba (ícono, título,
+   texto en flujo natural) en vez de centrado verticalmente. */
+.step {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1 / 1;
+  background: #23331e;
+  border: 1px solid #182414;
+  border-radius: 24px;
+  padding: clamp(24px, 3.4vw, 40px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: left;
+  will-change: transform;
+}
+
+/* Ícono: cuadrado, solo contorno amarillo, fondo transparente,
+   alineado arriba a la izquierda. */
 .step__icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: clamp(46px, 4.4vw, 56px);
-  height: clamp(46px, 4.4vw, 56px);
+  width: clamp(48px, 4.8vw, 64px);
+  height: clamp(48px, 4.8vw, 64px);
+  border: 2px solid var(--color-lime, #ecff2a);
   border-radius: 12px;
-  background: #5c7350;
-  color: #f4efe3;
-  margin-bottom: clamp(14px, 2vw, 20px);
+  background: transparent;
+  color: var(--color-lime, #ecff2a);
+  margin-bottom: clamp(14px, 2vw, 22px);
 }
 .step__icon svg { width: 55%; height: 55%; }
 
@@ -686,48 +971,55 @@ ul {
   margin: 0 0 8px;
   font-family: var(--font-script);
   font-weight: 700;
-  color: #354832;
-  font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+  color: var(--color-lime, #ecff2a);
+  font-size: clamp(1.3rem, 1.8vw, 1.6rem);
 }
 
 .step__desc {
   margin: 0;
   font-family: var(--font-body);
-  font-size: clamp(0.88rem, 1vw, 0.98rem);
-  line-height: 1.5;
-  color: #5b6350;
+  font-size: clamp(0.92rem, 1vw, 1.05rem);
+  line-height: 1.6;
+  color: #ffffff;
 }
 
 /* ============================================
    RESPONSIVE
    ============================================ */
-@media (max-width: 1024px) {
-  .method__steps { grid-template-columns: repeat(2, 1fr); }
-}
-
 @media (max-width: 600px) {
-  .method__steps {
-    grid-template-columns: 1fr;
-    padding: 24px;
-    gap: 28px;
-  }
   .method__title { font-size: clamp(1.6rem, 7vw, 2rem); }
+  .step { padding: clamp(20px, 6vw, 30px); }
 }
-
 
 
 /* ============================================
    SECTION 4 — CURSOS (cards con flip)
    (usa variables globales: --font-display, --font-script, --font-body,
    --color-red, --color-lime, --color-cream, --color-dark, .btn)
+
+   El fondo crema lleva la misma textura de montañas punteadas que
+   .about-stats (sect4_2.png, PNG angosto con solo los puntitos verdes
+   y el resto transparente), apoyada contra el borde inferior de la
+   sección. La sección se centra en una sola pantalla (min-height:
+   100vh + flex) para que título, bajada y las 3 cards entren siempre
+   sin necesidad de scrollear en desktop/notebook.
    ============================================ */
 
 .courses {
-  background: var(--color-cream, #f4efe3);
-  padding: clamp(48px, 7vw, 96px) var(--container-pad, clamp(20px, 4vw, 64px));
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background-color: var(--color-cream, #f4efe3);
+  background-image: url('../assets/img/sect4_2.png');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: 100% auto;
+  padding-block: clamp(18px, 3.2vh, 48px);
+  padding-inline: var(--container-pad, clamp(20px, 4vw, 64px));
 }
 
 .courses__inner {
+  width: 100%;
   max-width: 1360px;
   margin: 0 auto;
 }
@@ -744,11 +1036,11 @@ ul {
 }
 
 .courses__title {
-  margin: 0 0 clamp(16px, 2vw, 24px);
+  margin: 0 0 clamp(6px, 1vh, 14px);
   font-family: var(--font-display);
   font-weight: 400;
   color: #293F27;
-  font-size: clamp(1.7rem, 4.5vw, 3.3rem);
+  font-size: clamp(1.6rem, 3.6vw, 2.6rem);
   text-align: center;
   line-height: 1.1;
 }
@@ -759,18 +1051,18 @@ ul {
   font-weight: 700;
   text-transform: uppercase;
   color: var(--color-red, #ff523c);
-  font-size: clamp(2.4rem, 5.9vw, 4.6rem);
+  font-size: clamp(2rem, 4.6vw, 3.6rem);
   line-height: 1;
   margin-top: 4px;
 }
 
 .courses__subtitle {
   max-width: 640px;
-  margin: 0 auto clamp(36px, 5vw, 64px);
+  margin: 0 auto clamp(12px, 2.4vh, 32px);
   text-align: center;
   font-family: var(--font-body);
   font-weight: 400;
-  font-size: clamp(0.92rem, 1.55vw, 1.15rem);
+  font-size: clamp(0.85rem, 1.3vw, 1.02rem);
   line-height: 1.5;
   color: #293F27;
 }
@@ -779,7 +1071,13 @@ ul {
   display: grid;
   grid-template-columns: 1fr 1.08fr 1fr;
   align-items: center;
-  gap: clamp(20px, 3vw, 42px);
+  gap: clamp(12px, 1.8vh, 28px);
+  /* Ligado al alto de viewport (vh), no al ancho: así el tamaño de las
+     cards responde al espacio vertical disponible y toda la sección
+     (título + bajada + cards) entra siempre en una sola pantalla en
+     desktop/notebook, sea cual sea el ancho. */
+  max-width: clamp(640px, 108vh, 1040px);
+  margin: 0 auto;
 }
 
 /* ---------- Card / flip mechanics ---------- */
@@ -788,6 +1086,15 @@ ul {
   cursor: pointer;
   outline: none;
   border-radius: 22px;
+  /* Container query: el tamaño de fuente/espaciados de adentro de la
+     card se calcula en base al ANCHO PROPIO de la card (cqw), no al
+     del viewport (vw). Como .courses__grid ahora escala principalmente
+     con la altura de pantalla (ver .courses__grid) para que la sección
+     entre siempre en una sola pantalla, el ancho de la card ya no es
+     una fracción fija del ancho de viewport — con vw el texto podía
+     quedar desproporcionado (o desbordar) en pantallas anchas pero
+     bajas. Con cqw el texto siempre se ve proporcional a la card. */
+  container-type: inline-size;
 }
 .course-card:focus-visible .course-card__inner {
   box-shadow: 0 0 0 3px #293F27;
@@ -812,6 +1119,16 @@ ul {
   transform: rotateY(180deg);
 }
 
+/* En dispositivos con mouse real (hover fino), la card se da vuelta al
+   pasar el cursor, sin depender del click. El flip por click/tap/teclado
+   (section-4.js, clase .is-flipped) sigue intacto para touch y teclado. */
+@media (hover: hover) and (pointer: fine) {
+  .course-card:hover .course-card__inner,
+  .course-card:focus-within .course-card__inner {
+    transform: rotateY(180deg);
+  }
+}
+
 .course-card__face {
   position: absolute;
   inset: 0;
@@ -826,24 +1143,26 @@ ul {
 /* ---------- Front ---------- */
 .course-card__face--front {
   background: var(--color-red, #ff523c);
-  padding: clamp(10px, 1.8vw, 16px) clamp(11px, 2vw, 17px) 0;
+  padding: clamp(10px, 4.3cqw, 16px) clamp(11px, 4.8cqw, 17px) 0;
   overflow: visible;
 }
 
 .course-card__badge {
+  /* Insignia "El más elegido": queda apoyada dentro de la foto, en la
+     esquina superior derecha (no a caballo del borde de la card). */
   position: absolute;
-  top: 0;
-  right: clamp(14px, 2.4vw, 22px);
-  transform: translateY(-50%);
+  top: clamp(10px, 3.8cqw, 16px);
+  right: clamp(10px, 3.8cqw, 16px);
   z-index: 3;
   background: #293F27;
   color: var(--color-lime, #ecff2a);
+  border: 1.5px solid var(--color-lime, #ecff2a);
   font-family: var(--font-body);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  font-size: clamp(0.62rem, 0.95vw, 0.78rem);
-  padding: clamp(6px, 0.9vw, 9px) clamp(12px, 1.8vw, 18px);
+  font-size: clamp(0.6rem, 4.3cqw, 0.72rem);
+  padding: clamp(6px, 2.1cqw, 9px) clamp(12px, 4.3cqw, 18px);
   border-radius: 999px;
   white-space: nowrap;
 }
@@ -868,7 +1187,7 @@ ul {
   flex-direction: column;
   align-items: flex-start;
   gap: 6px;
-  padding: clamp(14px, 1.8vw, 20px) clamp(6px, 1vw, 10px) clamp(20px, 2.4vw, 28px);
+  padding: clamp(10px, 3.8cqw, 18px) clamp(6px, 2.4cqw, 10px) clamp(12px, 4.3cqw, 20px);
 }
 
 .course-card__front-top {
@@ -884,7 +1203,7 @@ ul {
   font-family: var(--font-display);
   font-weight: 400;
   color: #ece7d9;
-  font-size: clamp(1.3rem, 2.66vw, 2.1rem);
+  font-size: clamp(0.95rem, 9.6cqw, 1.7rem);
   line-height: 1;
 }
 
@@ -899,7 +1218,7 @@ ul {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  font-size: clamp(0.6rem, 0.87vw, 0.72rem);
+  font-size: clamp(0.54rem, 3.1cqw, 0.68rem);
   color: #eee9db;
   white-space: nowrap;
 }
@@ -910,16 +1229,22 @@ ul {
   font-weight: 700;
   text-transform: uppercase;
   color: #ece7d9;
-  font-size: clamp(1.7rem, 3.75vw, 2.9rem);
+  font-size: clamp(1.1rem, 13.5cqw, 2.5rem);
   line-height: 0.95;
 }
 
 .course-card__price {
-  margin: 6px 0 4px;
-  font-family: var(--font-display);
-  font-weight: 400;
+  margin: 8px 0 0;
+  /* Panton Rust (--font-script): los números de precio de todas las
+     cards usan siempre esta tipografía, no Bogart (--font-display)
+     —cuyo .ttf instalado es una versión de prueba que reemplaza los
+     dígitos por el símbolo ⊘—. Agrandado a pedido; el tope (1.85rem)
+     está calculado para que "$912.000"/"$702.000" nunca se corten
+     contra el borde de la card, ni en la más angosta. */
+  font-family: var(--font-script);
+  font-weight: 700;
   color: #293F27;
-  font-size: clamp(1.1rem, 2.1vw, 1.7rem);
+  font-size: clamp(1.05rem, 10.5cqw, 1.85rem);
   line-height: 1;
 }
 
@@ -929,15 +1254,15 @@ ul {
   z-index: 2;
   display: inline-flex;
   align-items: center;
-  gap: clamp(6px, 0.8vw, 10px);
+  gap: clamp(6px, 3.8cqw, 10px);
   background: var(--color-lime, #ecff2a);
   color: #293F27;
   font-family: var(--font-body);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  font-size: clamp(0.72rem, 1.05vw, 0.88rem);
-  padding: clamp(9px, 1.15vw, 13px) clamp(16px, 2vw, 22px);
+  font-size: clamp(0.66rem, 4.6cqw, 0.82rem);
+  padding: clamp(8px, 5cqw, 11px) clamp(14px, 8.6cqw, 19px);
   border-radius: 999px;
   border: none;
   text-decoration: none;
@@ -959,38 +1284,27 @@ ul {
 /* ---------- Back ---------- */
 .course-card__face--back {
   transform: rotateY(180deg);
-}
-
-.course-card__back-bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
-}
-
-.course-card__back-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(20, 20, 15, 0.55) 0%, rgba(20, 20, 15, 0.8) 100%);
-  z-index: 1;
+  background: var(--color-red, #ff523c);
 }
 
 .course-card__back-body {
-  position: relative;
-  z-index: 2;
-  padding: clamp(20px, 2.6vw, 30px);
+  padding: clamp(12px, 8cqw, 22px);
   display: flex;
   flex-direction: column;
   height: 100%;
+  /* Salvavidas real (no solo estético): con transform-style:preserve-3d
+     en el padre, el overflow:hidden de .course-card__face a veces no
+     alcanza a recortar contenido que se pasa de alto en algunos
+     motores — por eso además el contenido de acá abajo está calculado
+     para entrar siempre sin desbordar, no solo "escondido" por CSS. */
+  overflow: hidden;
 }
 
 /* ---- fila de íconos: Modalidad / Duración ---- */
 .course-card__back-top {
   display: flex;
-  gap: clamp(20px, 2.6vw, 32px);
-  margin: 0 0 clamp(14px, 1.8vw, 20px);
+  gap: clamp(14px, 10cqw, 26px);
+  margin: 0 0 clamp(8px, 5.7cqw, 14px);
 }
 
 .course-card__meta-item {
@@ -1004,12 +1318,12 @@ ul {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: clamp(30px, 3vw, 38px);
-  height: clamp(30px, 3vw, 38px);
+  width: clamp(22px, 10cqw, 28px);
+  height: clamp(22px, 10cqw, 28px);
   border: 1.6px solid var(--color-lime, #ecff2a);
   border-radius: 8px;
   color: var(--color-lime, #ecff2a);
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 .course-card__back-icon svg { width: 60%; height: 60%; }
 
@@ -1017,13 +1331,13 @@ ul {
   font-family: var(--font-body);
   font-weight: 700;
   text-transform: uppercase;
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   letter-spacing: 0.03em;
   color: #f4efe3;
   opacity: 0.8;
   border-bottom: 1px solid rgba(244, 239, 227, 0.4);
-  padding-bottom: 4px;
-  margin-bottom: 4px;
+  padding-bottom: 3px;
+  margin-bottom: 3px;
 }
 
 .course-card__meta-item dd {
@@ -1031,12 +1345,20 @@ ul {
   font-family: var(--font-script);
   font-weight: 700;
   color: #f4efe3;
-  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  font-size: clamp(0.8rem, 5cqw, 1.05rem);
 }
 
 /* ---- Descripción ---- */
 .course-card__back-desc-block {
-  margin-bottom: clamp(14px, 2vw, 20px);
+  margin-bottom: clamp(8px, 6cqw, 14px);
+  /* Si el texto de descripción es más largo que el espacio disponible,
+     se corta con puntos suspensivos (línea 4) en vez de desbordar la
+     card — con el resto del contenido (footer, precio, botón) siempre
+     visible debajo. */
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .course-card__back-label {
@@ -1044,20 +1366,20 @@ ul {
   font-family: var(--font-body);
   font-weight: 700;
   text-transform: uppercase;
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   letter-spacing: 0.03em;
   color: #f4efe3;
   opacity: 0.8;
   border-bottom: 1px solid rgba(244, 239, 227, 0.4);
-  padding-bottom: 5px;
+  padding-bottom: 4px;
   display: inline-block;
 }
 
 .course-card__back-desc {
   margin: 0;
   font-family: var(--font-body);
-  font-size: clamp(0.82rem, 0.95vw, 0.92rem);
-  line-height: 1.5;
+  font-size: clamp(0.64rem, 3.6cqw, 0.8rem);
+  line-height: 1.35;
   color: #f4efe3;
 }
 
@@ -1067,178 +1389,294 @@ ul {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
+  gap: 3px;
+  flex-shrink: 0;
 }
 
 .course-card__back-footer .course-card__eyebrow {
   color: #f4efe3;
-  font-size: clamp(1rem, 1.6vw, 1.4rem);
+  font-size: clamp(0.72rem, 4.8cqw, 1rem);
 }
 .course-card__back-footer .course-card__level {
   border-color: rgba(244, 239, 227, 0.6);
   color: #f4efe3;
-  padding: 4px 12px;
-  margin-bottom: 4px;
+  padding: 3px 11px;
+  margin-bottom: 3px;
 }
-.course-card__back-footer .course-card__name { color: #f4efe3; font-size: clamp(1.4rem, 2.2vw, 1.9rem); }
+.course-card__back-footer .course-card__name { color: #f4efe3; font-size: clamp(0.85rem, 6.6cqw, 1.35rem); }
 
 /* ============================================
    RESPONSIVE
    ============================================ */
 @media (max-width: 1024px) {
-  .courses__grid { grid-template-columns: repeat(2, 1fr); }
-  .course-card--featured { grid-column: span 2; max-width: 340px; margin: 0 auto; }
+  .courses { min-height: 0; }
+  .courses__grid { grid-template-columns: repeat(2, 1fr); max-width: 640px; }
+  /* width explícito (no solo max-width): con grid-column:span 2 +
+     margin:auto, dejar que el ancho se resuelva solo por max-width sobre
+     un item que además spanea columnas hace que algunos motores lo
+     colapsen a 0 (el hijo .course-card__inner con width:100% queda
+     resolviendo contra un ancho indeterminado). width:min(340px,100%)
+     fuerza un ancho definido y evita el colapso. */
+  .course-card--featured { grid-column: span 2; width: min(340px, 100%); max-width: 340px; margin: 0 auto; }
 }
 
 @media (max-width: 640px) {
-  .courses__grid { grid-template-columns: 1fr; }
-  .course-card--featured { grid-column: auto; max-width: none; }
+  .courses__grid { grid-template-columns: 1fr; max-width: 360px; }
+  /* Reset del margin:0 auto que le pone el breakpoint anterior (1024px):
+     en una sola columna no hace falta centrarla, y ese margin:auto sin un
+     width/max-width propio hacía colapsar la card a 0 de ancho (el hijo
+     .course-card__inner con width:100% quedaba como 100% de un ancho
+     indeterminado). */
+  .course-card--featured { grid-column: auto; max-width: none; margin: 0; }
 }
 
 
 
 /* ============================================
    SECTION 5 — ¿POR QUÉ ENTRENAR DURANTE MESES?
-   (usa variables globales: --font-script, --font-block, --font-body,
-   --color-red, --color-yellow, --container-pad)
+   (usa variables globales: --font-display, --font-script, --font-body,
+   --color-red, --color-green, --color-white, --container-pad)
+
+   Riel de scroll (mismo patrón que .manifesto / .method): .why-train
+   es más alta que 100vh para dar "pista" de scroll; .why-train__sticky
+   se queda fija dentro de una sola pantalla. why-train.js recorre ese
+   riel y activa/desactiva .is-active en cada .why-train__item en orden
+   (1 → 2 → 3): el ítem pasa de verde a rojo, y si se scrollea hacia
+   arriba vuelve a verde (reversible, como progreso de lectura que se
+   puede recorrer en ambos sentidos). La línea que conecta los puntos
+   es un único elemento (.why-train__line) posicionado y coloreado por
+   JS: arranca verde y se va pintando de rojo de arriba hacia abajo en
+   sincro con el scroll, sin cortes entre ítems.
    ============================================ */
 
 .why-train {
   position: relative;
-  overflow: hidden;
+  height: 230vh;
+  /* La sección "termina" con las puntas redondeadas (solo abajo, arriba
+     queda a nivel con el hero). */
+  border-radius: 0 0 var(--flap-radius) var(--flap-radius);
 }
 
-.why-train__bg {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  max-height: 60vh;
+.why-train__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  background: var(--color-white, #f2eddf);
   overflow: hidden;
-}
-.why-train__bg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 30%;
-}
-
-.why-train__panel {
-  position: relative;
-  margin-top: clamp(-140px, -18vw, -80px);
-  background: #5c7350;
-  border-radius: 28px 28px 0 0;
-  padding: clamp(36px, 6vw, 64px) 0 clamp(48px, 7vw, 80px);
 }
 
 .why-train__inner {
-  max-width: 1200px;
+  max-width: 760px;
   margin: 0 auto;
   padding: 0 var(--container-pad, clamp(20px, 4vw, 64px));
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(28px, 4vw, 44px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 5vw, 56px);
+}
+
+/* ---------- Intro (título + descripción) centrados ---------- */
+.why-train__intro {
+  text-align: center;
 }
 
 .why-train__title {
   margin: 0;
-  font-family: var(--font-script);
+  font-family: var(--font-display);
   font-weight: 700;
-  color: #f4efe3;
-  font-size: clamp(1.9rem, 4vw, 3rem);
+  color: var(--color-dark, #293F27);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
   line-height: 1.1;
 }
 
 .why-train__title-accent {
-  font-family: var(--font-block);
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-script);
   font-weight: 800;
   text-transform: uppercase;
-  color: var(--color-yellow, #e7ff33);
+  color: var(--color-red, #ff523c);
+  font-size: clamp(2.5rem, 5.6vw, 4.2rem);
+  line-height: 1;
 }
 
 .why-train__desc {
-  margin: clamp(14px, 2vw, 20px) 0 0;
+  margin: 0 auto;
   max-width: 46ch;
   font-family: var(--font-body);
   font-size: clamp(0.92rem, 1.1vw, 1.05rem);
   line-height: 1.6;
-  color: #f4efe3;
-  opacity: 0.95;
+  color: var(--color-dark, #293F27);
+  opacity: 0.85;
 }
 
-/* ---------- Lista numerada (card cream) ---------- */
+/* ---------- Lista / línea de tiempo ---------- */
+.why-train__list-wrap {
+  position: relative;
+}
+
+/* Línea única: top/height/left se calculan en JS a partir de la
+   posición real de los puntos (así queda pixel-perfect y sin cortes
+   sea cual sea el breakpoint). El color es un gradiente duro
+   verde/rojo cuyo punto de corte avanza con el progreso del scroll. */
+.why-train__line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  transform: translateX(-50%);
+  background: var(--color-green, #5c734f);
+  opacity: 0.65;
+  z-index: 0;
+  pointer-events: none;
+}
+
 .why-train__list {
   list-style: none;
   margin: 0;
-  padding: clamp(20px, 3vw, 32px) clamp(24px, 3.4vw, 40px);
-  background: #f4efe3;
-  border-radius: 20px;
+  padding: 0;
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 1;
 }
 
 .why-train__item {
   display: flex;
-  align-items: baseline;
-  gap: clamp(14px, 2vw, 22px);
-  padding: clamp(14px, 2vw, 20px) 0;
+  align-items: flex-start;
+  gap: clamp(14px, 2.4vw, 26px);
+  padding: clamp(10px, 1.6vw, 16px) 0;
+  color: var(--color-green, #5c734f);
+  transition: color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.why-train__item + .why-train__item {
-  border-top: 1px solid rgba(53, 72, 50, 0.15);
+
+.why-train__item.is-active {
+  color: var(--color-red, #ff523c);
 }
 
 .why-train__number {
   flex-shrink: 0;
+  width: clamp(42px, 5.6vw, 66px);
+  /* Panton Rust (--font-script), no Bogart: ver nota en .course-card__price. */
   font-family: var(--font-script);
   font-weight: 700;
-  color: var(--color-red, #ff4e3a);
-  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  color: inherit;
+  font-size: clamp(2.6rem, 5.8vw, 4.1rem);
   line-height: 1;
+  transition: color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Columna del punto: solo se usa para centrar el punto en el alto del
+   ítem; la línea que los conecta ahora vive en .why-train__line. */
+.why-train__dot-col {
+  flex-shrink: 0;
+  width: 16px;
+  align-self: stretch;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Punto: arranca como contorno verde hueco. Al activarse se rellena
+   de rojo y el borde se funde con el relleno (sin contorno visible),
+   con un pequeño "pop" (escala + glow) para que el cambio se note. */
+.why-train__dot {
+  position: relative;
+  z-index: 1;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  box-sizing: border-box;
+  background: transparent;
+  border: 2px solid var(--color-green, #5c734f);
+  transition:
+    background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.why-train__item.is-active .why-train__dot {
+  background: var(--color-red, #ff523c);
+  border-color: var(--color-red, #ff523c);
+  transform: scale(1.15);
+  box-shadow: 0 0 0 6px rgba(255, 82, 60, 0.16);
 }
 
 .why-train__text {
-  margin: 0;
-  font-family: var(--font-script);
+  margin: clamp(4px, 0.6vw, 8px) 0 0;
+  font-family: var(--font-display);
   font-weight: 700;
-  color: #354832;
-  font-size: clamp(1rem, 1.5vw, 1.25rem);
-  line-height: 1.35;
+  color: inherit;
+  font-size: clamp(1.05rem, 1.9vw, 1.4rem);
+  line-height: 1.3;
+  transition: color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .why-train__accent {
-  font-family: var(--font-block);
+  font-family: var(--font-script);
   font-weight: 800;
   text-transform: uppercase;
-  color: var(--color-red, #ff4e3a);
+  color: inherit;
+
 }
 
 /* ============================================
    RESPONSIVE
    ============================================ */
-@media (min-width: 860px) {
-  .why-train__inner {
-    grid-template-columns: 0.9fr 1.1fr;
-    align-items: center;
-  }
+@media (max-width: 900px) {
+  .why-train { height: 200vh; }
 }
 
 @media (max-width: 600px) {
-  .why-train__panel { margin-top: -60px; border-radius: 22px 22px 0 0; }
-  .why-train__item { flex-direction: column; gap: 4px; }
-  .why-train__number { font-size: 1.6rem; }
+  .why-train { height: 180vh; }
+  .why-train__item { gap: 14px; }
+  .why-train__number { width: 40px; font-size: clamp(2.1rem, 9.5vw, 2.7rem); }
+  .why-train__text { font-size: clamp(0.95rem, 4.2vw, 1.1rem); }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .why-train { height: auto; }
+  .why-train__sticky { position: static; height: auto; padding: clamp(48px, 7vw, 96px) 0; }
+}
 
 
 /* ============================================
    SECTION 6 — EL MEJOR ENTRENAMIENTO PARA LA MONTAÑA
-   (usa variables globales: --font-script, --font-block, --font-body,
-   --color-yellow, --container-pad)
+   (usa variables globales: --font-display, --font-script, --font-body,
+   --color-dark, --color-lime, --color-white, --container-pad)
+
+   Riel de scroll (mismo patrón que .manifesto/.method/.why-train):
+   .training es más alta que 100vh; .training__sticky queda confinada
+   a una sola pantalla. training.js recorre ese riel y va agregando
+   Y SACANDO .is-visible / .is-checked según la dirección del scroll
+   (bidireccional, nunca queda "trabado" en un estado).
+
+   Cada línea nace desde el cuerpo de la mujer en la foto (extremo
+   pegado al torso) y crece hacia el círculo/texto mediante scaleX
+   animado con transform-origin en el extremo "cuerpo". Los puntos de
+   anclaje (top/left/right) están calculados sobre la foto de
+   referencia del wireframe; si la foto final tiene otro encuadre puede
+   hacer falta ajustar esos porcentajes.
+
+   .training__bg-top (sect6arriba.png): segunda capa de imagen, mismo
+   encuadre/tamaño que la foto base, pero por delante de
+   .training__callouts (líneas incluidas) en vez de por detrás —por
+   eso es un elemento aparte de .training__bg, con su propio z-index
+   más alto, y no una imagen más dentro del mismo contenedor de fondo.
    ============================================ */
 
 .training {
   position: relative;
-  min-height: clamp(560px, 92vh, 900px);
-  display: flex;
-  align-items: center;
+  height: 260vh;
+}
+
+.training__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
   overflow: hidden;
   isolation: isolate;
 }
@@ -1246,146 +1684,282 @@ ul {
 .training__bg {
   position: absolute;
   inset: 0;
-  z-index: -2;
+  z-index: -1;
 }
 .training__bg img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 70% center;
+  /* Nueva foto: figura centrada de pie sobre la cumbre. */
+  object-position: 50% 20%;
 }
 
-.training__overlay {
+/* Capa superior: mismo encuadre/tamaño que .training__bg, pero por
+   delante de .training__callouts (z-index más alto), incluidas las
+   líneas que nacen de los círculos. */
+.training__bg-top {
   position: absolute;
   inset: 0;
-  z-index: -1;
-  background: linear-gradient(
-    100deg,
-    rgba(10, 20, 15, 0.6) 0%,
-    rgba(10, 20, 15, 0.25) 40%,
-    rgba(10, 20, 15, 0) 65%
-  );
+  z-index: 2;
+  pointer-events: none;
+}
+.training__bg-top img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 20%;
 }
 
 .training__content {
-  width: 100%;
-  max-width: 1360px;
-  margin: 0 auto;
-  padding: clamp(90px, 12vw, 140px) var(--container-pad, clamp(20px, 4vw, 64px)) clamp(48px, 6vw, 80px);
+  position: absolute;
+  top: clamp(28px, 6vw, 64px);
+  left: 0;
+  right: 0;
+  z-index: 1;
   display: flex;
-  flex-direction: column;
-  gap: clamp(48px, 8vw, 100px);
+  justify-content: center;
 }
 
 .training__intro {
-  max-width: 560px;
+  max-width: 620px;
+  text-align: center;
+  padding: 0 clamp(20px, 4vw, 40px);
 }
 
 .training__title {
   margin: 0;
-  font-family: var(--font-script);
+  font-family: var(--font-display);
   font-weight: 700;
-  color: #f4efe3;
-  font-size: clamp(2.1rem, 4.6vw, 3.4rem);
-  line-height: 1.05;
+  color: var(--color-dark, #293F27);
+  font-size: clamp(1.6rem, 3.6vw, 2.6rem);
+  line-height: 1.12;
 }
 
 .training__title-accent {
-  font-family: var(--font-block);
+  display: inline-block;
+  font-family: var(--font-script);
   font-weight: 800;
   text-transform: uppercase;
-  color: var(--color-yellow, #e7ff33);
+  color: var(--color-lime, #ecff2a);
+  font-size: clamp(2.1rem, 5vw, 3.6rem);
+  line-height: 1.05;
 }
 
 .training__desc {
-  margin: clamp(16px, 2.4vw, 24px) 0 0;
-  max-width: 40ch;
+  margin: clamp(10px, 1.6vw, 16px) 0 0;
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: clamp(0.92rem, 1.1vw, 1.05rem);
-  line-height: 1.6;
-  color: #f4efe3;
+  font-size: clamp(0.8rem, 1vw, 0.92rem);
+  line-height: 1.5;
+  color: var(--color-dark, #293F27);
+  opacity: 0.85;
 }
 
-/* ---------- Puntos (Eficiencia / Resiliencia / Adaptación) ---------- */
-.training__points {
+/* ---------- Callouts (Eficiencia / Resiliencia / Adaptación) ---------- */
+.training__callouts {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   list-style: none;
   margin: 0;
   padding: 0;
-  align-self: flex-end;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(24px, 3.4vw, 36px);
-  max-width: 420px;
 }
 
-.training__point {
+.training__callout {
+  position: absolute;
   display: flex;
-  align-items: flex-start;
-  gap: clamp(14px, 2vw, 20px);
+  align-items: center;
+  gap: clamp(10px, 1.4vw, 18px);
+  max-width: clamp(200px, 24vw, 280px);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.training__callout.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.training__point-marker {
-  flex-shrink: 0;
-  width: 14px;
-  height: 14px;
-  margin-top: 6px;
-  border: 2px solid var(--color-yellow, #e7ff33);
-  border-radius: 4px;
+/* Orden vertical de arriba hacia abajo, siguiendo el wireframe:
+   Resiliencia (hombro) → Eficiencia (torso) → Adaptación (cintura). */
+.training__callout--resiliencia {
+  right: clamp(16px, 5vw, 56px);
+  top: 36%;
+  text-align: left;
+}
+.training__callout--eficiencia {
+  left: clamp(16px, 5vw, 56px);
+  top: 49%;
+  text-align: right;
+}
+.training__callout--adaptacion {
+  right: clamp(16px, 5vw, 56px);
+  top: 60%;
+  text-align: left;
+}
+
+.training__callout-text {
+  min-width: 0;
+}
+
+.training__callout-title {
+  margin: 0 0 2px;
+  font-family: var(--font-script);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--color-lime, #ecff2a);
+  font-size: clamp(1rem, 1.7vw, 1.35rem);
+  line-height: 1;
+}
+
+.training__callout-desc {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(0.7rem, 0.85vw, 0.82rem);
+  line-height: 1.35;
+  color: var(--color-dark, #293F27);
+}
+
+/* Círculo relleno lime con tilde oscuro (antes: cuadrado con borde),
+   igual que en el wireframe. */
+.training__callout-box {
   position: relative;
+  flex-shrink: 0;
+  width: clamp(40px, 3.6vw, 54px);
+  height: clamp(40px, 3.6vw, 54px);
+  background: var(--color-lime, #ecff2a);
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-dark, #293F27);
 }
-.training__point-marker::before {
+
+/* Línea que nace del cuerpo de la mujer y crece hacia el círculo.
+   El ancho ahora se calcula en base al viewport (50vw menos el
+   espacio aprox. que ocupan el texto + el círculo + el margen del
+   borde), para que el extremo "cuerpo" quede siempre cerca del centro
+   real de la pantalla, sin importar el ancho de viewport — antes el
+   largo era fijo y se quedaba corto en pantallas grandes.
+   transform-origin sigue del lado "cuerpo" para que el crecimiento se
+   vea salir desde la figura. */
+.training__callout-box::after {
   content: '';
   position: absolute;
   top: 50%;
-  left: 100%;
-  width: clamp(24px, 3vw, 40px);
+  width: clamp(80px, calc(50vw - 320px), 480px);
   height: 1.5px;
-  background: var(--color-yellow, #e7ff33);
-  transform: translateY(-50%);
+  background: var(--color-lime, #ecff2a);
+  transform: translateY(-50%) scaleX(0);
+  transition: transform 0.7s ease;
+}
+.training__callout--eficiencia .training__callout-box::after {
+  left: 100%;
+  transform-origin: right center; /* extremo derecho = hacia el cuerpo */
+}
+.training__callout--mirror .training__callout-box::after {
+  right: 100%;
+  transform-origin: left center; /* extremo izquierdo = hacia el cuerpo */
+}
+.training__callout.is-visible .training__callout-box::after {
+  transform: translateY(-50%) scaleX(1);
 }
 
-.training__point-title {
-  margin: 0 0 4px;
-  font-family: var(--font-block);
-  font-weight: 800;
-  text-transform: uppercase;
-  color: var(--color-yellow, #e7ff33);
-  font-size: clamp(1.15rem, 1.8vw, 1.5rem);
+.training__callout-check {
+  width: 58%;
+  height: 58%;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-
-.training__point-desc {
-  margin: 0;
-  font-family: var(--font-body);
-  font-size: clamp(0.85rem, 1vw, 0.95rem);
-  line-height: 1.45;
-  color: #f4efe3;
-  max-width: 26ch;
+.training__callout.is-checked .training__callout-check {
+  opacity: 1;
+  transform: scale(1);
 }
 
 /* ============================================
    RESPONSIVE
    ============================================ */
-@media (min-width: 900px) {
-  .training__content {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .training__points { align-self: center; }
+@media (max-width: 900px) {
+  .training { height: 230vh; }
+  .training__callout { max-width: clamp(180px, 34vw, 240px); }
 }
 
-@media (max-width: 600px) {
-  .training { min-height: clamp(520px, 100vh, 760px); align-items: flex-start; }
-  .training__overlay {
-    background: linear-gradient(
-      180deg,
-      rgba(10, 20, 15, 0.15) 0%,
-      rgba(10, 20, 15, 0.7) 55%,
-      rgba(10, 20, 15, 0.85) 100%
-    );
+/* Por debajo de este ancho, el overlay de callouts sobre la foto deja
+   de tener espacio: se apilan debajo, en su propio panel, sin línea
+   (el riel pierde sentido apilado) ni scroll-jack (training.js detecta
+   que .training__sticky ya no es "sticky" y muestra todo revelado). */
+@media (max-width: 680px) {
+  .training { height: auto; }
+  .training__sticky {
+    position: relative;
+    top: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
   }
-  .training__point-marker::before { width: 20px; }
+  .training__bg { position: relative; inset: auto; height: 46vh; }
+  /* .training__bg-top se superpone sobre .training__bg (mismo alto)
+     en vez de apilarse debajo en el flujo: por eso el margin-top
+     negativo, igual a su propia altura. Acá los callouts ya no
+     superponen la foto (pasan a un panel aparte más abajo), así que
+     ya no hace falta que gane en z-index a nada. */
+  .training__bg-top {
+    position: relative;
+    inset: auto;
+    height: 46vh;
+    margin-top: -46vh;
+    z-index: 1;
+  }
+  .training__content { position: relative; top: auto; padding-top: clamp(28px, 8vw, 40px); }
+  .training__intro { text-align: center; }
+
+  .training__callouts {
+    position: relative;
+    inset: auto;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(18px, 5vw, 26px);
+    padding: clamp(28px, 7vw, 40px) var(--container-pad, clamp(20px, 4vw, 64px));
+    background: var(--color-white, #f2eddf);
+  }
+  .training__callout {
+    position: static;
+    max-width: none;
+    text-align: left;
+    opacity: 1;
+    transform: none;
+  }
+  .training__callout--eficiencia { text-align: left; }
+  .training__callout-box::after { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .training { height: auto; }
+  .training__sticky { position: relative; top: auto; height: auto; }
+  .training__bg { position: relative; inset: auto; height: 50vh; }
+  .training__bg-top {
+    position: relative;
+    inset: auto;
+    height: 50vh;
+    margin-top: -50vh;
+    z-index: 1;
+  }
+  .training__content { position: relative; top: auto; padding: clamp(28px, 6vw, 40px) 0; }
+  .training__callouts {
+    position: relative;
+    inset: auto;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(18px, 3vw, 26px);
+    padding: clamp(28px, 6vw, 40px) var(--container-pad, clamp(20px, 4vw, 64px));
+    background: var(--color-white, #f2eddf);
+  }
+  .training__callout { position: static; max-width: none; text-align: left; }
+  .training__callout--eficiencia { text-align: left; }
+  .training__callout-box::after { display: none; }
 }
 
 /* ============================================
@@ -1421,17 +1995,19 @@ ul {
   color: var(--color-red, #ff523c);
 }
 
+/* Logo inline en el título, reemplaza la palabra "cúspides" */
+.experiences__title-logo {
+  height: 1.15em;
+  width: auto;
+  vertical-align: -0.16em;
+  display: inline-block;
+}
+
 .experiences__grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: clamp(10px, 1.4vw, 20px);
   align-items: start;
-}
-
-/* Escalonado: las cards impares (Capilla, Andino, Fitz Roy) quedan más
-   arriba; las pares (Domuyo, Huemul, Lanín) caen ~13% de su propia altura */
-.exp-card:nth-child(even) {
-  margin-top: clamp(24px, 7.5vw, 46px);
 }
 
 /* ---------- Card / flip mechanics ---------- */
@@ -1458,6 +2034,16 @@ ul {
   transform: rotateY(180deg);
 }
 
+/* En dispositivos con mouse real (hover fino), la card se da vuelta al
+   pasar el cursor. El flip por click/tap/teclado (section-7.js, clase
+   .is-flipped) sigue intacto para touch y teclado. */
+@media (hover: hover) and (pointer: fine) {
+  .exp-card:hover .exp-card__inner,
+  .exp-card:focus-within .exp-card__inner {
+    transform: rotateY(180deg);
+  }
+}
+
 .exp-card__face {
   position: absolute;
   inset: 0;
@@ -1477,7 +2063,8 @@ ul {
 .exp-card__photo {
   position: relative;
   width: 100%;
-  flex: 1;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 .exp-card__photo img {
   width: 100%;
@@ -1486,8 +2073,34 @@ ul {
   display: block;
 }
 
+/* Calificación (ej. "4,8 ★"): apoyada arriba a la derecha de la foto */
+.exp-card__rating {
+  position: absolute;
+  top: clamp(10px, 1.4vw, 14px);
+  right: clamp(10px, 1.4vw, 14px);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-script);
+  font-weight: 800;
+  color: var(--color-dark, #293F27);
+  font-size: clamp(0.9rem, 1.5vw, 1.3rem);
+  line-height: 1;
+}
+.exp-card__rating-star {
+  width: clamp(13px, 1.5vw, 17px);
+  height: clamp(13px, 1.5vw, 17px);
+  flex-shrink: 0;
+  color: var(--color-dark, #293F27);
+}
+
 .exp-card__front-body {
+  flex-shrink: 0;
   padding: clamp(12px, 1.6vw, 18px) clamp(14px, 1.8vw, 20px) clamp(16px, 2vw, 22px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.4vw, 14px);
 }
 
 .exp-card__kind {
@@ -1496,42 +2109,67 @@ ul {
   font-weight: 400;
   color: #f4efe3;
   font-size: clamp(0.9rem, 1.55vw, 1.35rem);
-  line-height: 1;
+  line-height: 1.15;
 }
 
 .exp-card__name {
-  margin: 2px 0 10px;
+  margin: 0;
   font-family: var(--font-script);
   font-weight: 700;
   text-transform: uppercase;
   color: #f4efe3;
   font-size: clamp(1.1rem, 1.85vw, 1.6rem);
-  line-height: 0.95;
+  line-height: 1.05;
 }
 
+/* Barra de dificultad del frente: el "relleno" (::before) ocupa un %
+   fijo según el nivel, y ahora cada nivel tiene su propio color para
+   que se distingan de un vistazo (lima=baja, crema=media, verde
+   oscuro=alta). El label incluye el nivel en texto. */
 .exp-card__difficulty {
+  position: relative;
+  width: 100%;
+  height: clamp(20px, 2.2vw, 25px);
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(244, 239, 227, 0.16);
   display: flex;
   align-items: center;
-  gap: 6px;
-  border: 1.3px solid rgba(244, 239, 227, 0.75);
-  border-radius: 999px;
-  padding: 6px 12px;
-  width: fit-content;
+  padding: 0 clamp(10px, 1.4vw, 14px);
+}
+.exp-card__difficulty::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: var(--diff-fill, 50%);
+  background: linear-gradient(90deg, rgba(244, 239, 227, 0.55), rgba(244, 239, 227, 0));
+  z-index: 0;
+}
+.exp-card__difficulty--baja { --diff-fill: 42%; }
+.exp-card__difficulty--media { --diff-fill: 64%; }
+.exp-card__difficulty--alta { --diff-fill: 88%; }
+
+.exp-card__difficulty--baja::before {
+  background: linear-gradient(90deg, var(--color-lime, #ecff2a), rgba(236, 255, 42, 0));
+}
+.exp-card__difficulty--media::before {
+  background: linear-gradient(90deg, rgba(244, 239, 227, 0.95), rgba(244, 239, 227, 0));
+}
+.exp-card__difficulty--alta::before {
+  background: linear-gradient(90deg, var(--color-dark, #293F27), rgba(41, 63, 39, 0));
 }
 
-.exp-card__dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(244, 239, 227, 0.4);
-  flex-shrink: 0;
+.exp-card__difficulty--baja .exp-card__difficulty-label,
+.exp-card__difficulty--media .exp-card__difficulty-label {
+  color: var(--color-dark, #293F27);
 }
-.exp-card__dot.is-filled {
-  background: #f4efe3;
+.exp-card__difficulty--alta .exp-card__difficulty-label {
+  color: var(--color-cream, #f4efe3);
 }
 
 .exp-card__difficulty-label {
-  margin: 0 0 0 4px;
+  position: relative;
+  z-index: 1;
   font-family: var(--font-body);
   font-weight: 700;
   text-transform: uppercase;
@@ -1543,7 +2181,7 @@ ul {
 
 /* ---------- Back ---------- */
 .exp-card__face--back {
-  background: var(--color-cream, #f4efe3);
+  background: var(--color-dark, #293F27);
   transform: rotateY(180deg);
 }
 
@@ -1552,15 +2190,6 @@ ul {
   display: flex;
   flex-direction: column;
   height: 100%;
-}
-
-.exp-card__back-body .exp-card__kind {
-  color: #293F27;
-  opacity: 0.85;
-}
-.exp-card__back-body .exp-card__name {
-  color: var(--color-red, #ff523c);
-  margin-bottom: clamp(10px, 1.4vw, 16px);
 }
 
 .exp-card__meta {
@@ -1572,19 +2201,20 @@ ul {
   text-transform: uppercase;
   font-size: 0.62rem;
   letter-spacing: 0.03em;
-  color: #293F27;
-  opacity: 0.75;
-  border-bottom: 1px solid rgba(41, 63, 39, 0.3);
+  color: var(--color-cream, #f4efe3);
+  opacity: 0.85;
+  border-bottom: 1px solid rgba(244, 239, 227, 0.35);
   padding-bottom: 4px;
   margin-bottom: 4px;
   display: inline-block;
 }
 .exp-card__meta dd {
   margin: 0;
-  font-family: var(--font-display);
-  font-weight: 400;
-  color: #293F27;
-  font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+  /* Panton Rust (--font-script): incluye el número de días, no Bogart. */
+  font-family: var(--font-script);
+  font-weight: 700;
+  color: var(--color-cream, #f4efe3);
+  font-size: clamp(1.1rem, 1.7vw, 1.35rem);
 }
 
 .exp-card__back-label {
@@ -1594,20 +2224,19 @@ ul {
   text-transform: uppercase;
   font-size: 0.62rem;
   letter-spacing: 0.03em;
-  color: #293F27;
-  opacity: 0.75;
-  border-bottom: 1px solid rgba(41, 63, 39, 0.3);
+  color: var(--color-cream, #f4efe3);
+  opacity: 0.85;
+  border-bottom: 1px solid rgba(244, 239, 227, 0.35);
   padding-bottom: 5px;
   display: inline-block;
 }
 
 .exp-card__back-desc {
   margin: 0;
-  flex: 1;
   font-family: var(--font-body);
   font-size: clamp(0.74rem, 0.88vw, 0.85rem);
   line-height: 1.5;
-  color: #293F27;
+  color: var(--color-cream, #f4efe3);
 }
 
 .exp-card__cta {
@@ -1645,24 +2274,35 @@ ul {
    ============================================ */
 @media (max-width: 1024px) {
   .experiences__grid { grid-template-columns: repeat(3, 1fr); row-gap: clamp(40px, 8vw, 64px); }
-  .exp-card:nth-child(even) { margin-top: 0; }
-  .exp-card:nth-child(3n+2) { margin-top: clamp(24px, 5vw, 40px); }
 }
 
 @media (max-width: 600px) {
   .experiences__grid { grid-template-columns: repeat(2, 1fr); }
-  .exp-card:nth-child(3n+2) { margin-top: 0; }
-  .exp-card:nth-child(even) { margin-top: clamp(20px, 8vw, 34px); }
 }
+
+
 
 /* ============================================
    SECTION 8 — ESCUELA DE GUÍAS 2027 + CERTIFICACIONES
-   (usa variables globales: --font-script, --font-block, --font-body,
-   --color-red, --color-cream, --container-pad, .btn)
+   (usa variables globales: --font-display, --font-script, --font-body,
+   --color-dark, --color-red, --color-lime, --color-cream, --container-pad)
+
+   Las cards "Rescate en grietas" / "Primeros auxilios" reutilizan
+   1:1 las clases .course-card de la sección 4 (mismo flip, mismo
+   hover, mismo CSS, mismo section4.js) — no hay reglas de card acá,
+   solo el contenedor .school__cards que las acomoda en esta sección.
    ============================================ */
 
 .school {
-  background: var(--color-cream, #f4efe3);
+  position: relative;
+  z-index: 2;
+  background-color: var(--color-cream, #f4efe3);
+  background-image: url("../assets/img/sect8.png");
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  background-size: cover;
+  border-bottom-left-radius: clamp(24px, 4vw, 56px);
+  border-bottom-right-radius: clamp(24px, 4vw, 56px);
   padding: clamp(48px, 7vw, 96px) var(--container-pad, clamp(20px, 4vw, 64px));
 }
 
@@ -1683,16 +2323,16 @@ ul {
   font-family: var(--font-body);
   font-weight: 700;
   text-transform: uppercase;
-  color: var(--color-red, #ff4e3a);
+  color: var(--color-red, #ff523c);
   font-size: 0.85rem;
   letter-spacing: 0.03em;
 }
 
 .school__title {
   margin: 0;
-  font-family: var(--font-script);
+  font-family: var(--font-display);
   font-weight: 700;
-  color: #354832;
+  color: var(--color-dark, #293F27);
   font-size: clamp(2rem, 4vw, 2.8rem);
   line-height: 1;
 }
@@ -1700,19 +2340,19 @@ ul {
 .school__title-accent {
   display: inline-block;
   margin-top: 4px;
-  font-family: var(--font-block);
+  font-family: var(--font-script);
   font-weight: 800;
   text-transform: uppercase;
-  color: #354832;
+  color: var(--color-red, #ff523c);
   font-size: clamp(2.2rem, 4.4vw, 3.1rem);
 }
 
 .school__title-year {
   display: inline-block;
   margin-top: 2px;
-  font-family: var(--font-block);
+  font-family: var(--font-script);
   font-weight: 800;
-  color: var(--color-red, #ff4e3a);
+  color: var(--color-dark, #293F27);
   font-size: clamp(3.2rem, 6.4vw, 4.6rem);
   line-height: 0.95;
 }
@@ -1724,52 +2364,42 @@ ul {
   color: #5b6350;
 }
 
+/* Mismo estilo de botón lima que el resto de la página (course-card__cta,
+   exp-card__cta, etc.) */
+.school__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-lime, #ecff2a);
+  color: var(--color-dark, #293F27);
+  font-family: var(--font-body);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-size: clamp(0.7rem, 1vw, 0.85rem);
+  padding: clamp(10px, 1.2vw, 13px) clamp(18px, 2.2vw, 24px);
+  border-radius: 999px;
+  border: none;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.school__cta:hover,
+.school__cta:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+}
+.school__cta .btn__arrow {
+  width: 15px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
 /* ---------- Cards Rescate en Grietas / Primeros Auxilios ---------- */
 .school__cards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: clamp(16px, 2vw, 24px);
-}
-
-.school__card {
-  border-radius: 18px;
-  overflow: hidden;
-  background: var(--color-red, #ff4e3a);
-  display: flex;
-  flex-direction: column;
-}
-
-.school__card-photo {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-}
-.school__card-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.school__card-body {
-  padding: clamp(14px, 1.8vw, 20px) clamp(16px, 2vw, 22px) clamp(18px, 2.2vw, 24px);
-}
-
-.school__card-kind {
-  margin: 0;
-  font-family: var(--font-script);
-  font-weight: 700;
-  color: #f4efe3;
-  font-size: clamp(1rem, 1.3vw, 1.2rem);
-}
-
-.school__card-name {
-  margin: 0;
-  font-family: var(--font-block);
-  font-weight: 800;
-  text-transform: uppercase;
-  color: #f4efe3;
-  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
-  line-height: 1;
+  max-width: 560px;
 }
 
 /* ---------- Certificaciones ---------- */
@@ -1795,161 +2425,443 @@ ul {
 }
 
 @media (max-width: 600px) {
-  .school__cards { grid-template-columns: 1fr; }
+  .school__cards { grid-template-columns: repeat(2, 1fr); max-width: 360px; margin: 0 auto; }
 }
 
 
 /* ============================================
    SECTION 9 — TESTIMONIO
-   (usa variables globales: --font-script, --color-yellow, --container-pad)
+   (usa variables globales: --font-display, --font-script, --color-red,
+   --color-lime, --color-white, --color-dark, --color-cream)
+
+   Estructura: foto de fondo a sangre (.testimonial__bg) + velo oscuro
+   (.testimonial__overlay) + una cinta (.testimonial__track) que se
+   desliza lentamente hacia la izquierda dentro de .testimonial__track-wrap.
+   El contenido está triplicado en 3 .testimonial__set idénticos para que
+   el loop sea perfecto (testimonial.js mide el ancho real de un set y
+   envuelve el desplazamiento). Con hover/focus se pausa el auto-scroll
+   (clase .is-paused, aplicada por JS) y también se puede arrastrar a
+   mano (Pointer Events, clase .is-dragging mientras se arrastra).
+
+   El borde inferior redondeado + margin-top negativo hacen que esta
+   sección quede "encajada" entre Escuela de Guías (arriba) y la sección
+   siguiente (abajo), repitiendo el mismo efecto de bordes en cascada.
    ============================================ */
 
 .testimonial {
-  background: var(--color-cream, #f4efe3);
-  padding: clamp(32px, 5vw, 56px) var(--container-pad, clamp(20px, 4vw, 64px));
-}
-
-.testimonial__box {
-  max-width: 900px;
-  margin: 0 auto;
-  background: #5c7350;
-  border-radius: 24px;
-  padding: clamp(36px, 6vw, 64px) clamp(24px, 5vw, 60px);
-  text-align: center;
-}
-
-.testimonial__rating {
-  display: inline-flex;
+  position: relative;
+  isolation: isolate;
+  z-index: 1;
+  margin-top: clamp(-56px, -4vw, -24px);
+  min-height: clamp(480px, 62vw, 640px);
+  display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: clamp(18px, 2.6vw, 28px);
+  overflow: hidden;
+  background: var(--color-dark);
 }
 
-.testimonial__score {
-  font-family: var(--font-block);
-  font-weight: 800;
-  color: var(--color-yellow, #e7ff33);
-  font-size: clamp(1.4rem, 2vw, 1.8rem);
+.testimonial__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  margin: 0;
 }
 
-.testimonial__star {
-  color: var(--color-yellow, #e7ff33);
+.testimonial__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  display: block;
+}
+
+.testimonial__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(41, 63, 39, 0.55) 0%, rgba(41, 63, 39, 0.35) 45%, rgba(41, 63, 39, 0.65) 100%);
+}
+
+.testimonial__track-wrap {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  overflow: hidden;
+  padding: clamp(28px, 4vw, 48px) 0;
+  cursor: grab;
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.testimonial__track-wrap.is-dragging {
+  cursor: grabbing;
+}
+
+/* Desvanece los bordes izquierdo/derecho de la cinta para que las cards
+   entren y salgan de escena con un fundido, no de forma abrupta. */
+.testimonial__track-wrap::before,
+.testimonial__track-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: clamp(32px, 7vw, 110px);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.testimonial__track-wrap::before {
+  left: 0;
+  background: linear-gradient(90deg, rgba(41, 63, 39, 0.55) 0%, rgba(41, 63, 39, 0) 100%);
+}
+
+.testimonial__track-wrap::after {
+  right: 0;
+  background: linear-gradient(270deg, rgba(41, 63, 39, 0.55) 0%, rgba(41, 63, 39, 0) 100%);
+}
+
+.testimonial__track {
+  display: flex;
+  align-items: stretch;
+  gap: clamp(20px, 3vw, 36px);
+  width: max-content;
+  will-change: transform;
+}
+
+.testimonial__set {
+  display: flex;
+  align-items: stretch;
+  gap: clamp(20px, 3vw, 36px);
+  flex-shrink: 0;
+}
+
+.testimonial__item {
+  position: relative;
+  flex-shrink: 0;
+  width: clamp(260px, 30vw, 400px);
+  display: flex;
+  align-items: stretch;
+}
+
+.testimonial__mark {
+  position: absolute;
+  z-index: 2;
+  font-family: 'Bogart', var(--font-display), sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 1;
+  color: var(--color-lime, #ecff2a);
+  font-size: clamp(3rem, 6vw, 4.5rem);
+  pointer-events: none;
+  user-select: none;
+}
+
+.testimonial__mark--open {
+  top: clamp(-6px, -1vw, 0px);
+  left: clamp(-4px, -0.6vw, 4px);
+}
+
+.testimonial__mark--close {
+  bottom: clamp(-30px, -3.4vw, -14px);
+  right: clamp(-4px, -0.6vw, 4px);
+}
+
+.testimonial__card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-height: clamp(150px, 16vw, 190px);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  background: var(--color-dark, #293F27);
+  border-radius: 18px;
+  padding: clamp(22px, 2.6vw, 30px) clamp(24px, 3vw, 34px);
+  box-shadow: 0 18px 40px rgba(20, 30, 18, 0.28);
+}
+
+.testimonial__handle {
+  display: block;
+  text-align: center;
+  font-family: var(--font-script);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--color-lime, #ecff2a);
+  font-size: clamp(0.85rem, 1.1vw, 1rem);
+  margin-bottom: clamp(10px, 1.4vw, 16px);
 }
 
 .testimonial__quote {
-  margin: 0 auto;
-  max-width: 26ch;
-  font-family: var(--font-script);
-  font-weight: 700;
-  font-style: italic;
-  color: #f4efe3;
-  font-size: clamp(1.3rem, 2.6vw, 2rem);
-  line-height: 1.3;
-}
-
-.testimonial__quote::before,
-.testimonial__quote::after {
-  content: '"';
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--color-cream, #f4efe3);
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.45;
 }
 
 /* ============================================
    RESPONSIVE
    ============================================ */
 @media (max-width: 600px) {
-  .testimonial__box { border-radius: 18px; }
+  .testimonial {
+    min-height: clamp(420px, 130vw, 560px);
+  }
+
+  .testimonial__item {
+    width: clamp(220px, 78vw, 300px);
+  }
+
+  .testimonial__card {
+    min-height: clamp(140px, 34vw, 180px);
+    border-radius: 14px;
+  }
+
+  .testimonial__mark {
+    font-size: clamp(2.4rem, 12vw, 3rem);
+  }
 }
 
-
+@media (prefers-reduced-motion: reduce) {
+  .testimonial__track-wrap {
+    overflow-x: auto;
+    cursor: default;
+  }
+}
 /* ============================================
    SECTION 10 — CTA FINAL + FOOTER
-   (usa variables globales: --font-script, --font-block, --font-body,
-   --color-red, --color-cream, --container-pad, .btn)
+   (usa variables globales: --font-display, --font-script, --font-body,
+   --color-red, --color-lime, --color-white, --color-dark, --color-green,
+   --container-pad)
+
+   El margin-top negativo + z-index alto + esquinas superiores
+   redondeadas hacen que esta sección quede encima de Testimonio,
+   tapándole el borde inferior (misma técnica de bordes en cascada
+   usada en los saltos anteriores, pero acá el radio lo aporta esta
+   sección en vez de la de arriba).
    ============================================ */
 
 .final-cta {
   position: relative;
-  background: var(--color-cream, #f4efe3);
+  z-index: 2;
+  margin-top: clamp(-56px, -4vw, -24px);
+  border-top-left-radius: clamp(24px, 4vw, 56px);
+  border-top-right-radius: clamp(24px, 4vw, 56px);
+  background: var(--color-white, #f2eddf);
+}
+
+/* Envuelve inner+divider (no el footer) para que el divisor absoluto se
+   pegue al borde inferior del área crema, no al borde de toda la
+   sección (que incluiría el footer). */
+.final-cta__top {
+  position: relative;
 }
 
 .final-cta__inner {
-  max-width: 760px;
+  max-width: 820px;
   margin: 0 auto;
-  padding: clamp(56px, 8vw, 96px) var(--container-pad, clamp(20px, 4vw, 64px)) clamp(72px, 10vw, 120px);
+  padding: clamp(40px, 6vw, 72px) var(--container-pad, clamp(20px, 4vw, 64px)) clamp(70px, 9vw, 120px);
   text-align: center;
 }
 
 .final-cta__title {
   margin: 0;
-  font-family: var(--font-script);
+  font-family: var(--font-display);
   font-weight: 700;
-  color: #354832;
+  color: var(--color-dark, #293f27);
   font-size: clamp(1.9rem, 3.8vw, 2.9rem);
   line-height: 1.15;
+  /* "#MÉTODOCÚSPIDES" es una sola palabra sin espacios: sin esto,
+     desborda el viewport en pantallas angostas (320px) en vez de
+     partirse a la línea siguiente. */
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .final-cta__title-accent {
-  font-family: var(--font-block);
+  font-family: var(--font-script);
   font-weight: 800;
-  color: var(--color-red, #ff4e3a);
+  color: var(--color-red, #ff523c);
 }
 
 .final-cta__desc {
   margin: clamp(16px, 2.4vw, 24px) auto 0;
-  max-width: 48ch;
+  max-width: 52ch;
   font-family: var(--font-body);
   font-size: clamp(0.92rem, 1.1vw, 1.05rem);
   line-height: 1.6;
   color: #5b6350;
 }
 
-/* ---------- Form ---------- */
+/* ---------- Form ----------
+   Dos filas, cada una una "caja" con borde fino y dos campos-chip
+   adentro (ver wireframe: Nombre+Correo / Teléfono+Edad). */
 .final-cta__form {
   margin: clamp(28px, 4vw, 40px) auto 0;
   max-width: 640px;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  background: #eae3d3;
-  border: 1px solid #d8d0bd;
-  border-radius: 999px;
-  padding: 8px 8px;
+  gap: clamp(12px, 1.6vw, 16px);
+}
+
+.final-cta__row {
+  width: 100%;
+  display: flex;
+  gap: clamp(8px, 1.2vw, 12px);
+  border: 1.5px solid var(--color-dark, #293f27);
+  border-radius: clamp(14px, 2vw, 20px);
+  padding: clamp(8px, 1vw, 10px);
 }
 
 .final-cta__input {
-  flex: 1 1 200px;
+  flex: 1 1 50%;
   min-width: 0;
   border: none;
-  background: transparent;
+  border-radius: clamp(10px, 1.4vw, 14px);
+  background: #d3d1c2;
   font-family: var(--font-body);
   font-size: 0.95rem;
-  color: #354832;
-  padding: 12px 18px;
+  color: var(--color-dark, #293f27);
+  padding: clamp(12px, 1.6vw, 15px) clamp(14px, 1.8vw, 18px);
   outline: none;
+  transition: box-shadow 0.2s ease;
 }
-.final-cta__input::placeholder { color: #7c8270; }
-.final-cta__input + .final-cta__input {
-  border-left: 1px solid #d8d0bd;
+.final-cta__input::placeholder { color: rgba(41, 63, 39, 0.62); }
+.final-cta__input:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-dark, #293f27);
+}
+/* Estado inválido: sólo se marca después de un intento de envío
+   (final-cta.js agrega .is-invalid), no mientras el usuario todavía
+   está escribiendo por primera vez. */
+.final-cta__input.is-invalid {
+  box-shadow: 0 0 0 2px var(--color-red, #ff523c);
 }
 
-.final-cta__submit {
-  flex: 0 0 auto;
-  border: none;
+/* ---------- Selector de rango de edad (dropdown) ---------- */
+.final-cta__field {
+  position: relative;
+  flex: 1 1 50%;
+  min-width: 0;
+}
+
+.final-cta__select-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.final-cta__select-value {
+  color: rgba(41, 63, 39, 0.62);
+}
+.final-cta__field.has-value .final-cta__select-value {
+  color: var(--color-dark, #293f27);
+}
+
+.final-cta__select-caret {
+  flex-shrink: 0;
+  color: var(--color-dark, #293f27);
+  transition: transform 0.2s ease;
+}
+.final-cta__select-trigger[aria-expanded="true"] .final-cta__select-caret {
+  transform: rotate(180deg);
+}
+
+.final-cta__select-list {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 5;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--color-white, #f2eddf);
+  border: 1.5px solid var(--color-dark, #293f27);
+  border-radius: clamp(10px, 1.4vw, 14px);
+  box-shadow: 0 12px 28px rgba(20, 30, 18, 0.18);
+  max-height: 260px;
+  overflow-y: auto;
+}
+.final-cta__select-list[hidden] { display: none; }
+
+.final-cta__select-option {
+  padding: clamp(10px, 1.3vw, 12px) clamp(12px, 1.6vw, 14px);
+  border-radius: clamp(8px, 1vw, 10px);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-dark, #293f27);
   cursor: pointer;
 }
-
-/* ---------- Divisor tipo montaña ---------- */
-.final-cta__divider {
-  display: block;
-  width: 100%;
-  height: clamp(40px, 6vw, 90px);
+.final-cta__select-option:hover,
+.final-cta__select-option.is-active {
+  background: var(--color-lime, #ecff2a);
 }
 
-/* ---------- Footer ---------- */
+.final-cta__select-trigger.is-invalid {
+  box-shadow: 0 0 0 2px var(--color-red, #ff523c);
+}
+
+.final-cta__form-msg {
+  margin: 0;
+  min-height: 1.2em;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--color-dark, #293f27);
+}
+.final-cta__form-msg.is-error { color: var(--color-red, #ff523c); }
+
+/* Mismo estilo de botón lima que el resto de la página (course-card__cta,
+   exp-card__cta, school__cta). */
+.final-cta__submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-lime, #ecff2a);
+  color: var(--color-dark, #293f27);
+  font-family: var(--font-body);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-size: clamp(0.75rem, 1vw, 0.9rem);
+  padding: clamp(12px, 1.4vw, 15px) clamp(24px, 3vw, 32px);
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.final-cta__submit:hover,
+.final-cta__submit:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+}
+.final-cta__submit .btn__arrow {
+  width: 15px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+/* ---------- Footer ----------
+   Sincronizado con el footer del home (misma estructura y clases:
+   logo + redes, 3 columnas de links, copyright). Acá no hay variables
+   --color-white / --color-green como en el home, así que se usan los
+   equivalentes de este archivo: --color-cream y el verde #5c7350 que
+   ya se repite en el resto de esta hoja de estilos. */
 .site-footer {
+  position: relative;
   background: #5c7350;
-  padding: clamp(28px, 4vw, 44px) var(--container-pad, clamp(20px, 4vw, 64px));
-  margin-top: -1px;
+  padding: clamp(28px, 4vw, 44px) var(--container-pad, clamp(20px, 4vw, 64px)) clamp(20px, 3vw, 28px);
 }
 
 .site-footer__inner {
@@ -1957,9 +2869,15 @@ ul {
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 24px;
+  gap: clamp(28px, 4vw, 48px);
+}
+
+.site-footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(18px, 2.4vw, 26px);
 }
 
 .site-footer__logo {
@@ -1967,25 +2885,72 @@ ul {
   width: auto;
 }
 
+.site-footer__socials {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.6vw, 16px);
+}
+
+.site-footer__social {
+  display: inline-flex;
+  color: var(--color-cream, #f4efe3);
+  opacity: 0.95;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.site-footer__social:hover,
+.site-footer__social:focus-visible {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
 .site-footer__col {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+}
+
+.site-footer__col-title {
+  margin: 0 0 2px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-cream, #f4efe3);
 }
 
 .site-footer__col a {
   font-family: var(--font-body);
-  font-weight: 600;
+  font-weight: 500;
   font-size: 0.9rem;
-  color: #f4efe3;
+  color: var(--color-cream, #f4efe3);
   text-decoration: none;
-  opacity: 0.9;
+  opacity: 0.85;
 }
-.site-footer__col a:hover { opacity: 1; text-decoration: underline; }
+.site-footer__col a:hover,
+.site-footer__col a:focus-visible { opacity: 1; text-decoration: underline; }
+
+.site-footer__bottom {
+  max-width: 1360px;
+  margin: clamp(24px, 3.4vw, 36px) auto 0;
+  padding-top: clamp(16px, 2vw, 22px);
+  border-top: 1px solid rgba(244, 239, 227, 0.25);
+  text-align: center;
+}
+
+.site-footer__copyright {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--color-cream, #f4efe3);
+  opacity: 0.85;
+}
 
 /* ============================================
    RESPONSIVE
    ============================================ */
+@media (max-width: 700px) {
+  .site-footer__inner { gap: clamp(28px, 6vw, 40px) clamp(32px, 8vw, 64px); }
+}
+
 @media (max-width: 600px) {
   .final-cta__form {
     border-radius: 20px;
@@ -2004,5 +2969,6 @@ ul {
   .final-cta__input + .final-cta__input { border-left: 1px solid #d8d0bd; }
   .final-cta__submit { width: 100%; justify-content: center; }
 
+  .final-cta__divider { height: clamp(60px, 24vw, 110px); }
   .site-footer__inner { flex-direction: column; align-items: flex-start; }
 }

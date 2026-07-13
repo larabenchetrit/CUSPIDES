@@ -12,18 +12,38 @@
   <section class="hero">
     <div class="hero__pin">
 
-      <!-- Capa de fondo: montaña con cielo celeste (única, estática) -->
+      <!-- Capa de fondo (detrás de todo): foto completa, con cielo y sol.
+           Estática, siempre visible como base del hero. -->
       <div class="hero__bg hero__bg--back">
-        <img src="assets/home/heroatras.jpg" alt="Vista de la montaña con cielo despejado">
+        <img src="assets/img/heroarriba.jpg" alt="Vista panorámica de la cordillera patagónica al amanecer, con dos andinistas ascendiendo una cresta rocosa entre nubes">
+      </div>
+
+      <!-- Título: capa del medio, entre el fondo (heroabajo) y la capa
+           frontal (heroarriba). Al cargar la página se revela con un
+           difuminado + escala (ver keyframes heroTitleReveal en el CSS). -->
+      <h1 class="hero__title">
+        <span class="hero__title-line hero__title-line--script">Viví la montaña</span>
+        <span class="hero__title-line hero__title-line--display">Desde adentro</span>
+      </h1>
+
+      <!-- Capa frontal (delante del título, detrás del resto del contenido):
+           pico + nubes. Mismo tamaño y posición exactos que la capa de
+           fondo (mismo object-fit: cover) y totalmente estática, sin
+           movimiento de scroll. Un mask-image en CSS (--front-reveal-start
+           / --front-reveal-end en style.css) desvanece su franja superior
+           para que el título siempre se lea, sin taparlo. -->
+      <div class="hero__bg hero__bg--front" id="heroFront" aria-hidden="true">
+        <img src="assets/img/heroarriba.png" alt="">
       </div>
 
       <!-- Navbar -->
       <header class="navbar">
         <a href="#" class="navbar__logo">
-          <img src="assets/home/logo2.png" alt="Cúspides">
+          <img src="assets/img/logo1_3.png" alt="Cúspides">
         </a>
         <nav class="navbar__nav">
           <ul class="navbar__list">
+            <li class="navbar__item"><a href="#" class="navbar__link">Inicio</a></li>
             <li class="navbar__item"><a href="#quienes-somos" class="navbar__link">Quiénes somos</a></li>
             <li class="navbar__item"><a href="detalle-habitar.html" class="navbar__link">Cursos</a></li>
             <li class="navbar__item"><a href="#" class="navbar__link">Expediciones</a></li>
@@ -32,20 +52,17 @@
         </nav>
       </header>
 
-      <!-- Contenido del hero -->
+      <!-- Resto del contenido (subtítulo + botón): por encima de las 3
+           capas anteriores (fondo, título, frente), siempre legible. -->
       <div class="hero__content">
-        <h1 class="hero__title">
-          <span class="hero__title-line hero__title-line--script">Viví la montaña</span>
-          <span class="hero__title-line hero__title-line--display">Desde adentro</span>
-        </h1>
         <div class="hero__bottom">
           <p class="hero__subtitle">
             Expediciones, formación y acompañamiento<br>
             profesional en la Patagonia.
           </p>
-          <a href="#" class="hero__button">
+          <a href="#quienes-somos" class="hero__button">
             <span>Ver más</span>
-            <svg class="hero__button-icon" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="hero__button-icon" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M1 7H17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
               <path d="M11 1L17 7L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -53,15 +70,8 @@
         </div>
       </div>
 
-     
-
     </div>
   </section>
-
- 
-
-  
-
 
      <!-- ============================================
      SECTION 1 — QUIÉNES SOMOS + ESTADÍSTICAS
@@ -69,37 +79,28 @@
 <section class="about-stats" id="quienes-somos">
   <div class="about-stats__inner">
 
-    <div class="about-stats__text">
-      <h2 class="about-stats__heading">
-        Somos <span class="about-stats__heading-accent">guías</span><br>
-        <span class="about-stats__heading-block">DE MONTAÑA</span><br>
-        nacidos y formados
-        en La Patagonia
-      </h2>
-      <p class="about-stats__desc">
-        Diseñamos programas de aventura a medida porque entendemos
-        que cada objetivo exige un camino diferente.
-      </p>
-    </div>
+    <h2 class="about-stats__heading">
+      Somos guías
+      <span class="about-stats__heading-block">DE MONTAÑA</span>
+    </h2>
 
-    <div class="about-stats__media">
-      <figure class="about-stats__image">
-        <img src="assets/home/section1.jpg" alt="Cordillera y lago glaciar en la Patagonia">
-      </figure>
+    <p class="about-stats__desc">
+      Diseñamos programas de aventura a medida porque entendemos
+      que cada objetivo exige un camino diferente.
+    </p>
 
-      <div class="stats" id="statsCounter">
-        <div class="stat">
-          <span class="stat__number" data-target="782">0</span>
-          <span class="stat__label">Socios</span>
-        </div>
-        <div class="stat">
-          <span class="stat__number" data-target="94">0</span>
-          <span class="stat__label">Guías</span>
-        </div>
-        <div class="stat">
-          <span class="stat__number" data-target="1219">0</span>
-          <span class="stat__label">Aventuras</span>
-        </div>
+    <div class="stats" id="statsCounter">
+      <div class="stat">
+        <span class="stat__number" data-target="782">0</span>
+        <span class="stat__label">Socios</span>
+      </div>
+      <div class="stat">
+        <span class="stat__number" data-target="1219">0</span>
+        <span class="stat__label">Aventuras</span>
+      </div>
+      <div class="stat">
+        <span class="stat__number" data-target="94">0</span>
+        <span class="stat__label">Guías</span>
       </div>
     </div>
 
@@ -109,79 +110,103 @@
 
 
 <!-- ============================================
-     SECTION 2 — NO PROMETEMOS COMODIDAD
+     SECTION 2 — CITA "CADA EXPEDICIÓN COMIENZA..."
+     El texto queda pineado en pantalla (position: sticky) y cada
+     palabra se revela de forma progresiva y fluida a medida que se
+     scrollea la sección — ver manifesto.js. La posición del texto
+     en pantalla no cambia mientras dura la revelación.
      ============================================ -->
 <section class="manifesto" id="manifesto">
-  <picture class="manifesto__bg">
-    <img src="assets/home/section2.jpg" alt="Andinistas escalando una cresta rocosa al amanecer" loading="lazy">
-  </picture>
-  <div class="manifesto__overlay" aria-hidden="true"></div>
+  <div class="manifesto__sticky">
 
-  <div class="manifesto__content">
-    <h2 class="manifesto__title">
-      No prometemos <span class="manifesto__title-accent">COMODiDAD.</span><br>
-      No vendemos <span class="manifesto__title-accent">TURiSMO.</span><br>
-      No somos para <span class="manifesto__title-accent">TODOS.</span>
-    </h2>
-    <p class="manifesto__desc">
-      Somos para quienes sienten atracción por el desafío y entienden
-      que cada expedición comienza mucho antes de dar el primer paso
-      en la montaña.
-    </p>
+    <picture class="manifesto__bg">
+      <img src="assets/img/sect2a.jpg" alt="Cordillera patagónica con glaciar y lago, vista desde una cresta rocosa" loading="lazy">
+    </picture>
+    <div class="manifesto__overlay" aria-hidden="true"></div>
+
+    <div class="manifesto__content">
+      <p class="manifesto__quote">
+        <span class="manifesto__word">“Cada</span>
+        <span class="manifesto__word">expedición</span>
+        <span class="manifesto__word">comienza</span>
+        <span class="manifesto__word">mucho</span>
+        <span class="manifesto__word">antes</span>
+        <span class="manifesto__word">de</span>
+        <span class="manifesto__word">dar</span>
+        <span class="manifesto__word">el</span>
+        <span class="manifesto__word manifesto__word--accent">primer</span>
+        <span class="manifesto__word manifesto__word--accent">paso</span>
+        <span class="manifesto__word">en</span>
+        <span class="manifesto__word">la</span>
+        <span class="manifesto__word">montaña.”</span>
+      </p>
+    </div>
+
   </div>
 </section>
 
 <!-- ============================================
      SECTION 3 — EL MÉTODO CÚSPIDES
+     Título y bajada quedan fijos en el centro de la pantalla. Las
+     cards quedan todas en el mismo lugar (superpuestas) y, a medida
+     que se scrollea la sección, cada una va tapando a la anterior
+     hasta llegar a la última. Al scrollear para arriba, se van
+     destapando de a una hasta volver a mostrar la primera — ver
+     method.js.
+
+     Fallback sin JS / con "menos movimiento": las cards se muestran
+     en una lista vertical normal, una debajo de la otra, con scroll
+     de página nativo (sin pin ni superposición).
      ============================================ -->
 <section class="method" id="metodo">
+  <div class="method__sticky">
 
- 
-  <div class="method__body">
-    <h2 class="method__title">
-      El método
-      <span class="method__title-brand">
-        <svg viewBox="0 0 60 34" class="method__title-icon"><path d="M2 26 L16 8 L24 16 L34 4 L40 12 L58 26" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        cúspides
-      </span>
-    </h2>
-    <p class="method__subtitle">Diseñado para llegar preparado.</p>
-
-    <div class="method__steps">
-
-      <article class="step">
-        <span class="step__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="2"/><path d="M20 20L15.2 15.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        </span>
-        <h3 class="step__title">Diagnóstico</h3>
-        <p class="step__desc">Analizamos tu experiencia, condición física y objetivo.</p>
-      </article>
-
-      <article class="step">
-        <span class="step__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="2"/><path d="M9 8h6M9 12h6M9 16h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        </span>
-        <h3 class="step__title">Planificación</h3>
-        <p class="step__desc">Diseñamos un programa personalizado de entrenamiento y preparación.</p>
-      </article>
-
-      <article class="step">
-        <span class="step__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M3 19L9 8l4 6 2-3 6 8H3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
-        </span>
-        <h3 class="step__title">Formación</h3>
-        <p class="step__desc">Desarrollás técnica, criterio y habilidades para moverte en la montaña.</p>
-      </article>
-
-      <article class="step">
-        <span class="step__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M6 3v18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M6 4h11l-3 4 3 4H6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
-        </span>
-        <h3 class="step__title">Expedición</h3>
-        <p class="step__desc">Aplicás todo el proceso acompañado por guías profesionales.</p>
-      </article>
-
+    <div class="method__intro">
+      <h2 class="method__title">
+        El método
+        <img src="assets/img/logo1_3.png" alt="cúspides" class="method__title-logo">
+      </h2>
+      <p class="method__subtitle">Diseñado para llegar preparado.</p>
     </div>
+
+    <div class="method__stage" id="methodStage">
+      <div class="method__cards">
+
+        <article class="step">
+          <span class="step__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="2"/><path d="M20 20L15.2 15.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </span>
+          <h3 class="step__title">Diagnóstico</h3>
+          <p class="step__desc">Analizamos tu experiencia, condición física y objetivo.</p>
+        </article>
+
+        <article class="step">
+          <span class="step__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="2"/><path d="M9 8h6M9 12h6M9 16h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </span>
+          <h3 class="step__title">Planificación</h3>
+          <p class="step__desc">Diseñamos un programa personalizado de entrenamiento y preparación.</p>
+        </article>
+
+        <article class="step">
+          <span class="step__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 19L9 8l4 6 2-3 6 8H3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+          </span>
+          <h3 class="step__title">Formación</h3>
+          <p class="step__desc">Desarrollás técnica, criterio y habilidades para moverte en la montaña.</p>
+        </article>
+
+        <article class="step">
+          <span class="step__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M6 3v18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M6 4h11l-3 4 3 4H6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+          </span>
+          <h3 class="step__title">Expedición</h3>
+          <p class="step__desc">Aplicás todo el proceso acompañado por guías profesionales.</p>
+        </article>
+
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -192,9 +217,13 @@
 <section class="courses" id="cursos">
   <div class="courses__inner">
 
+    <p class="courses__eyebrow">Nuestros cursos</p>
     <h2 class="courses__title">
       Instruíte para la <span class="courses__title-accent">AVENTURA</span>
     </h2>
+    <p class="courses__subtitle">
+      Aprendé a habitar la montaña, desarrollá autonomía y enfrentá desafíos de mayor complejidad.
+    </p>
 
     <div class="courses__grid">
 
@@ -204,24 +233,19 @@
 
           <div class="course-card__face course-card__face--front">
             <div class="course-card__photo">
-              <img src="assets/home/section4a.jpg" alt="Andinista con bastones de trekking">
+              <img src="assets/img/curso1.jpg" alt="Andinista escalando una pared de roca con arnés y mosquetones">
             </div>
             <div class="course-card__front-body">
-              <p class="course-card__eyebrow">Curso</p>
+              <div class="course-card__front-top">
+                <p class="course-card__eyebrow">Curso</p>
+                <span class="course-card__level">Avanzados</span>
+              </div>
               <h3 class="course-card__name">AUTONOMÍA</h3>
-              <span class="course-card__level">Avanzados</span>
-              <a href="detalle-autonomia.html" class="btn btn--primary course-card__cta">
-                VER MÁS
-                <svg class="btn__arrow" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M1 7H17M17 7L11 1M17 7L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </a>
+              <p class="course-card__price">$702.000</p>
             </div>
           </div>
 
           <div class="course-card__face course-card__face--back">
-            <img class="course-card__back-bg" src="assets/home/card.jpg" alt="">
-            <div class="course-card__back-overlay"></div>
             <div class="course-card__back-body">
 
               <div class="course-card__back-top">
@@ -244,16 +268,19 @@
               <div class="course-card__back-desc-block">
                 <p class="course-card__back-label">Descripción:</p>
                 <p class="course-card__back-desc">
-                  Este programa propone otra forma de vivir la montaña, aprender
-                  a comprender el entorno, moverte con confianza y construir
-                  una base sólida.
+                  Este programa está pensado para quienes buscan dar el siguiente
+                  paso: desarrollar criterio, tomar decisiones con seguridad y
+                  desenvolverse con mayor independencia en escenarios de montaña.
                 </p>
               </div>
 
               <div class="course-card__back-footer">
-                <p class="course-card__eyebrow">Curso</p>
+                <div class="course-card__front-top">
+                  <p class="course-card__eyebrow">Curso</p>
+                  <span class="course-card__level">Avanzados</span>
+                </div>
                 <h3 class="course-card__name">AUTONOMÍA</h3>
-                <span class="course-card__level">Avanzados</span>
+                <p class="course-card__price">$702.000</p>
                 <a href="detalle-autonomia.html" class="btn btn--primary course-card__cta">
                   VER MÁS
                   <svg class="btn__arrow" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -268,30 +295,26 @@
         </div>
       </div>
 
-      <!-- Card 2: HABITAR -->
-      <div class="course-card" tabindex="0" role="button" aria-pressed="false" aria-label="Curso Habitar, tocar para ver detalle">
+      <!-- Card 2: HABITAR (destacada — "El más elegido") -->
+      <div class="course-card course-card--featured" tabindex="0" role="button" aria-pressed="false" aria-label="Curso Habitar, tocar para ver detalle">
         <div class="course-card__inner">
 
           <div class="course-card__face course-card__face--front">
             <div class="course-card__photo">
-              <img src="assets/home/section4b.jpg" alt="Grupo caminando en la montaña al atardecer">
+              <img src="assets/img/curso2.jpg" alt="Andinista preparando la cuerda en la cima, con compañeros de expedición al fondo">
+              <span class="course-card__badge">El más elegido</span>
             </div>
             <div class="course-card__front-body">
-              <p class="course-card__eyebrow">Curso</p>
+              <div class="course-card__front-top">
+                <p class="course-card__eyebrow">Curso</p>
+                <span class="course-card__level">Principiantes</span>
+              </div>
               <h3 class="course-card__name">HABITAR</h3>
-              <span class="course-card__level">Principiantes</span>
-              <a href="detalle-habitar.html" class="btn btn--primary course-card__cta">
-                VER MÁS
-                <svg class="btn__arrow" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M1 7H17M17 7L11 1M17 7L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </a>
+              <p class="course-card__price">$250.000</p>
             </div>
           </div>
 
           <div class="course-card__face course-card__face--back">
-            <img class="course-card__back-bg" src="assets/home/card.jpg" alt="">
-            <div class="course-card__back-overlay"></div>
             <div class="course-card__back-body">
 
               <div class="course-card__back-top">
@@ -314,16 +337,19 @@
               <div class="course-card__back-desc-block">
                 <p class="course-card__back-label">Descripción:</p>
                 <p class="course-card__back-desc">
-                  Este programa propone otra forma de vivir la montaña, aprender
-                  a comprender el entorno, moverte con confianza y construir
-                  una base sólida.
+                  Este programa propone una nueva forma de vivir la montaña:
+                  comprender el entorno, moverte con confianza y construir las
+                  bases físicas, técnicas y mentales para comenzar a habitarla.
                 </p>
               </div>
 
               <div class="course-card__back-footer">
-                <p class="course-card__eyebrow">Curso</p>
+                <div class="course-card__front-top">
+                  <p class="course-card__eyebrow">Curso</p>
+                  <span class="course-card__level">Principiantes</span>
+                </div>
                 <h3 class="course-card__name">HABITAR</h3>
-                <span class="course-card__level">Principiantes</span>
+                <p class="course-card__price">$250.000</p>
                 <a href="detalle-habitar.html" class="btn btn--primary course-card__cta">
                   VER MÁS
                   <svg class="btn__arrow" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -344,24 +370,19 @@
 
           <div class="course-card__face course-card__face--front">
             <div class="course-card__photo">
-              <img src="assets/home/section4c.jpg" alt="Andinista escalando una roca">
+              <img src="assets/img/curso3.jpg" alt="Andinista con mochila y bastones de trekking observando picos nevados">
             </div>
             <div class="course-card__front-body">
-              <p class="course-card__eyebrow">Curso</p>
+              <div class="course-card__front-top">
+                <p class="course-card__eyebrow">Curso</p>
+                <span class="course-card__level">Expertos</span>
+              </div>
               <h3 class="course-card__name">EXPEDICIÓN</h3>
-              <span class="course-card__level">Expertos</span>
-              <a href="detalle-expedicion.html" class="btn btn--primary course-card__cta">
-                VER MÁS
-                <svg class="btn__arrow" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M1 7H17M17 7L11 1M17 7L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </a>
+              <p class="course-card__price">$912.000</p>
             </div>
           </div>
 
           <div class="course-card__face course-card__face--back">
-            <img class="course-card__back-bg" src="assets/home/card.jpg" alt="">
-            <div class="course-card__back-overlay"></div>
             <div class="course-card__back-body">
 
               <div class="course-card__back-top">
@@ -370,30 +391,34 @@
                     <svg viewBox="0 0 24 24" fill="none"><rect x="2.5" y="4" width="19" height="13" rx="1.5" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 20.5h7M12 17v3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
                   </span>
                   <dt>Modalidad:</dt>
-                  <dd>Presencial</dd>
+                  <dd>Mixta</dd>
                 </dl>
                 <dl class="course-card__meta-item">
                   <span class="course-card__back-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4.5" width="18" height="16" rx="1.8" stroke="currentColor" stroke-width="1.8"/><path d="M3 9.5h18M7.5 2.5v4M16.5 2.5v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
                   </span>
                   <dt>Duración:</dt>
-                  <dd>2 meses</dd>
+                  <dd>7 meses</dd>
                 </dl>
               </div>
 
               <div class="course-card__back-desc-block">
                 <p class="course-card__back-label">Descripción:</p>
                 <p class="course-card__back-desc">
-                  Este programa propone otra forma de vivir la montaña, aprender
-                  a comprender el entorno, moverte con confianza y construir
-                  una base sólida.
+                  Este programa te prepara para enfrentar desafíos de alta
+                  exigencia mediante un entrenamiento integral: la preparación
+                  física, la técnica y la fortaleza mental convergen para vivir
+                  una expedición con confianza.
                 </p>
               </div>
 
               <div class="course-card__back-footer">
-                <p class="course-card__eyebrow">Curso</p>
+                <div class="course-card__front-top">
+                  <p class="course-card__eyebrow">Curso</p>
+                  <span class="course-card__level">Expertos</span>
+                </div>
                 <h3 class="course-card__name">EXPEDICIÓN</h3>
-                <span class="course-card__level">Expertos</span>
+                <p class="course-card__price">$912.000</p>
                 <a href="detalle-expedicion.html" class="btn btn--primary course-card__cta">
                   VER MÁS
                   <svg class="btn__arrow" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -419,17 +444,20 @@
      SECTION 5 — ¿POR QUÉ ENTRENAR DURANTE MESES?
      ============================================ -->
 <section class="why-train" id="por-que-entrenar">
-  <picture class="why-train__bg">
-    <img src="assets/img/section5.jpg" alt="Cordillera patagónica" loading="lazy">
-  </picture>
-
-  <div class="why-train__panel">
+  <!--
+    Riel de scroll: .why-train es más alta que 100vh para dar "pista" de
+    scroll; .why-train__sticky se queda fija en pantalla (una sola
+    pantalla, como el resto de las secciones) mientras why-train.js usa
+    ese recorrido para ir pintando cada razón de rojo en orden 1→2→3
+    (y despintando si se scrollea hacia arriba).
+  -->
+  <div class="why-train__sticky">
     <div class="why-train__inner">
 
       <div class="why-train__intro">
         <h2 class="why-train__title">
           ¿Por qué entrenar<br>
-          <span class="why-train__title-accent">DURANTE MESES</span>?
+          <span class="why-train__title-accent">DURANTE MESES?</span>
         </h2>
         <p class="why-train__desc">
           Porque el día de la expedición no es el momento para improvisar,
@@ -437,26 +465,34 @@
         </p>
       </div>
 
-      <ol class="why-train__list">
-        <li class="why-train__item">
-          <span class="why-train__number">1.</span>
-          <p class="why-train__text">
-            Preparar el cuerpo <span class="why-train__accent">REDUCE EL DESGASTE</span>
-          </p>
-        </li>
-        <li class="why-train__item">
-          <span class="why-train__number">2.</span>
-          <p class="why-train__text">
-            Preparar la mente permite <span class="why-train__accent">DISFRUTAR EL PROCESO</span>
-          </p>
-        </li>
-        <li class="why-train__item">
-          <span class="why-train__number">3.</span>
-          <p class="why-train__text">
-            Preparar la técnica <span class="why-train__accent">AUMENTA LA SEGURiDAD</span>
-          </p>
-        </li>
-      </ol>
+      <div class="why-train__list-wrap">
+        <!-- Línea única, sin cortes: se posiciona y se colorea desde why-train.js -->
+        <div class="why-train__line" id="whyTrainLine" aria-hidden="true"></div>
+
+        <ol class="why-train__list" id="whyTrainList">
+          <li class="why-train__item">
+            <span class="why-train__number">1</span>
+            <span class="why-train__dot-col"><span class="why-train__dot" aria-hidden="true"></span></span>
+            <p class="why-train__text">
+              Para preparar el cuerpo y <span class="why-train__accent">REDUCIR EL DESGASTE</span>
+            </p>
+          </li>
+          <li class="why-train__item">
+            <span class="why-train__number">2</span>
+            <span class="why-train__dot-col"><span class="why-train__dot" aria-hidden="true"></span></span>
+            <p class="why-train__text">
+              Para preparar la mente y <span class="why-train__accent">DISFRUTAR DEL PROCESO</span>
+            </p>
+          </li>
+          <li class="why-train__item">
+            <span class="why-train__number">3</span>
+            <span class="why-train__dot-col"><span class="why-train__dot" aria-hidden="true"></span></span>
+            <p class="why-train__text">
+              Para preparar la técnica y <span class="why-train__accent">AUMENTAR LA SEGURIDAD</span>
+            </p>
+          </li>
+        </ol>
+      </div>
 
     </div>
   </div>
@@ -466,52 +502,82 @@
      SECTION 6 — EL MEJOR ENTRENAMIENTO PARA LA MONTAÑA
      ============================================ -->
 <section class="training" id="entrenamiento">
-  <picture class="training__bg">
-    <img src="assets/home/section6.jpg" alt="Andinista con piolet en la cumbre bajo cielo despejado" loading="lazy">
-  </picture>
-  <div class="training__overlay" aria-hidden="true"></div>
+  <!--
+    Riel de scroll (mismo patrón que .manifesto / .method / .why-train):
+    .training es más alta que 100vh; .training__sticky se queda fija en
+    una sola pantalla. training.js recorre ese riel y va revelando cada
+    callout (línea + título + texto) en orden 1→2→3 —línea que nace
+    desde el cuerpo de la mujer en la foto y crece hacia el texto—, y
+    justo después de cada uno, el tilde dentro del círculo. Al scrollear
+    hacia arriba el proceso se invierte: todo se retrae y desaparece.
 
-  <div class="training__content">
+    .training__bg-top (sect6arriba.png) es una segunda capa de imagen,
+    con el mismo encuadre/tamaño que la foto base (sect6.jpg), pero
+    ubicada por delante de .training__callouts —incluidas las líneas
+    que nacen de los círculos—, no detrás como la foto de fondo.
+  -->
+  <div class="training__sticky">
 
-    <div class="training__intro">
-      <h2 class="training__title">
-        El <span class="training__title-accent">MEJOR</span><br>
-        entrenamiento<br>
-        para la montaña
-      </h2>
-      <p class="training__desc">
-        Tu cuerpo es el verdadero equipo.<br>
-        No se trata de tener el cuerpo más grande,
-        sino el más preparado para la montaña.
-      </p>
+    <picture class="training__bg">
+      <img src="assets/img/sect6.jpg" alt="Mujer alpinista con casco, piolet y cuerda en la cumbre de una montaña patagónica" loading="lazy">
+    </picture>
+
+    <div class="training__bg-top" aria-hidden="true">
+      <img src="assets/img/sect6arriba_3.png" alt="" loading="lazy">
     </div>
 
-    <ul class="training__points">
-      <li class="training__point">
-        <span class="training__point-marker" aria-hidden="true"></span>
-        <div class="training__point-body">
-          <h3 class="training__point-title">Eficiencia</h3>
-          <p class="training__point-desc">Menos energía desperdiciada, más avance.</p>
+    <div class="training__content">
+      <div class="training__intro">
+        <h2 class="training__title">
+          El mejor<br>
+          <span class="training__title-accent">ENTRENAMIENTO</span><br>
+          para la montaña
+        </h2>
+
+      </div>
+    </div>
+
+    <ul class="training__callouts" id="trainingCallouts">
+      <li class="training__callout training__callout--eficiencia">
+        <div class="training__callout-text">
+          <h3 class="training__callout-title">Eficiencia</h3>
+          <p class="training__callout-desc">Menos energía desperdiciada, más avance.</p>
+        </div>
+        <span class="training__callout-box" aria-hidden="true">
+          <svg class="training__callout-check" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12.5L10 17.5L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </li>
+
+      <li class="training__callout training__callout--resiliencia training__callout--mirror">
+        <span class="training__callout-box" aria-hidden="true">
+          <svg class="training__callout-check" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12.5L10 17.5L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <div class="training__callout-text">
+          <h3 class="training__callout-title">Resiliencia</h3>
+          <p class="training__callout-desc">Menos riesgo de lesión, más días en la montaña.</p>
         </div>
       </li>
-      <li class="training__point">
-        <span class="training__point-marker" aria-hidden="true"></span>
-        <div class="training__point-body">
-          <h3 class="training__point-title">Resiliencia</h3>
-          <p class="training__point-desc">Menos riesgo de lesión, más días en la montaña.</p>
-        </div>
-      </li>
-      <li class="training__point">
-        <span class="training__point-marker" aria-hidden="true"></span>
-        <div class="training__point-body">
-          <h3 class="training__point-title">Adaptación</h3>
-          <p class="training__point-desc">Mejor respuesta a cualquier terreno y condición.</p>
+
+      <li class="training__callout training__callout--adaptacion training__callout--mirror">
+        <span class="training__callout-box" aria-hidden="true">
+          <svg class="training__callout-check" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12.5L10 17.5L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <div class="training__callout-text">
+          <h3 class="training__callout-title">Adaptación</h3>
+          <p class="training__callout-desc">Mejor respuesta a cualquier terreno y condición.</p>
         </div>
       </li>
     </ul>
 
   </div>
 </section>
+
 
 <!-- ============================================
      SECTION 7 — CON CÚSPIDES COLECCIONÁ EXPERIENCIAS
@@ -520,7 +586,7 @@
   <div class="experiences__inner">
 
     <h2 class="experiences__title">
-      Con cúspides<br>
+      Con <img src="assets/img/logo1_3.png" alt="Cúspides" class="experiences__title-logo"><br>
       coleccioná <span class="experiences__title-accent">EXPERIENCIAS</span>
     </h2>
 
@@ -531,23 +597,24 @@
         <div class="exp-card__inner">
           <div class="exp-card__face exp-card__face--front">
             <div class="exp-card__photo">
-              <img src="assets/home/section7a.jpg" alt="Cerro Capilla, Bariloche">
+              <img src="assets/img/exp1.jpg" alt="Cerro Capilla, Bariloche">
+              <span class="exp-card__rating" aria-label="Calificación 4,8 de 5">
+                4,8
+                <svg class="exp-card__rating-star" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path d="M10 1l2.47 5.51L18 7.24l-4.5 3.93L14.9 17 10 13.9 5.1 17l1.4-5.83L2 7.24l5.53-.73L10 1z"/>
+                </svg>
+              </span>
             </div>
             <div class="exp-card__front-body">
               <p class="exp-card__kind">Cerro</p>
               <h3 class="exp-card__name">CAPILLA</h3>
-              <div class="exp-card__difficulty" aria-label="Dificultad baja">
-                <span class="exp-card__dot is-filled"></span>
-                <span class="exp-card__dot"></span>
-                <span class="exp-card__dot"></span>
+              <div class="exp-card__difficulty exp-card__difficulty--baja" aria-hidden="true">
                 <span class="exp-card__difficulty-label">Dificultad baja</span>
               </div>
             </div>
           </div>
           <div class="exp-card__face exp-card__face--back">
             <div class="exp-card__back-body">
-              <p class="exp-card__kind">Cerro</p>
-              <h3 class="exp-card__name">CAPILLA</h3>
               <dl class="exp-card__meta">
                 <dt>Duración:</dt>
                 <dd>3 días</dd>
@@ -573,23 +640,24 @@
         <div class="exp-card__inner">
           <div class="exp-card__face exp-card__face--front">
             <div class="exp-card__photo">
-              <img src="assets/home/section7b.jpg" alt="Volcán Domuyo, Neuquén">
+              <img src="assets/img/exp2.jpg" alt="Volcán Domuyo, Neuquén">
+              <span class="exp-card__rating" aria-label="Calificación 5,0 de 5">
+                5,0
+                <svg class="exp-card__rating-star" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path d="M10 1l2.47 5.51L18 7.24l-4.5 3.93L14.9 17 10 13.9 5.1 17l1.4-5.83L2 7.24l5.53-.73L10 1z"/>
+                </svg>
+              </span>
             </div>
             <div class="exp-card__front-body">
               <p class="exp-card__kind">Volcán</p>
               <h3 class="exp-card__name">DOMUYO</h3>
-              <div class="exp-card__difficulty" aria-label="Dificultad media">
-                <span class="exp-card__dot is-filled"></span>
-                <span class="exp-card__dot is-filled"></span>
-                <span class="exp-card__dot"></span>
+              <div class="exp-card__difficulty exp-card__difficulty--media" aria-hidden="true">
                 <span class="exp-card__difficulty-label">Dificultad media</span>
               </div>
             </div>
           </div>
           <div class="exp-card__face exp-card__face--back">
             <div class="exp-card__back-body">
-              <p class="exp-card__kind">Volcán</p>
-              <h3 class="exp-card__name">DOMUYO</h3>
               <dl class="exp-card__meta">
                 <dt>Duración:</dt>
                 <dd>7 días</dd>
@@ -615,23 +683,24 @@
         <div class="exp-card__inner">
           <div class="exp-card__face exp-card__face--front">
             <div class="exp-card__photo">
-              <img src="assets/home/section7c.jpg" alt="Cruce Andino, Selva Valdiviana">
+              <img src="assets/img/exp3.jpg" alt="Cruce Andino, Selva Valdiviana">
+              <span class="exp-card__rating" aria-label="Calificación 4,9 de 5">
+                4,9
+                <svg class="exp-card__rating-star" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path d="M10 1l2.47 5.51L18 7.24l-4.5 3.93L14.9 17 10 13.9 5.1 17l1.4-5.83L2 7.24l5.53-.73L10 1z"/>
+                </svg>
+              </span>
             </div>
             <div class="exp-card__front-body">
               <p class="exp-card__kind">Cruce</p>
               <h3 class="exp-card__name">ANDINO</h3>
-              <div class="exp-card__difficulty" aria-label="Dificultad baja">
-                <span class="exp-card__dot is-filled"></span>
-                <span class="exp-card__dot"></span>
-                <span class="exp-card__dot"></span>
+              <div class="exp-card__difficulty exp-card__difficulty--baja" aria-hidden="true">
                 <span class="exp-card__difficulty-label">Dificultad baja</span>
               </div>
             </div>
           </div>
           <div class="exp-card__face exp-card__face--back">
             <div class="exp-card__back-body">
-              <p class="exp-card__kind">Cruce</p>
-              <h3 class="exp-card__name">ANDINO</h3>
               <dl class="exp-card__meta">
                 <dt>Duración:</dt>
                 <dd>7 días</dd>
@@ -657,23 +726,24 @@
         <div class="exp-card__inner">
           <div class="exp-card__face exp-card__face--front">
             <div class="exp-card__photo">
-              <img src="assets/home/section7d.jpg" alt="Cerro Huemul">
+              <img src="assets/img/exp4.jpg" alt="Cerro Huemul">
+              <span class="exp-card__rating" aria-label="Calificación 5,0 de 5">
+                5,0
+                <svg class="exp-card__rating-star" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path d="M10 1l2.47 5.51L18 7.24l-4.5 3.93L14.9 17 10 13.9 5.1 17l1.4-5.83L2 7.24l5.53-.73L10 1z"/>
+                </svg>
+              </span>
             </div>
             <div class="exp-card__front-body">
               <p class="exp-card__kind">Cerro</p>
               <h3 class="exp-card__name">HUEMUL</h3>
-              <div class="exp-card__difficulty" aria-label="Dificultad media">
-                <span class="exp-card__dot is-filled"></span>
-                <span class="exp-card__dot is-filled"></span>
-                <span class="exp-card__dot"></span>
+              <div class="exp-card__difficulty exp-card__difficulty--media" aria-hidden="true">
                 <span class="exp-card__difficulty-label">Dificultad media</span>
               </div>
             </div>
           </div>
           <div class="exp-card__face exp-card__face--back">
             <div class="exp-card__back-body">
-              <p class="exp-card__kind">Cerro</p>
-              <h3 class="exp-card__name">HUEMUL</h3>
               <dl class="exp-card__meta">
                 <dt>Duración:</dt>
                 <dd>4 días</dd>
@@ -699,23 +769,24 @@
         <div class="exp-card__inner">
           <div class="exp-card__face exp-card__face--front">
             <div class="exp-card__photo">
-              <img src="assets/home/section7e.jpg" alt="Monte Fitz Roy, El Chaltén">
+              <img src="assets/img/exp5.jpg" alt="Monte Fitz Roy, El Chaltén">
+              <span class="exp-card__rating" aria-label="Calificación 4,8 de 5">
+                4,8
+                <svg class="exp-card__rating-star" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path d="M10 1l2.47 5.51L18 7.24l-4.5 3.93L14.9 17 10 13.9 5.1 17l1.4-5.83L2 7.24l5.53-.73L10 1z"/>
+                </svg>
+              </span>
             </div>
             <div class="exp-card__front-body">
               <p class="exp-card__kind">Monte</p>
               <h3 class="exp-card__name">FiTZ ROY</h3>
-              <div class="exp-card__difficulty" aria-label="Dificultad alta">
-                <span class="exp-card__dot is-filled"></span>
-                <span class="exp-card__dot is-filled"></span>
-                <span class="exp-card__dot is-filled"></span>
+              <div class="exp-card__difficulty exp-card__difficulty--alta" aria-hidden="true">
                 <span class="exp-card__difficulty-label">Dificultad alta</span>
               </div>
             </div>
           </div>
           <div class="exp-card__face exp-card__face--back">
             <div class="exp-card__back-body">
-              <p class="exp-card__kind">Monte</p>
-              <h3 class="exp-card__name">FiTZ ROY</h3>
               <dl class="exp-card__meta">
                 <dt>Duración:</dt>
                 <dd>2 días</dd>
@@ -741,23 +812,24 @@
         <div class="exp-card__inner">
           <div class="exp-card__face exp-card__face--front">
             <div class="exp-card__photo">
-              <img src="assets/home/section7f.jpg" alt="Volcán Lanín">
+              <img src="assets/img/exp6.jpg" alt="Volcán Lanín">
+              <span class="exp-card__rating" aria-label="Calificación 4,9 de 5">
+                4,9
+                <svg class="exp-card__rating-star" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path d="M10 1l2.47 5.51L18 7.24l-4.5 3.93L14.9 17 10 13.9 5.1 17l1.4-5.83L2 7.24l5.53-.73L10 1z"/>
+                </svg>
+              </span>
             </div>
             <div class="exp-card__front-body">
               <p class="exp-card__kind">Volcán</p>
               <h3 class="exp-card__name">LANiN</h3>
-              <div class="exp-card__difficulty" aria-label="Dificultad alta">
-                <span class="exp-card__dot is-filled"></span>
-                <span class="exp-card__dot is-filled"></span>
-                <span class="exp-card__dot is-filled"></span>
+              <div class="exp-card__difficulty exp-card__difficulty--alta" aria-hidden="true">
                 <span class="exp-card__difficulty-label">Dificultad alta</span>
               </div>
             </div>
           </div>
           <div class="exp-card__face exp-card__face--back">
             <div class="exp-card__back-body">
-              <p class="exp-card__kind">Volcán</p>
-              <h3 class="exp-card__name">LANiN</h3>
               <dl class="exp-card__meta">
                 <dt>Duración:</dt>
                 <dd>2 días</dd>
@@ -782,6 +854,7 @@
   </div>
 </section>
 
+
 <!-- ============================================
      SECTION 8 — ESCUELA DE GUÍAS 2027 + CERTIFICACIONES
      ============================================ -->
@@ -798,36 +871,161 @@
           <span class="school__title-year">2027</span>
         </h2>
         <p class="school__desc">Certificaciones internacionales</p>
-        <a href="#" class="btn btn--primary school__cta">RECIBIR NOVEDADES</a>
+        <a href="#comenzar" class="btn btn--primary school__cta">
+          RECIBIR NOVEDADES
+          <svg class="btn__arrow" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M1 7H17M17 7L11 1M17 7L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
       </div>
 
+      <!--
+        Mismas cards con flip que la sección 4 (comportamiento y estilos
+        100% reutilizados: clases .course-card, sin CSS ni JS nuevo —
+        section4.js ya las engancha porque busca .course-card en todo
+        el documento, y el hover-flip de esa sección ya cubre estas).
+      -->
       <div class="school__cards">
-        <article class="school__card">
-          <div class="school__card-photo">
-            <img src="assets/home/section8a.jpg" alt="Práctica de rescate en grietas sobre un glaciar">
-          </div>
-          <div class="school__card-body">
-            <p class="school__card-kind">Rescate en</p>
-            <h3 class="school__card-name">GRIETAS</h3>
-          </div>
-        </article>
+        <div class="course-card" tabindex="0" role="button" aria-pressed="false" aria-label="Rescate en Grietas, tocar para ver detalle">
+          <div class="course-card__inner">
 
-        <article class="school__card">
-          <div class="school__card-photo">
-            <img src="assets/home/section8b.jpg" alt="Práctica de primeros auxilios en la montaña">
+            <div class="course-card__face course-card__face--front">
+              <div class="course-card__photo">
+                <img src="assets/img/curso4.jpg" alt="Práctica de rescate en grietas sobre un glaciar">
+              </div>
+              <div class="course-card__front-body">
+                <div class="course-card__front-top">
+                  <p class="course-card__eyebrow">Rescate en</p>
+                  <span class="course-card__level">Expertos</span>
+                </div>
+                <h3 class="course-card__name">GRIETAS</h3>
+                <p class="course-card__price">$700.000</p>
+              </div>
+            </div>
+
+            <div class="course-card__face course-card__face--back">
+              <div class="course-card__back-body">
+
+                <div class="course-card__back-top">
+                  <dl class="course-card__meta-item">
+                    <span class="course-card__back-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none"><rect x="2.5" y="4" width="19" height="13" rx="1.5" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 20.5h7M12 17v3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                    </span>
+                    <dt>Modalidad:</dt>
+                    <dd>A confirmar</dd>
+                  </dl>
+                  <dl class="course-card__meta-item">
+                    <span class="course-card__back-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4.5" width="18" height="16" rx="1.8" stroke="currentColor" stroke-width="1.8"/><path d="M3 9.5h18M7.5 2.5v4M16.5 2.5v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                    </span>
+                    <dt>Duración:</dt>
+                    <dd>A confirmar</dd>
+                  </dl>
+                </div>
+
+                <div class="course-card__back-desc-block">
+                  <p class="course-card__back-label">Descripción:</p>
+                  <p class="course-card__back-desc">
+                    Formación técnica en rescate de compañeros de cordada en
+                    grietas glaciares. Todavía estamos terminando de diseñar
+                    el programa: dejanos tu contacto para enterarte apenas
+                    abramos la inscripción.
+                  </p>
+                </div>
+
+                <div class="course-card__back-footer">
+                  <div class="course-card__front-top">
+                    <p class="course-card__eyebrow">Rescate en</p>
+                    <span class="course-card__level">Expertos</span>
+                  </div>
+                  <h3 class="course-card__name">GRIETAS</h3>
+                  <p class="course-card__price">$700.000</p>
+                  <a href="detalle-rescate-grietas.html" class="btn btn--primary course-card__cta">
+                    VER MÁS
+                    <svg class="btn__arrow" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M1 7H17M17 7L11 1M17 7L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </a>
+                </div>
+
+              </div>
+            </div>
+
           </div>
-          <div class="school__card-body">
-            <p class="school__card-kind">Primeros</p>
-            <h3 class="school__card-name">AUXiLiOS</h3>
+        </div>
+
+        <div class="course-card" tabindex="0" role="button" aria-pressed="false" aria-label="Primeros Auxilios, tocar para ver detalle">
+          <div class="course-card__inner">
+
+            <div class="course-card__face course-card__face--front">
+              <div class="course-card__photo">
+                <img src="assets/img/curso5.jpg" alt="Práctica de primeros auxilios en la montaña">
+              </div>
+              <div class="course-card__front-body">
+                <div class="course-card__front-top">
+                  <p class="course-card__eyebrow">Primeros</p>
+                  <span class="course-card__level">Expertos</span>
+                </div>
+                <h3 class="course-card__name">AUXiLiOS</h3>
+                <p class="course-card__price">$700.000</p>
+              </div>
+            </div>
+
+            <div class="course-card__face course-card__face--back">
+              <div class="course-card__back-body">
+
+                <div class="course-card__back-top">
+                  <dl class="course-card__meta-item">
+                    <span class="course-card__back-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none"><rect x="2.5" y="4" width="19" height="13" rx="1.5" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 20.5h7M12 17v3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                    </span>
+                    <dt>Modalidad:</dt>
+                    <dd>A confirmar</dd>
+                  </dl>
+                  <dl class="course-card__meta-item">
+                    <span class="course-card__back-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4.5" width="18" height="16" rx="1.8" stroke="currentColor" stroke-width="1.8"/><path d="M3 9.5h18M7.5 2.5v4M16.5 2.5v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                    </span>
+                    <dt>Duración:</dt>
+                    <dd>A confirmar</dd>
+                  </dl>
+                </div>
+
+                <div class="course-card__back-desc-block">
+                  <p class="course-card__back-label">Descripción:</p>
+                  <p class="course-card__back-desc">
+                    Certificación en primeros auxilios y atención de
+                    emergencias en entornos de montaña. Todavía estamos
+                    terminando de diseñar el programa: dejanos tu contacto
+                    para enterarte apenas abramos la inscripción.
+                  </p>
+                </div>
+
+                <div class="course-card__back-footer">
+                  <div class="course-card__front-top">
+                    <p class="course-card__eyebrow">Primeros</p>
+                    <span class="course-card__level">Expertos</span>
+                  </div>
+                  <h3 class="course-card__name">AUXiLiOS</h3>
+                  <p class="course-card__price">$700.000</p>
+                  <a href="detalle-primeros-auxilios.html" class="btn btn--primary course-card__cta">
+                    VER MÁS
+                    <svg class="btn__arrow" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M1 7H17M17 7L11 1M17 7L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </a>
+                </div>
+
+              </div>
+            </div>
+
           </div>
-        </article>
+        </div>
       </div>
 
     </div>
 
-    <div class="school__certs">
-      <img src="assets/home/section8_2.png" alt="Certificaciones internacionales: UIAA, ISAGM, EAAM, UIMLA, ICAR, IFMGA/UIAGM">
-    </div>
+
 
   </div>
 </section>
@@ -837,17 +1035,153 @@
      SECTION 9 — TESTIMONIO
      ============================================ -->
 <section class="testimonial" id="testimonio">
-  <div class="testimonial__box">
-    <div class="testimonial__rating">
-      <span class="testimonial__score">4,9</span>
-      <svg class="testimonial__star" width="22" height="21" viewBox="0 0 22 21" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M11 0L14.09 7.36L22 8.09L15.91 13.14L17.78 21L11 16.77L4.22 21L6.09 13.14L0 8.09L7.91 7.36L11 0Z"/>
-      </svg>
+  <picture class="testimonial__bg">
+    <img src="assets/img/sect9.jpg" alt="Cordada de montañistas escalando una pared de hielo al amanecer" loading="lazy">
+  </picture>
+  <div class="testimonial__overlay" aria-hidden="true"></div>
+
+  <!--
+    Riel de testimonios: se desliza solo hacia la izquierda (JS,
+    testimonial.js) y se pausa con hover/foco o mientras se arrastra
+    con mouse/touch (Pointer Events, funciona en los tres casos con el
+    mismo código). El set de tarjetas se repite 3 veces en el DOM para
+    que el loop sea infinito y sin costura, sea cual sea el ancho de
+    pantalla; los sets 2 y 3 son aria-hidden porque repiten el mismo
+    contenido que el primero.
+  -->
+  <div class="testimonial__track-wrap" id="testimonialTrackWrap">
+    <div class="testimonial__track" id="testimonialTrack">
+
+      <div class="testimonial__set">
+        <div class="testimonial__item">
+          <span class="testimonial__mark testimonial__mark--open" aria-hidden="true">&#8220;</span>
+          <blockquote class="testimonial__card">
+            <cite class="testimonial__handle">@Ariel</cite>
+            <p class="testimonial__quote">
+              Hoy disfruto la montaña porque aprendí a respetarla y comprenderla.
+            </p>
+          </blockquote>
+          <span class="testimonial__mark testimonial__mark--close" aria-hidden="true">&#8221;</span>
+        </div>
+        <div class="testimonial__item">
+          <span class="testimonial__mark testimonial__mark--open" aria-hidden="true">&#8220;</span>
+          <blockquote class="testimonial__card">
+            <cite class="testimonial__handle">@Milena</cite>
+            <p class="testimonial__quote">
+              Pensaba que iba a hacer una aventura. Terminé desarrollando una nueva forma de vivir la montaña.
+            </p>
+          </blockquote>
+          <span class="testimonial__mark testimonial__mark--close" aria-hidden="true">&#8221;</span>
+        </div>
+        <div class="testimonial__item">
+          <span class="testimonial__mark testimonial__mark--open" aria-hidden="true">&#8220;</span>
+          <blockquote class="testimonial__card">
+            <cite class="testimonial__handle">@Belén</cite>
+            <p class="testimonial__quote">
+              Llegué buscando una expedición y terminé aprendiendo a moverme con confianza.
+            </p>
+          </blockquote>
+          <span class="testimonial__mark testimonial__mark--close" aria-hidden="true">&#8221;</span>
+        </div>
+        <div class="testimonial__item">
+          <span class="testimonial__mark testimonial__mark--open" aria-hidden="true">&#8220;</span>
+          <blockquote class="testimonial__card">
+            <cite class="testimonial__handle">@Cecilia</cite>
+            <p class="testimonial__quote">
+              Cada salida me dio más seguridad. Cada entrenamiento me preparó para mucho más que una expedición.
+            </p>
+          </blockquote>
+          <span class="testimonial__mark testimonial__mark--close" aria-hidden="true">&#8221;</span>
+        </div>
+      </div>
+
+      <div class="testimonial__set" aria-hidden="true">
+        <div class="testimonial__item">
+          <span class="testimonial__mark testimonial__mark--open" aria-hidden="true">&#8220;</span>
+          <blockquote class="testimonial__card">
+            <cite class="testimonial__handle">@Ariel</cite>
+            <p class="testimonial__quote">
+              Hoy disfruto la montaña porque aprendí a respetarla y comprenderla.
+            </p>
+          </blockquote>
+          <span class="testimonial__mark testimonial__mark--close" aria-hidden="true">&#8221;</span>
+        </div>
+        <div class="testimonial__item">
+          <span class="testimonial__mark testimonial__mark--open" aria-hidden="true">&#8220;</span>
+          <blockquote class="testimonial__card">
+            <cite class="testimonial__handle">@Milena</cite>
+            <p class="testimonial__quote">
+              Pensaba que iba a hacer una aventura. Terminé desarrollando una nueva forma de vivir la montaña.
+            </p>
+          </blockquote>
+          <span class="testimonial__mark testimonial__mark--close" aria-hidden="true">&#8221;</span>
+        </div>
+        <div class="testimonial__item">
+          <span class="testimonial__mark testimonial__mark--open" aria-hidden="true">&#8220;</span>
+          <blockquote class="testimonial__card">
+            <cite class="testimonial__handle">@Belén</cite>
+            <p class="testimonial__quote">
+              Llegué buscando una expedición y terminé aprendiendo a moverme con confianza.
+            </p>
+          </blockquote>
+          <span class="testimonial__mark testimonial__mark--close" aria-hidden="true">&#8221;</span>
+        </div>
+        <div class="testimonial__item">
+          <span class="testimonial__mark testimonial__mark--open" aria-hidden="true">&#8220;</span>
+          <blockquote class="testimonial__card">
+            <cite class="testimonial__handle">@Cecilia</cite>
+            <p class="testimonial__quote">
+              Cada salida me dio más seguridad. Cada entrenamiento me preparó para mucho más que una expedición.
+            </p>
+          </blockquote>
+          <span class="testimonial__mark testimonial__mark--close" aria-hidden="true">&#8221;</span>
+        </div>
+      </div>
+
+      <div class="testimonial__set" aria-hidden="true">
+        <div class="testimonial__item">
+          <span class="testimonial__mark testimonial__mark--open" aria-hidden="true">&#8220;</span>
+          <blockquote class="testimonial__card">
+            <cite class="testimonial__handle">@Ariel</cite>
+            <p class="testimonial__quote">
+              Hoy disfruto la montaña porque aprendí a respetarla y comprenderla.
+            </p>
+          </blockquote>
+          <span class="testimonial__mark testimonial__mark--close" aria-hidden="true">&#8221;</span>
+        </div>
+        <div class="testimonial__item">
+          <span class="testimonial__mark testimonial__mark--open" aria-hidden="true">&#8220;</span>
+          <blockquote class="testimonial__card">
+            <cite class="testimonial__handle">@Milena</cite>
+            <p class="testimonial__quote">
+              Pensaba que iba a hacer una aventura. Terminé desarrollando una nueva forma de vivir la montaña.
+            </p>
+          </blockquote>
+          <span class="testimonial__mark testimonial__mark--close" aria-hidden="true">&#8221;</span>
+        </div>
+        <div class="testimonial__item">
+          <span class="testimonial__mark testimonial__mark--open" aria-hidden="true">&#8220;</span>
+          <blockquote class="testimonial__card">
+            <cite class="testimonial__handle">@Belén</cite>
+            <p class="testimonial__quote">
+              Llegué buscando una expedición y terminé aprendiendo a moverme con confianza.
+            </p>
+          </blockquote>
+          <span class="testimonial__mark testimonial__mark--close" aria-hidden="true">&#8221;</span>
+        </div>
+        <div class="testimonial__item">
+          <span class="testimonial__mark testimonial__mark--open" aria-hidden="true">&#8220;</span>
+          <blockquote class="testimonial__card">
+            <cite class="testimonial__handle">@Cecilia</cite>
+            <p class="testimonial__quote">
+              Cada salida me dio más seguridad. Cada entrenamiento me preparó para mucho más que una expedición.
+            </p>
+          </blockquote>
+          <span class="testimonial__mark testimonial__mark--close" aria-hidden="true">&#8221;</span>
+        </div>
+      </div>
+
     </div>
-    <p class="testimonial__quote">
-      Llegué buscando una expedición y terminé aprendiendo a moverme
-      con confianza.
-    </p>
   </div>
 </section>
 
@@ -855,62 +1189,193 @@
      SECTION 10 — CTA FINAL + FOOTER
      ============================================ -->
 <section class="final-cta" id="comenzar">
+  <div class="final-cta__top">
   <div class="final-cta__inner">
     <h2 class="final-cta__title">
       ¿Listo para iniciar el<br>
       <span class="final-cta__title-accent">#MÉTODOCÚSPIDES</span>?
     </h2>
     <p class="final-cta__desc">
-      Si te atrae el desafío, el proceso y el aprendizaje, podemos
-      ayudarte a prepararte para vivir la montaña desde adentro.
+      Completá este formulario y nos pondremos en contacto para conocer
+      tus objetivos, evaluar tu experiencia y acompañarte en la elección
+      del programa más adecuado.
     </p>
 
-    <form class="final-cta__form" id="startForm">
-      <input
-        type="text"
-        name="nombre"
-        class="final-cta__input"
-        placeholder="Nombre y Apellido"
-        required
-      >
-      <input
-        type="email"
-        name="email"
-        class="final-cta__input"
-        placeholder="Correo electrónico"
-        required
-      >
-      <button type="submit" class="btn btn--primary final-cta__submit">
-        COMENZAR
+    <!--
+      El envío es por mailto: al confirmar, se abre el cliente de correo
+      del usuario con un mail prellenado a Cúspides con todos los datos
+      (ver final-cta.js). No hay backend propio todavía; es la opción
+      que no requiere ningún servicio externo.
+    -->
+    <form class="final-cta__form" id="startForm" novalidate>
+      <div class="final-cta__row">
+        <input
+          type="text"
+          name="nombre"
+          id="startNombre"
+          class="final-cta__input"
+          placeholder="Nombre y Apellido"
+          autocomplete="name"
+          required
+        >
+        <input
+          type="email"
+          name="email"
+          id="startEmail"
+          class="final-cta__input"
+          placeholder="Correo electrónico"
+          autocomplete="email"
+          required
+        >
+      </div>
+      <div class="final-cta__row">
+        <input
+          type="tel"
+          name="telefono"
+          id="startTelefono"
+          class="final-cta__input"
+          placeholder="Número de teléfono"
+          autocomplete="tel"
+          inputmode="tel"
+          required
+        >
+
+        <!-- Selector de rango de edad: dropdown tipo listbox, se abre al
+             clickear y se puede navegar con teclado (final-cta.js). -->
+        <div class="final-cta__field final-cta__field--select" id="startEdadField">
+          <button
+            type="button"
+            class="final-cta__input final-cta__select-trigger"
+            id="startEdadTrigger"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+            aria-controls="startEdadList"
+          >
+            <span class="final-cta__select-value" id="startEdadValue">Edad</span>
+            <svg class="final-cta__select-caret" width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <ul class="final-cta__select-list" id="startEdadList" role="listbox" aria-label="Rango de edad" tabindex="-1" hidden>
+            <li class="final-cta__select-option" role="option" data-value="18-25" tabindex="-1">18 a 25 años</li>
+            <li class="final-cta__select-option" role="option" data-value="26-35" tabindex="-1">26 a 35 años</li>
+            <li class="final-cta__select-option" role="option" data-value="36-45" tabindex="-1">36 a 45 años</li>
+            <li class="final-cta__select-option" role="option" data-value="46-55" tabindex="-1">46 a 55 años</li>
+          </ul>
+          <input type="hidden" name="edad" id="startEdad" required>
+        </div>
+      </div>
+
+      <p class="final-cta__form-msg" id="startFormMsg" role="status" aria-live="polite"></p>
+
+      <button type="submit" class="final-cta__submit">
+        ENVIAR
+        <svg class="btn__arrow" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M1 7H17M17 7L11 1M17 7L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </button>
     </form>
   </div>
 
-  <!-- Divisor decorativo tipo montaña, hace de transición al footer -->
-  <svg class="final-cta__divider" viewBox="0 0 1456 90" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0,90 L0,55 L180,20 L340,55 L520,10 L700,50 L860,25 L1040,58 L1220,15 L1456,50 L1456,90 Z" fill="#5c7350"/>
-  </svg>
+  <!-- ============================================
+     FOOTER (sincronizado con el footer del home)
+     ============================================ -->
+<!-- Divisor decorativo tipo montaña: mismo trazado que en el home
+     (sect_10_y_footer.pdf), transición al footer. -->
+<svg class="final-cta__divider" viewBox="0 0 1000 420" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0,420 L0,405 L214,405 L214,402 L218,396 L223,389 L227,383 L232,377 L236,371 L240,365 L245,363 L249,362 L254,363 L258,364 L262,365 L267,365 L271,358 L276,341 L280,334 L284,330 L288,329 L293,327 L297,325 L302,323 L306,321 L310,320 L315,318 L319,318 L324,318 L328,319 L332,321 L337,324 L341,328 L346,330 L350,334 L354,337 L359,340 L363,343 L368,346 L372,349 L376,352 L380,359 L385,368 L390,372 L394,374 L398,378 L402,380 L407,384 L411,386 L416,389 L420,392 L424,394 L429,394 L433,392 L438,391 L442,390 L446,388 L451,388 L455,389 L460,392 L464,395 L468,399 L473,402 L473,405 L1000,405 L1000,420 Z" fill="#5c7350"/>
+</svg>
 
-  <footer class="site-footer">
-    <div class="site-footer__inner">
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__brand">
       <img class="site-footer__logo" src="assets/home/logo1.png" alt="Cúspides">
 
-      <nav class="site-footer__col">
-        <a href="#">Lorem ipsum</a>
-        <a href="#">Lorem ipsum</a>
-      </nav>
-      <nav class="site-footer__col">
-        <a href="#">Lorem ipsum</a>
-        <a href="#">Lorem ipsum</a>
-      </nav>
+      <!--
+        Redes: mismos placeholders que en el home — reemplazar por los
+        perfiles/número reales de Cúspides.
+      -->
+      <div class="site-footer__socials">
+        <a
+          class="site-footer__social"
+          href="https://www.instagram.com/cuspides/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram de Cúspides"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/>
+            <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/>
+            <circle cx="17.3" cy="6.7" r="1.1" fill="currentColor"/>
+          </svg>
+        </a>
+        <a
+          class="site-footer__social"
+          href="https://www.tiktok.com/@cuspides"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="TikTok de Cúspides"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M16.6 2.8c.4 2.2 1.8 3.7 4 4v3.1c-1.5.1-2.9-.3-4-1.1v6.5c0 3.4-2.7 6.1-6.1 6.1S4.4 18.7 4.4 15.3c0-3.3 2.6-5.9 5.8-6.1v3.2c-1.5.2-2.6 1.4-2.6 2.9 0 1.6 1.3 2.9 2.9 2.9 1.6 0 2.9-1.3 2.9-2.9V2.8h3.2z" fill="currentColor"/>
+          </svg>
+        </a>
+        <a
+          class="site-footer__social"
+          href="https://wa.me/5490000000000"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="WhatsApp de Cúspides"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 3a9 9 0 0 0-7.75 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+            <path d="M8.6 8.4c.2-.5.4-.5.6-.5h.5c.2 0 .4 0 .5.4.2.5.6 1.6.6 1.7.1.1.1.3 0 .4-.1.2-.1.3-.3.4-.1.2-.3.3-.4.5-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.5 1.5.2.1.4.1.5-.1.2-.2.6-.7.8-.9.2-.2.4-.2.6-.1l1.5.7c.2.1.4.2.4.3.1.2.1.9-.2 1.4-.3.6-1.5 1.2-2 1.2-.6.1-1.1.1-2.5-.5-2.1-.9-3.5-2.9-3.6-3.1-.1-.1-.9-1.2-.9-2.4 0-1.2.6-1.7.8-2Z" fill="currentColor"/>
+          </svg>
+        </a>
+      </div>
     </div>
-  </footer>
-</section>
 
+    <!--
+      Esta página vive fuera del home, así que los anchors de "Inicio"
+      apuntan de vuelta a index.html#... en vez de anclas locales.
+    -->
+    <nav class="site-footer__col" aria-label="Inicio">
+      <p class="site-footer__col-title">Inicio</p>
+      <a href="index.html#quienes-somos">Quienes somos</a>
+      <a href="index.html#metodo">Método cúspides</a>
+      <a href="index.html#experiencias">Expediciones</a>
+    </nav>
+
+    <nav class="site-footer__col" aria-label="Cursos">
+      <p class="site-footer__col-title">Cursos</p>
+      <a href="detalle-autonomia.html">Autonomía</a>
+      <a href="detalle-habitar.html">Habitar</a>
+      <a href="detalle-expedicion.html">Expedición</a>
+    </nav>
+
+    <nav class="site-footer__col" aria-label="Información">
+      <p class="site-footer__col-title">Información</p>
+      <a href="preguntas-frecuentes.html">Preguntas frecuentes</a>
+      <a href="atencion-al-cliente.html">Atención al cliente</a>
+      <a href="envios.html">Envíos</a>
+    </nav>
+  </div>
+
+  <div class="site-footer__bottom">
+    <p class="site-footer__copyright">2026 - Cúspides ®</p>
+  </div>
+</footer>
+
+<script src="hero.js"></script>
+<script src="manifesto.js"></script>
+<script src="method.js"></script>
 <script src="section-1.js"></script>
   <script src="section-3.js"></script>
   <script src="section-4.js"></script>
+<script src="why-train.js"></script>
+<script src="training.js"></script>
 <script src="section-7.js"></script>
+<script src="testimonial.js"></script>
+<script src="final-cta.js"></script>
 </body>
 </html>
-
