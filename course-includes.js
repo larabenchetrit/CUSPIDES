@@ -4,9 +4,10 @@
 // Mismo patrón que "¿Por qué entrenar durante meses?" de la home: el
 // bloque vive dentro de .course-includes__sticky, pineado en pantalla
 // mientras se recorre el riel de scroll de .course-includes (220vh).
-// Cada frase arranca verde; al pasar su umbral se pone crema (y su
-// punto + el tramo de línea que sale de él se ponen amarillos) y se
-// queda así — no vuelve atrás. La primera frase arranca ya activa
+// Cada frase arranca en verde claro (punto en contorno, sin relleno);
+// al pasar su umbral se pinta de amarillo (punto, línea y texto) — y
+// ahora también vuelve a verde claro si se scrollea hacia arriba,
+// restaurando el estado inicial. La primera frase arranca ya activa
 // (umbral 0), igual que en el resto del sitio.
 // ============================================
 document.addEventListener('DOMContentLoaded', function () {
@@ -45,9 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     items.forEach((item, i) => {
       const threshold = i / total;
-      if (progress >= threshold) {
-        item.classList.add('is-active');
-      }
+      item.classList.toggle('is-active', progress >= threshold);
     });
   }
 

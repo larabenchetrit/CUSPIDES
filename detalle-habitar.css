@@ -29,11 +29,12 @@
 
 /* ---------- Design tokens ---------- */
 :root {
-  --color-red: #ff4e3a;
-  --color-yellow: #e7ff33;
-  --color-white: #ffffff;
-  --color-black: #14140f;
-  --color-cream: #f4efe3;
+  --color-red: #FF523C;
+  --color-lime: #EeFF2A;
+  --color-white: #f2eddf;
+  --color-dark: #293f27;
+  --color-green: #5c734f;
+  --color-cream: #f2eddf;
 
   --font-script: 'Bogart Trial', Georgia, serif;
   --font-block: 'Panton Rust', Impact, sans-serif;
@@ -59,8 +60,8 @@ img { max-width: 100%; display: block; }
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font-family: var(--font-block);
-  font-weight: 800;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
   letter-spacing: 0.02em;
   text-decoration: none;
   border-radius: 999px;
@@ -71,8 +72,8 @@ img { max-width: 100%; display: block; }
 .btn:hover { transform: translateY(-2px); }
 
 .btn--primary {
-  background: var(--color-yellow);
-  color: var(--color-black);
+  background: var(--color-yellow, #e7ff33);
+  color: var(--color-black, #1a1a1a);
 }
 .btn__arrow { flex-shrink: 0; }
 
@@ -165,7 +166,11 @@ img { max-width: 100%; display: block; }
 
 .course-hero {
   position: relative;
-  min-height: clamp(560px, 82vh, 860px);
+  /* antes: min-height: clamp(560px, 82vh, 860px);
+     ahora ocupa toda la pantalla — usamos svh para evitar el hueco
+     que dejaba la barra de direcciones en mobile */
+  min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -229,6 +234,14 @@ img { max-width: 100%; display: block; }
   line-height: 0.92;
 }
 
+/* Difuminado al cargar: título y script aparecen con fade + leve
+   desplazamiento hacia arriba, el script un toque después */
+.course-hero__title-block,
+.course-hero__title-script {
+  opacity: 0;
+  animation: course-hero-title-fade 1s ease-out forwards;
+}
+
 .course-hero__title-block {
   display: block;
   font-family: var(--font-block);
@@ -237,6 +250,7 @@ img { max-width: 100%; display: block; }
   letter-spacing: -0.01em;
   color: #293f27;
   font-size: clamp(3rem, 8vw, 7rem);
+  animation-delay: 0.15s;
 }
 
 .course-hero__title-script {
@@ -246,6 +260,28 @@ img { max-width: 100%; display: block; }
   font-weight: 700;
   color: #293f27;
   font-size: clamp(1.8rem, 4.4vw, 3.6rem);
+  animation-delay: 0.4s;
+}
+
+@keyframes course-hero-title-fade {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .course-hero__title-block,
+  .course-hero__title-script {
+    animation: none;
+    opacity: 1;
+  }
 }
 
 .course-hero__desc {
@@ -311,7 +347,11 @@ img { max-width: 100%; display: block; }
    RESPONSIVE
    ============================================ */
 @media (max-width: 600px) {
-  .course-hero { min-height: clamp(480px, 78vh, 620px); padding-top: clamp(84px, 24vw, 120px); }
+  .course-hero {
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-top: clamp(84px, 24vw, 120px);
+  }
   .course-hero__title-block { font-size: clamp(2.4rem, 15vw, 3.6rem); }
   .course-hero__title-script { font-size: clamp(1.4rem, 8vw, 2rem); }
   .course-hero__desc { max-width: 30ch; }
@@ -469,13 +509,10 @@ img { max-width: 100%; display: block; }
    (usa variables globales: --font-script, --color-yellow, --container-pad)
    ============================================ */
 
-/* Riel de scroll (mismo patrón que .why-train de la home): más alta
-   que 100vh para dar "pista" de scroll; .course-includes__sticky se
-   queda fija dentro de una sola pantalla — mantiene el tamaño de
-   sección consistente con el resto del sitio. */
 .course-includes {
   position: relative;
   height: 220vh;
+  /* sin overflow acá — rompe el position:sticky del hijo */
 }
 
 .course-includes__sticky {
@@ -488,6 +525,7 @@ img { max-width: 100%; display: block; }
   background: #293f27;
   overflow: hidden;
   padding: 0 var(--container-pad, clamp(20px, 4vw, 64px));
+  border-radius: clamp(24px, 3.5vw, 48px);
 }
 
 .course-includes__inner {
@@ -526,15 +564,13 @@ img { max-width: 100%; display: block; }
 .course-includes__item {
   display: flex;
   align-items: flex-start;
-  gap: clamp(14px, 2.2vw, 22px);
-  padding: clamp(10px, 1.6vw, 16px) 0;
+  gap: clamp(16px, 2.4vw, 24px);
+  padding: clamp(12px, 1.8vw, 20px) 0;
 }
 
-/* Columna del punto: se estira a todo el alto del ítem para poder
-   dibujar el tramo de riel que lo conecta con el punto siguiente. */
 .course-includes__dot-col {
   flex-shrink: 0;
-  width: 16px;
+  width: clamp(30px, 3.4vw, 42px);
   align-self: stretch;
   position: relative;
   display: flex;
@@ -542,6 +578,9 @@ img { max-width: 100%; display: block; }
   justify-content: center;
 }
 
+/* Línea continua de punta a punta de la lista — el punto queda hueco
+   (fondo transparente) mientras está inactivo, así se ve pasar sin
+   cortes por el medio del aro. */
 .course-includes__dot-col::before {
   content: '';
   position: absolute;
@@ -550,50 +589,50 @@ img { max-width: 100%; display: block; }
   left: 50%;
   width: 2px;
   transform: translateX(-50%);
-  background: #5c7350;
+  background: #9bbf8a;
   transition: background-color 0.5s ease;
 }
 .course-includes__item:first-child .course-includes__dot-col::before { top: 50%; }
 .course-includes__item:last-child .course-includes__dot-col::before { bottom: 50%; }
 
-/* El tramo de línea que sale de un ítem se pinta de amarillo junto con
-   su punto, apenas ese ítem pasa a activo. */
 .course-includes__item.is-active .course-includes__dot-col::before {
   background: var(--color-yellow, #e7ff33);
 }
 
+/* Punto: aro hueco (sin número) que se rellena de amarillo al activarse. */
 .course-includes__dot {
   position: relative;
   z-index: 1;
-  width: 15px;
-  height: 15px;
+  width: clamp(28px, 3.2vw, 40px);
+  height: clamp(28px, 3.2vw, 40px);
   border-radius: 50%;
-  background: #5c7350;
-  transition: background-color 0.5s ease;
+  background: transparent;
+  border: 2px solid #9bbf8a;
+  transition: background-color 0.5s ease, border-color 0.5s ease;
 }
 .course-includes__item.is-active .course-includes__dot {
   background: var(--color-yellow, #e7ff33);
+  border-color: var(--color-yellow, #e7ff33);
 }
 
 .course-includes__text {
   margin: clamp(4px, 0.6vw, 8px) 0 0;
   font-family: var(--font-script);
   font-weight: 700;
-  color: #5c7350;
-  font-size: clamp(1.3rem, 2.6vw, 2rem);
+  color: #9bbf8a;
+  font-size: clamp(1.5rem, 3.2vw, 2.4rem);
   line-height: 1.3;
   transition: color 0.5s ease;
 }
 .course-includes__item.is-active .course-includes__text {
-  color: var(--color-cream, #f4efe3);
+  color: var(--color-yellow, #e7ff33);
 }
 
-/* El "+120" es un acento dentro del primer ítem: sigue el verde del
-   texto mientras está inactivo y pasa a amarillo (no a crema) al
-   activarse, igual que en el wireframe. */
+/* Los números dentro de las oraciones ("+120", "100%") van en Panton,
+   siguen el verde claro inicial y pasan a amarillo al activarse. */
 .course-includes__accent {
   color: inherit;
-  font-family: var(--font-block);
+  font-family: 'Panton', sans-serif;
   font-weight: 800;
 }
 .course-includes__item.is-active .course-includes__accent {
@@ -610,7 +649,7 @@ img { max-width: 100%; display: block; }
 @media (max-width: 600px) {
   .course-includes { height: 190vh; }
   .course-includes__title { font-size: clamp(1.5rem, 7vw, 2rem); }
-  .course-includes__text { font-size: clamp(1.05rem, 5.5vw, 1.4rem); }
+  .course-includes__text { font-size: clamp(1.2rem, 6.2vw, 1.6rem); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -621,6 +660,8 @@ img { max-width: 100%; display: block; }
     padding: clamp(48px, 7vw, 80px) var(--container-pad, clamp(20px, 4vw, 64px));
   }
 }
+
+
 /* ============================================
    DETALLE DE CURSO — PROGRAMA PERSONALIZADO
    (usa variables globales: --font-script, --font-block, --font-body,
@@ -659,6 +700,16 @@ img { max-width: 100%; display: block; }
   grid-template-columns: repeat(2, 1fr);
   gap: clamp(14px, 2vw, 20px) clamp(14px, 2vw, 24px);
   align-items: start;
+}
+
+/* Con una tarjeta expandida: las demás se ocultan y la activa pasa a
+   ocupar las dos columnas — el mismo tamaño que las 6 juntas. */
+.course-steps__grid.has-active .course-step:not(.is-active) {
+  display: none;
+}
+
+.course-steps__grid.has-active .course-step.is-active {
+  grid-column: 1 / -1;
 }
 
 /* -- tarjeta / acordeón -------------------------------------------- */
@@ -706,8 +757,12 @@ img { max-width: 100%; display: block; }
   line-height: 1.25;
 }
 
+/* Números agrandados respecto al resto del título. */
 .course-step__index {
   color: var(--color-yellow, #e7ff33);
+  font-family: 'Panton', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.3rem, 2.2vw, 1.9rem);
 }
 
 .course-step__accent {
@@ -726,6 +781,13 @@ img { max-width: 100%; display: block; }
 
 .course-step__header:hover .course-step__arrow {
   transform: translateY(3px);
+}
+
+.course-step.is-active .course-step__arrow {
+  transform: rotate(180deg);
+}
+.course-step.is-active .course-step__header:hover .course-step__arrow {
+  transform: rotate(180deg) translateY(-3px);
 }
 
 /* Panel colapsable: técnica grid-template-rows 0fr → 1fr (100% CSS,
@@ -787,37 +849,22 @@ img { max-width: 100%; display: block; }
   color: #dfe5d6;
 }
 
-.course-step__list li::before {
-  content: '-';
-  position: absolute;
-  left: 0;
-}
+.course-step__list
 
-/* ============================================
-   RESPONSIVE
-   ============================================ */
-@media (max-width: 560px) {
-  .course-steps__grid { grid-template-columns: 1fr; }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .course-step__panel,
-  .course-step__arrow,
-  .course-step__header {
-    transition: none;
-  }
-}
 /* ============================================
    DETALLE DE CURSO — TODO EL EQUIPO NECESARIO
    (usa variables globales: --font-script, --font-block, --font-body,
-   --color-yellow, --container-pad, .btn)
+   --color-yellow, --container-pad)
    ============================================ */
 
 .course-gear {
   background: var(--color-white, #fff);
-  padding: clamp(48px, 7vw, 80px) var(--container-pad, clamp(20px, 4vw, 64px));
+  padding: clamp(48px, 7vw, 80px) var(--container-pad, clamp(20px, 4vw, 64px)) clamp(120px, 14vw, 180px) !important;
 }
-
+.course-gear__bottom-spacer {
+  height: clamp(100px, 12vw, 160px);
+}
 .course-gear__inner {
   max-width: 1360px;
   margin: 0 auto;
@@ -846,7 +893,8 @@ img { max-width: 100%; display: block; }
   display: flex;
   align-items: stretch;
   gap: clamp(10px, 1.4vw, 18px);
-  height: clamp(360px, 32vw, 460px);
+  /* más baja todavía */
+  height: clamp(220px, 18vw, 280px);
 }
 
 .gear-card {
@@ -860,15 +908,21 @@ img { max-width: 100%; display: block; }
 }
 
 .gear-card:hover,
-.gear-card:focus-within {
+.gear-card:focus-within,
+.gear-card:focus-visible {
   flex-grow: 3.4;
+}
+
+.gear-card:focus-visible {
+  outline: 2px solid var(--color-yellow, #e7ff33);
+  outline-offset: -4px;
 }
 
 .gear-card__main {
   flex: 0 0 clamp(130px, 14vw, 180px);
   display: flex;
   flex-direction: column;
-  padding: clamp(18px, 2vw, 26px);
+  padding: clamp(14px, 1.6vw, 20px) clamp(12px, 1.4vw, 16px);
   min-width: 0;
 }
 
@@ -877,37 +931,30 @@ img { max-width: 100%; display: block; }
   font-family: var(--font-script);
   font-weight: 700;
   color: var(--color-cream, #f4efe3);
-  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+  font-size: clamp(0.95rem, 1.5vw, 1.25rem);
   line-height: 1.15;
 }
 
+/* Imagen más grande: menos margen alrededor y un pequeño "sangrado"
+   horizontal para que ocupe más lugar dentro de la card. */
 .gear-card__media {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 0;
-  margin: 12px 0;
+  margin: 8px -8px 0;
 }
 
 .gear-card__media img {
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 112%;
+  max-height: 112%;
   object-fit: contain;
   filter: drop-shadow(0 10px 18px rgba(20, 20, 15, 0.25));
 }
 
-.gear-card__cta {
-  align-self: flex-start;
-  flex-shrink: 0;
-  padding: 10px 18px;
-  font-size: 0.78rem;
-  gap: 6px;
-  white-space: nowrap;
-}
-
 /* Panel de descripción: colapsado a 0 por default, se revela con el
-   hover/focus de la tarjeta (ver .gear-card:hover / :focus-within). */
+   hover/focus de la tarjeta con un simple fade — sin animación de tipeo. */
 .gear-card__desc {
   flex: 0 0 0%;
   opacity: 0;
@@ -916,7 +963,8 @@ img { max-width: 100%; display: block; }
 }
 
 .gear-card:hover .gear-card__desc,
-.gear-card:focus-within .gear-card__desc {
+.gear-card:focus-within .gear-card__desc,
+.gear-card:focus-visible .gear-card__desc {
   flex: 1 1 auto;
   opacity: 1;
   transition: flex-basis 0.5s ease, opacity 0.4s ease 0.1s;
@@ -953,9 +1001,6 @@ img { max-width: 100%; display: block; }
 
 /* ============================================
    RESPONSIVE
-   — El hover-expand solo tiene sentido con mouse y suficiente ancho.
-     En pantallas táctiles (sin hover) o angostas, la fila pasa a un
-     layout apilado con la descripción siempre visible.
    ============================================ */
 @media (max-width: 900px), (hover: none) {
   .course-gear__row {
@@ -969,7 +1014,8 @@ img { max-width: 100%; display: block; }
   }
 
   .gear-card:hover,
-  .gear-card:focus-within {
+  .gear-card:focus-within,
+  .gear-card:focus-visible {
     flex-grow: 0;
   }
 
@@ -1139,21 +1185,33 @@ img { max-width: 100%; display: block; }
     transition: none;
   }
 }
-
 /* ============================================
    DETALLE DE CURSO — INSCRIPCIÓN
-   Panel de precio + condiciones (reemplaza el formulario de datos:
-   ver comentario en el HTML). El botón INSCRIBIRME es un link mailto:,
-   no un submit, así que no hace falta JS para esta sección.
-   (usa variables globales: --font-script, --font-block, --font-body,
-   --color-red, --color-cream, --container-pad, .btn)
+   Panel de precio + condiciones con ilustración de montañas de fondo.
+   El botón INSCRIBIRME es un link mailto:, no un submit, así que no
+   hace falta JS para esta sección.
+   (usa variables globales: --font-body, --color-red, --color-cream,
+   --color-yellow, --container-pad, .btn)
    ============================================ */
 
 .course-form {
   position: relative;
   background: var(--color-cream, #f4efe3);
-  padding: clamp(48px, 7vw, 88px) var(--container-pad, clamp(20px, 4vw, 64px));
+  padding: clamp(56px, 8vw, 100px) var(--container-pad, clamp(20px, 4vw, 64px));
   overflow: hidden;
+}
+
+/* Ilustración de montañas de fondo, detrás de todo el contenido. */
+.course-form__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.course-form__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .course-form__inner {
@@ -1175,7 +1233,7 @@ img { max-width: 100%; display: block; }
 }
 
 .course-form__title {
-  margin: 0 0 clamp(40px, 5.6vw, 64px);
+  margin: 0 0 clamp(28px, 4vw, 40px);
   font-family: var(--font-script);
   font-weight: 700;
   color: #293f27;
@@ -1190,45 +1248,21 @@ img { max-width: 100%; display: block; }
   color: var(--color-red, #ff4e3a);
 }
 
-/* ---------- Grid: precio + CTA a la izquierda, duración + condiciones
-   a la derecha (se apilan en mobile) ---------- */
-.course-form__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(28px, 4vw, 48px);
-  align-items: center;
-  text-align: left;
-}
-
-.course-form__price-col {
+/* Placas "60 HS." / "4 MESES": centradas en fila, una al lado de la
+   otra, sobre la ilustración de fondo. */
+.course-form__duration-wrap {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: clamp(20px, 2.6vw, 28px);
-}
-
-.course-form__price {
-  margin: 0;
-  font-family: var(--font-script);
-  font-weight: 700;
-  color: #293f27;
-  font-size: clamp(2.6rem, 6vw, 4.4rem);
-  line-height: 1;
-}
-
-.course-form__cta { border: none; cursor: pointer; }
-
-.course-form__info-col {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: clamp(18px, 2.4vw, 24px);
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: clamp(14px, 2vw, 24px);
+  margin-bottom: clamp(32px, 5vw, 56px);
 }
 
 .course-form__duration {
   background: #293f27;
   border-radius: 20px;
   padding: clamp(18px, 2.4vw, 28px) clamp(22px, 3vw, 32px);
+  text-align: left;
 }
 
 .course-form__duration-line {
@@ -1239,8 +1273,8 @@ img { max-width: 100%; display: block; }
 }
 
 .course-form__duration-number {
-  font-family: var(--font-script);
-  font-weight: 700;
+  font-family: var(--font-block);
+  font-weight: 800;
   color: var(--color-cream, #f4efe3);
   font-size: clamp(2.2rem, 4.6vw, 3.4rem);
   line-height: 1;
@@ -1264,10 +1298,31 @@ img { max-width: 100%; display: block; }
   line-height: 1.15;
 }
 
+/* Fila: precio grande a la izquierda, condiciones a la derecha. */
+.course-form__row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: clamp(24px, 4vw, 48px);
+  text-align: left;
+  margin-bottom: clamp(40px, 5.6vw, 64px);
+}
+
+.course-form__price {
+  margin: 0;
+  flex-shrink: 0;
+  font-family: var(--font-block);
+  font-weight: 700;
+  color: #293f27;
+  font-size: clamp(2.6rem, 6vw, 4.4rem);
+  line-height: 1;
+}
+
 .course-form__terms {
   list-style: none;
   margin: 0;
   padding: 0;
+  max-width: 360px;
   width: 100%;
 }
 
@@ -1280,409 +1335,29 @@ img { max-width: 100%; display: block; }
 }
 
 .course-form__terms li strong {
-  font-weight: 700;
+  font-family: var(--font-body);
+  font-weight: 800;
+}
+
+/* Botón centrado, solo, al final. */
+.course-form__cta {
+  display: inline-flex;
 }
 
 /* ============================================
    RESPONSIVE
    ============================================ */
 @media (max-width: 720px) {
-  .course-form__grid {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-  .course-form__price-col,
-  .course-form__info-col {
+  .course-form__row {
+    flex-direction: column;
     align-items: center;
+    text-align: center;
+    gap: clamp(24px, 5vw, 32px);
   }
-  .course-form__terms { text-align: left; }
-}
-/* ============================================
-   DETALLE DE CURSO — EXPLORÁ OTROS CURSOS
-   (usa variables globales: --font-script, --font-block, --font-body,
-   --color-red, --color-cream, --container-pad, .btn)
-   ============================================ */
 
-.other-courses {
-  background: var(--color-cream, #f4efe3);
-  padding: clamp(48px, 7vw, 80px) var(--container-pad, clamp(20px, 4vw, 64px));
-}
-
-.other-courses__inner {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.other-courses__title {
-  margin: 0 0 clamp(28px, 4vw, 40px);
-  font-family: var(--font-script);
-  font-weight: 700;
-  color: #354832;
-  font-size: clamp(1.6rem, 2.8vw, 2.2rem);
-  line-height: 1.25;
-}
-
-.other-courses__title-accent {
-  font-family: var(--font-block);
-  font-weight: 800;
-  text-transform: uppercase;
-  color: var(--color-red, #ff4e3a);
-}
-
-.other-courses__grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: clamp(16px, 2vw, 24px);
-}
-
-/* Flip 3D idéntico al .course-card del home: click/tap/Enter-Espacio
-   (other-courses.js, clase .is-flipped) y, en mouse fino, también al
-   hacer hover. Cara frontal = foto + precio + CTA; dorso = Modalidad,
-   Duración y Descripción + el mismo CTA (que lleva a
-   index.html#cursos). */
-.other-course-card {
-  perspective: 1600px;
-  cursor: pointer;
-  outline: none;
-  border-radius: 22px;
-}
-.other-course-card:focus-visible .other-course-card__inner {
-  box-shadow: 0 0 0 3px #293f27;
-  border-radius: 22px;
-}
-
-.other-course-card__inner {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 406 / 618;
-  transform-style: preserve-3d;
-  transition: transform 0.7s cubic-bezier(0.4, 0.15, 0.2, 1);
-}
-
-.other-course-card.is-flipped .other-course-card__inner {
-  transform: rotateY(180deg);
-}
-
-/* En mouse fino (hover real) la card también se da vuelta al pasar el
-   cursor, sin depender del click. El flip por click/tap/teclado sigue
-   intacto para touch y teclado (other-courses.js, clase .is-flipped). */
-@media (hover: hover) and (pointer: fine) {
-  .other-course-card:hover .other-course-card__inner,
-  .other-course-card:focus-within .other-course-card__inner {
-    transform: rotateY(180deg);
+  .course-form__terms {
+    text-align: left;
   }
-}
-
-.other-course-card__face {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  border-radius: 22px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-/* ---------- Frente ---------- */
-.other-course-card__face--front {
-  background: var(--color-red, #ff4e3a);
-  padding: clamp(10px, 1.8vw, 16px) clamp(11px, 2vw, 17px) 0;
-  overflow: visible;
-}
-
-.other-course-card__photo {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 407 / 370;
-  border-radius: 14px;
-  overflow: hidden;
-}
-.other-course-card__photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* Silueta de montaña que recorta la esquina inferior de la foto y deja
-   ver el rojo de la card debajo (mismo path que usa el home). */
-.other-course-card__photo-mask {
-  position: absolute;
-  left: 0;
-  bottom: -1px;
-  width: 100%;
-  height: clamp(26px, 5.2vw, 44px);
-  pointer-events: none;
-}
-.other-course-card__photo-mask path {
-  fill: var(--color-red, #ff4e3a);
-}
-
-.other-course-card__front-body {
-  flex: 1;
-  padding: clamp(14px, 1.8vw, 20px) clamp(6px, 1vw, 10px) clamp(20px, 2.4vw, 28px);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 6px;
-}
-
-.other-course-card__top {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.other-course-card__kind {
-  margin: 0;
-  font-family: var(--font-script);
-  font-weight: 700;
-  color: var(--color-cream, #f4efe3);
-  font-size: clamp(1.2rem, 1.8vw, 1.5rem);
-  line-height: 1;
-}
-
-.other-course-card__level {
-  display: inline-flex;
-  align-items: center;
-  flex-shrink: 0;
-  border: 1.4px solid rgba(244, 239, 227, 0.85);
-  border-radius: 999px;
-  padding: 5px 13px;
-  font-family: var(--font-body);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  font-size: clamp(0.62rem, 0.9vw, 0.75rem);
-  color: var(--color-cream, #f4efe3);
-  white-space: nowrap;
-}
-
-.other-course-card__name {
-  margin: 0;
-  font-family: var(--font-block);
-  font-weight: 800;
-  text-transform: uppercase;
-  color: var(--color-cream, #f4efe3);
-  font-size: clamp(1.7rem, 2.8vw, 2.3rem);
-  line-height: 0.95;
-}
-
-.other-course-card__price {
-  margin: 6px 0 4px;
-  font-family: var(--font-script);
-  font-weight: 700;
-  color: #293f27;
-  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
-  line-height: 1;
-}
-
-.other-course-card__cta {
-  margin-top: auto;
-  position: relative;
-  z-index: 2;
-  border: none;
-  cursor: pointer;
-}
-
-/* ---------- Dorso ---------- */
-.other-course-card__face--back {
-  transform: rotateY(180deg);
-  background: var(--color-red, #ff4e3a);
-}
-
-.other-course-card__back-body {
-  padding: clamp(20px, 2.6vw, 30px);
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-/* fila de íconos: Modalidad / Duración */
-.other-course-card__back-top {
-  display: flex;
-  gap: clamp(20px, 2.6vw, 32px);
-  margin: 0 0 clamp(14px, 1.8vw, 20px);
-}
-
-.other-course-card__meta-item {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.other-course-card__back-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: clamp(30px, 3vw, 38px);
-  height: clamp(30px, 3vw, 38px);
-  border: 1.6px solid var(--color-yellow, #e7ff33);
-  border-radius: 8px;
-  color: var(--color-yellow, #e7ff33);
-  margin-bottom: 8px;
-}
-.other-course-card__back-icon svg { width: 60%; height: 60%; }
-
-.other-course-card__meta-item dt {
-  font-family: var(--font-body);
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 0.68rem;
-  letter-spacing: 0.03em;
-  color: var(--color-cream, #f4efe3);
-  opacity: 0.8;
-  border-bottom: 1px solid rgba(244, 239, 227, 0.4);
-  padding-bottom: 4px;
-  margin-bottom: 4px;
-}
-
-.other-course-card__meta-item dd {
-  margin: 0;
-  font-family: var(--font-script);
-  font-weight: 700;
-  color: var(--color-cream, #f4efe3);
-  font-size: clamp(1rem, 1.3vw, 1.2rem);
-}
-
-/* Descripción */
-.other-course-card__back-desc-block {
-  margin-bottom: clamp(14px, 2vw, 20px);
-}
-
-.other-course-card__back-label {
-  margin: 0 0 6px;
-  font-family: var(--font-body);
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 0.68rem;
-  letter-spacing: 0.03em;
-  color: var(--color-cream, #f4efe3);
-  opacity: 0.8;
-  border-bottom: 1px solid rgba(244, 239, 227, 0.4);
-  padding-bottom: 5px;
-  display: inline-block;
-}
-
-.other-course-card__back-desc {
-  margin: 0;
-  font-family: var(--font-body);
-  font-size: clamp(0.82rem, 0.95vw, 0.92rem);
-  line-height: 1.5;
-  color: var(--color-cream, #f4efe3);
-}
-
-/* Footer: Curso + nombre + nivel + CTA */
-.other-course-card__back-footer {
-  margin-top: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-}
-
-.other-course-card__back-footer .other-course-card__kind {
-  font-size: clamp(1rem, 1.6vw, 1.4rem);
-}
-.other-course-card__back-footer .other-course-card__level {
-  border-color: rgba(244, 239, 227, 0.6);
-  padding: 4px 12px;
-  margin-bottom: 4px;
-}
-.other-course-card__back-footer .other-course-card__name {
-  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
-}
-
-/* ============================================
-   RESPONSIVE
-   ============================================ */
-@media (prefers-reduced-motion: reduce) {
-  .other-course-card__inner { transition: none; }
-}
-
-@media (max-width: 600px) {
-  .other-courses__grid { grid-template-columns: 1fr; }
-}
-/* ============================================
-   SECTION 10 — CTA FINAL + FOOTER
-   (usa variables globales: --font-script, --font-block, --font-body,
-   --color-red, --color-cream, --container-pad, .btn)
-   ============================================ */
-
-.final-cta {
-  position: relative;
-  background: var(--color-cream, #f4efe3);
-}
-
-.final-cta__inner {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: clamp(56px, 8vw, 96px) var(--container-pad, clamp(20px, 4vw, 64px)) clamp(72px, 10vw, 120px);
-  text-align: center;
-}
-
-.final-cta__title {
-  margin: 0;
-  font-family: var(--font-script);
-  font-weight: 700;
-  color: #354832;
-  font-size: clamp(1.9rem, 3.8vw, 2.9rem);
-  line-height: 1.15;
-}
-
-.final-cta__title-accent {
-  font-family: var(--font-block);
-  font-weight: 800;
-  color: var(--color-red, #ff4e3a);
-}
-
-.final-cta__desc {
-  margin: clamp(16px, 2.4vw, 24px) auto 0;
-  max-width: 48ch;
-  font-family: var(--font-body);
-  font-size: clamp(0.92rem, 1.1vw, 1.05rem);
-  line-height: 1.6;
-  color: #5b6350;
-}
-
-/* ---------- Form ---------- */
-.final-cta__form {
-  margin: clamp(28px, 4vw, 40px) auto 0;
-  max-width: 640px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
-  background: #eae3d3;
-  border: 1px solid #d8d0bd;
-  border-radius: 999px;
-  padding: 8px 8px;
-}
-
-.final-cta__input {
-  flex: 1 1 200px;
-  min-width: 0;
-  border: none;
-  background: transparent;
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  color: #354832;
-  padding: 12px 18px;
-  outline: none;
-}
-.final-cta__input::placeholder { color: #7c8270; }
-.final-cta__input + .final-cta__input {
-  border-left: 1px solid #d8d0bd;
-}
-
-.final-cta__submit {
-  flex: 0 0 auto;
-  border: none;
-  cursor: pointer;
 }
 
 /* ---------- Divisor tipo montaña ----------
