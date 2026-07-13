@@ -736,38 +736,6 @@ img { max-width: 100%; display: block; }
 .lib-spacing-bar__fill { height: 22px; background: var(--color-lime); border-radius: 6px; }
 .lib-spacing-bar__label { font-family: 'Menlo', 'Consolas', monospace; font-size: 0.75rem; color: var(--color-dark); width: 170px; flex-shrink: 0; }
 
-/* ============================================
-   FOOTER (sincronizado con el resto del sitio)
-   ============================================ */
-.final-cta__divider { display: block; width: 100%; height: clamp(80px, 13vw, 190px); }
-
-.site-footer {
-  position: relative;
-  background: var(--color-green-mid);
-  padding: clamp(28px, 4vw, 44px) var(--container-pad) clamp(20px, 3vw, 28px);
-}
-.site-footer__inner {
-  max-width: 1360px; margin: 0 auto;
-  display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between;
-  gap: clamp(28px, 4vw, 48px);
-}
-.site-footer__brand { display: flex; flex-direction: column; gap: clamp(18px, 2.4vw, 26px); }
-.site-footer__logo { height: clamp(28px, 3vw, 36px); width: auto; }
-.site-footer__socials { display: flex; align-items: center; gap: clamp(12px, 1.6vw, 16px); }
-.site-footer__social { display: inline-flex; color: var(--color-cream); opacity: 0.95; transition: opacity 0.2s ease, transform 0.2s ease; }
-.site-footer__social:hover, .site-footer__social:focus-visible { opacity: 1; transform: translateY(-2px); }
-.site-footer__col { display: flex; flex-direction: column; gap: 10px; }
-.site-footer__col-title { margin: 0 0 2px; font-family: var(--font-body); font-weight: 700; font-size: 1rem; color: var(--color-cream); }
-.site-footer__col a { font-family: var(--font-body); font-weight: 500; font-size: 0.9rem; color: var(--color-cream); text-decoration: none; opacity: 0.85; }
-.site-footer__col a:hover, .site-footer__col a:focus-visible { opacity: 1; text-decoration: underline; }
-.site-footer__bottom { max-width: 1360px; margin: clamp(24px, 3.4vw, 36px) auto 0; padding-top: clamp(16px, 2vw, 22px); border-top: 1px solid rgba(244,239,227,0.25); text-align: center; }
-.site-footer__copyright { margin: 0; font-family: var(--font-body); font-size: 0.82rem; color: var(--color-cream); opacity: 0.85; }
-
-@media (max-width: 700px) { .site-footer__inner { gap: clamp(28px, 6vw, 40px) clamp(32px, 8vw, 64px); } }
-@media (max-width: 600px) {
-  .final-cta__divider { height: clamp(60px, 24vw, 110px); }
-  .site-footer__inner { flex-direction: column; align-items: flex-start; }
-}
 
 /* ============================================
    RESPONSIVE GENERAL — biblioteca

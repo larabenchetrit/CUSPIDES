@@ -2851,6 +2851,14 @@ ul {
   height: 12px;
   flex-shrink: 0;
 }
+/* ---------- Divisor tipo montaña ----------
+   Sincronizado con el home: mismo trazado, mismo verde (#5c7350, el
+   mismo tono que ya usan .course-includes/.course-gear en este archivo). */
+.final-cta__divider {
+  display: block;
+  width: 100%;
+  height: clamp(80px, 13vw, 190px);
+}
 
 /* ---------- Footer ----------
    Sincronizado con el footer del home (misma estructura y clases:
