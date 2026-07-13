@@ -21,7 +21,7 @@
   <a href="index.html" class="navbar__logo" aria-label="Cúspides - Inicio">
     <img src="assets/img/logo1_3.png" alt="Cúspides">
   </a>
-  <nav class="navbar__nav">
+  <nav class="navbar__nav" id="siteNav">
     <ul class="navbar__list">
       <li class="navbar__item"><a href="index.html" class="navbar__link">Inicio</a></li>
       <li class="navbar__item"><a href="index.html#quienes-somos" class="navbar__link">Quiénes somos</a></li>
@@ -30,6 +30,14 @@
       <li class="navbar__item"><a href="biblioteca.html" class="navbar__link">Biblioteca Ui</a></li>
     </ul>
   </nav>
+  <!-- Menú hamburguesa: solo visible en mobile (ver detallehabitar.css,
+       @media max-width:768px). nav-toggle.js alterna aria-expanded y la
+       clase .is-open en #siteNav. -->
+  <button type="button" class="navbar__toggle" id="navToggleBtn" aria-expanded="false" aria-controls="siteNav" aria-label="Abrir menú">
+    <span class="navbar__toggle-bar"></span>
+    <span class="navbar__toggle-bar"></span>
+    <span class="navbar__toggle-bar"></span>
+  </button>
 </header>
 
 <!-- ============================================
@@ -670,5 +678,6 @@
 <script src="course-steps.js"></script>
 <script src="course-faq.js"></script>
 <script src="other-courses.js"></script>
+<script src="nav-toggle.js"></script>
 </body>
 </html>

@@ -405,6 +405,47 @@ ul {
   flex-shrink: 0;
 }
 
+/* ---------- Botón hamburguesa (solo mobile) ----------
+   Oculto por completo en desktop (display:none); se muestra únicamente
+   dentro de la media query max-width:768px, más abajo, así el diseño de
+   escritorio queda intacto. JS (nav-toggle.js) alterna aria-expanded y
+   la clase .is-open en .navbar__nav. */
+.navbar__toggle {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
+}
+
+.navbar__toggle-bar {
+  display: block;
+  width: 24px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-dark, #293F27);
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+/* Anima las 3 barras a un ícono de "X" cuando el menú está abierto. */
+.navbar__toggle[aria-expanded="true"] .navbar__toggle-bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.navbar__toggle[aria-expanded="true"] .navbar__toggle-bar:nth-child(2) {
+  opacity: 0;
+}
+.navbar__toggle[aria-expanded="true"] .navbar__toggle-bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
 
 /* =====================================================
    RESPONSIVE
@@ -443,12 +484,47 @@ ul {
     transform: none;
   }
 
+  /* Menú hamburguesa: se muestra el botón... */
+  .navbar__toggle {
+    display: flex;
+  }
+
+  /* ...y la lista de links pasa a ser un panel desplegable, anclado
+     arriba a la derecha del navbar, oculto hasta que se abre el menú
+     (nav-toggle.js agrega .is-open en .navbar__nav al hacer click). */
   .navbar__list {
-    gap: 16px;
+    display: none;
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    min-width: 210px;
+    background: var(--color-cream, #f4efe3);
+    border-radius: 16px;
+    padding: 10px;
+    box-shadow: 0 16px 36px rgba(20, 20, 15, 0.25);
+  }
+
+  .navbar__nav.is-open .navbar__list {
+    display: flex;
+  }
+
+  .navbar__item {
+    width: 100%;
   }
 
   .navbar__link {
-    font-size: 12px;
+    display: block;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: clamp(14px, 4vw, 16px);
+  }
+
+  .navbar__link:hover,
+  .navbar__link:focus-visible {
+    background: rgba(41, 63, 39, 0.08);
   }
 
   .hero__title-line--display {
@@ -489,22 +565,6 @@ ul {
 
 /* Mobile grande */
 @media (max-width: 480px) {
-  .navbar {
-    flex-wrap: wrap;
-    row-gap: 10px;
-  }
-
-  .navbar__list {
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    row-gap: 6px;
-    gap: 10px;
-  }
-
-  .navbar__link {
-    font-size: 10.5px;
-  }
-
   .navbar__logo img {
     width: 90px;
   }
@@ -520,17 +580,6 @@ ul {
   .hero__button {
     padding: 9px 16px;
     font-size: 11px;
-  }
-}
-
-/* Mobile pequeño */
-@media (max-width: 360px) {
-  .navbar__list {
-    gap: 8px;
-  }
-
-  .navbar__link {
-    font-size: 9px;
   }
 }
 
@@ -2425,7 +2474,7 @@ ul {
 }
 
 @media (max-width: 600px) {
-  .school__cards { grid-template-columns: repeat(2, 1fr); max-width: 360px; margin: 0 auto; }
+  .school__cards { grid-template-columns: repeat(2, 1fr); max-width: 360px; width: 100%; margin: 0 auto; }
 }
 
 

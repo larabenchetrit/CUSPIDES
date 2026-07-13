@@ -134,6 +134,46 @@ img { max-width: 100%; display: block; }
   text-decoration: underline;
 }
 
+/* ---------- Botón hamburguesa (solo mobile) ----------
+   Oculto en desktop (display:none); se muestra únicamente dentro de la
+   media query max-width:768px, más abajo — mismo criterio que el home,
+   así el diseño de escritorio no cambia. JS (nav-toggle.js) alterna
+   aria-expanded y la clase .is-open en .navbar__nav. */
+.navbar__toggle {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
+}
+
+.navbar__toggle-bar {
+  display: block;
+  width: 24px;
+  height: 2px;
+  border-radius: 2px;
+  background: #293f27;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+.navbar__toggle[aria-expanded="true"] .navbar__toggle-bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.navbar__toggle[aria-expanded="true"] .navbar__toggle-bar:nth-child(2) {
+  opacity: 0;
+}
+.navbar__toggle[aria-expanded="true"] .navbar__toggle-bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
 /* ============================================
    RESPONSIVE — mismos breakpoints que el navbar de la home
    ============================================ */
@@ -143,20 +183,48 @@ img { max-width: 100%; display: block; }
 
 @media (max-width: 768px) {
   .navbar { flex-direction: row; align-items: center; }
-  .navbar__list { gap: 16px; }
-  .navbar__link { font-size: 12px; }
+
+  /* Menú hamburguesa: se muestra el botón... */
+  .navbar__toggle { display: flex; }
+
+  /* ...y la lista de links pasa a ser un panel desplegable, oculto
+     hasta que se abre el menú (nav-toggle.js agrega .is-open). */
+  .navbar__list {
+    display: none;
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    min-width: 210px;
+    background: var(--color-white, #f2eddf);
+    border-radius: 16px;
+    padding: 10px;
+    box-shadow: 0 16px 36px rgba(20, 20, 15, 0.25);
+  }
+
+  .navbar__nav.is-open .navbar__list {
+    display: flex;
+  }
+
+  .navbar__item { width: 100%; }
+
+  .navbar__link {
+    display: block;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: clamp(14px, 4vw, 16px);
+  }
+
+  .navbar__link:hover,
+  .navbar__link:focus-visible {
+    background: rgba(41, 63, 39, 0.08);
+  }
 }
 
 @media (max-width: 480px) {
-  .navbar { flex-wrap: wrap; row-gap: 10px; }
-  .navbar__list { flex-wrap: wrap; justify-content: flex-end; row-gap: 6px; gap: 10px; }
-  .navbar__link { font-size: 10.5px; }
   .navbar__logo img { width: 90px; }
-}
-
-@media (max-width: 360px) {
-  .navbar__list { gap: 8px; }
-  .navbar__link { font-size: 9px; }
 }
 /* ============================================
    DETALLE DE CURSO — HERO + TICKER
@@ -1003,14 +1071,32 @@ img { max-width: 100%; display: block; }
    RESPONSIVE
    ============================================ */
 @media (max-width: 900px), (hover: none) {
+  /* En vez de apilar las 6 cards una debajo de la otra (lo que alargaba
+     muchísimo la sección), quedan en una sola fila con scroll horizontal
+     manual: el usuario las desliza hacia los costados con el dedo, y la
+     sección mantiene una altura acotada. scroll-snap hace que cada card
+     quede prolija al soltar el swipe. */
   .course-gear__row {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: nowrap;
     height: auto;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
     gap: clamp(14px, 2.6vw, 20px);
+    padding-bottom: 14px;
+    margin-left: calc(-1 * var(--container-pad, clamp(20px, 4vw, 64px)));
+    margin-right: calc(-1 * var(--container-pad, clamp(20px, 4vw, 64px)));
+    padding-left: var(--container-pad, clamp(20px, 4vw, 64px));
+    padding-right: var(--container-pad, clamp(20px, 4vw, 64px));
   }
 
   .gear-card {
-    flex-grow: 0;
+    flex: 0 0 auto;
+    flex-direction: column;
+    width: min(72vw, 300px);
+    scroll-snap-align: start;
   }
 
   .gear-card:hover,
@@ -1021,7 +1107,7 @@ img { max-width: 100%; display: block; }
 
   .gear-card__main {
     flex-basis: auto;
-    width: 45%;
+    width: 100%;
   }
 
   .gear-card__desc {
@@ -1031,14 +1117,6 @@ img { max-width: 100%; display: block; }
 
   .gear-card__desc-inner {
     min-width: 0;
-  }
-}
-
-@media (max-width: 560px) {
-  .course-gear__row { flex-direction: column; }
-  .gear-card { flex-direction: column; }
-  .gear-card__main { width: 100%; }
-  .gear-card__desc-inner {
     border-left: none;
     border-top: 1px solid rgba(244, 239, 227, 0.4);
   }
