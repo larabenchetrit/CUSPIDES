@@ -130,7 +130,7 @@ img { max-width: 100%; display: block; }
    ============================================ */
 .lib-hero {
   padding: clamp(40px, 6vw, 72px) var(--container-pad) clamp(48px, 7vw, 80px);
-  text-align: center;
+  text-align: left;
   background: var(--color-cream);
 }
 .lib-hero__badge {
@@ -156,7 +156,7 @@ img { max-width: 100%; display: block; }
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: -0.01em;
-  color: var(--color-red);
+  color: var(--color-dark);
   font-size: clamp(2.6rem, 7vw, 5.8rem);
 }
 .lib-hero__title-script {
@@ -168,7 +168,7 @@ img { max-width: 100%; display: block; }
   font-size: clamp(1.5rem, 3.6vw, 2.8rem);
 }
 .lib-hero__desc {
-  margin: clamp(18px, 2.4vw, 26px) auto 0;
+  margin: clamp(18px, 2.4vw, 26px) 0 0;
   max-width: 56ch;
   font-family: var(--font-body);
   font-size: clamp(0.95rem, 1.15vw, 1.1rem);
@@ -195,7 +195,7 @@ img { max-width: 100%; display: block; }
   display: flex;
   flex-wrap: wrap;
   gap: clamp(8px, 1.2vw, 14px);
-  justify-content: center;
+  justify-content: flex-start;
 }
 .lib-toc__link {
   display: inline-block;
@@ -222,10 +222,13 @@ img { max-width: 100%; display: block; }
    SECCIÓN genérica de biblioteca
    ============================================ */
 .lib-section {
-  padding: clamp(48px, 7vw, 84px) var(--container-pad);
-  border-bottom: 1px solid rgba(41,63,39,0.1);
+  /* Más aire vertical entre secciones para que se diferencien bien, todas
+     sobre el mismo fondo crema de la página (sin alternar tono). */
+  padding: clamp(72px, 10vw, 140px) var(--container-pad);
+  background: var(--color-cream);
+  border-bottom: 2px solid rgba(41,63,39,0.14);
 }
-.lib-section:nth-of-type(even) { background: #ece6d6; }
+.lib-section:last-of-type { border-bottom: none; }
 .lib-section__inner { max-width: 1360px; margin: 0 auto; }
 .lib-section__eyebrow {
   margin: 0 0 8px;
