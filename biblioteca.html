@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biblioteca UI — Cúspides</title>
+<link rel="stylesheet" href="biblioteca.css">
+</head>
+<body>
+
+<!-- ============================================
+     HEADER — nav idéntico al del resto del sitio.
+     ============================================ -->
+<header class="navbar">
+  <a href="index.html" class="navbar__logo" aria-label="Cúspides - Inicio">
+    <img src="assets/img/logo1_3.png" alt="Cúspides">
+  </a>
+  <nav class="navbar__nav">
+    <ul class="navbar__list">
+      <li class="navbar__item"><a href="index.html" class="navbar__link">Inicio</a></li>
+      <li class="navbar__item"><a href="index.html#quienes-somos" class="navbar__link">Quiénes somos</a></li>
+      <li class="navbar__item"><a href="index.html#cursos" class="navbar__link">Cursos</a></li>
+      <li class="navbar__item"><a href="index.html#experiencias" class="navbar__link">Expediciones</a></li>
+      <li class="navbar__item"><a href="biblioteca.html" class="navbar__link navbar__link--active">Biblioteca Ui</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- ============================================
+     ÍNDICE — barra verde oscuro, justo debajo del nav.
+     ============================================ -->
+<nav class="lib-toc" aria-label="Secciones de la biblioteca">
+  <ul class="lib-toc__list">
+    <li><a href="#lib-colores" class="lib-toc__link">Color</a></li>
+    <li><a href="#lib-tipografia" class="lib-toc__link">Tipografía</a></li>
+    <li><a href="#lib-botones" class="lib-toc__link">Botones &amp; badges</a></li>
+    <li><a href="#lib-iconos" class="lib-toc__link">Íconos</a></li>
+    <li><a href="#lib-cards" class="lib-toc__link">Cards</a></li>
+    <li><a href="#lib-espaciado" class="lib-toc__link">Espaciado &amp; radios</a></li>
+  </ul>
+</nav>
+
+<!-- ============================================
+     LIB HERO
+     ============================================ -->
+<section class="lib-hero">
+  <h1 class="lib-hero__title">
+    <span class="lib-hero__title-block">BiBLiOTECA UI</span>
+    <span class="lib-hero__title-script">Sistema visual Cúspides</span>
+  </h1>
+  
+</section>
+
+<!-- ============================================
+     COLOR PALETTE
+     ============================================ -->
+<section class="lib-section" id="lib-colores">
+  <div class="lib-section__inner">
+    <p class="lib-section__eyebrow">Paleta</p>
+    <h2 class="lib-section__title">Color <span class="lib-section__title-accent">CÚSPIDES</span></h2>
+    <p class="lib-section__desc">
+      Una paleta corta y con carácter: verde de montaña como base sólida y
+      profesional, rojo como acento de urgencia/acción, y lima como color de
+      contraste para botones e íconos. Tocá cualquier swatch para copiar su hex.
+    </p>
+
+    <div class="lib-colors" id="colorGrid">
+      <button type="button" class="lib-swatch" data-hex="#FF523C">
+        <span class="lib-swatch__block" style="background:#FF523C;">
+          <span class="lib-swatch__ref" style="color:#f2eddf;">Rojo Cúspides</span>
+          <span class="lib-swatch__copy-flag">Copiado!</span>
+        </span>
+        <span class="lib-swatch__info">
+          <p class="lib-swatch__name">Rojo Cúspides</p>
+          <p class="lib-swatch__hex">#FF523C</p>
+          <p class="lib-swatch__use">Acentos, CTAs de urgencia, subrayados activos, badges de nivel.</p>
+        </span>
+      </button>
+
+      <button type="button" class="lib-swatch" data-hex="#EEFF2A">
+        <span class="lib-swatch__block" style="background:#EEFF2A;">
+          <span class="lib-swatch__ref" style="color:#293f27;">Lima</span>
+          <span class="lib-swatch__copy-flag">Copiado!</span>
+        </span>
+        <span class="lib-swatch__info">
+          <p class="lib-swatch__name">Lima</p>
+          <p class="lib-swatch__hex">#EEFF2A</p>
+          <p class="lib-swatch__use">Botón primario, íconos destacados sobre fondo oscuro, checks.</p>
+        </span>
+      </button>
+
+      <button type="button" class="lib-swatch" data-hex="#293F27">
+        <span class="lib-swatch__block" style="background:#293F27;">
+          <span class="lib-swatch__ref" style="color:#f2eddf;">Verde oscuro</span>
+          <span class="lib-swatch__copy-flag">Copiado!</span>
+        </span>
+        <span class="lib-swatch__info">
+          <p class="lib-swatch__name">Verde oscuro</p>
+          <p class="lib-swatch__hex">#293F27</p>
+          <p class="lib-swatch__use">Fondos de cards y secciones oscuras, texto principal sobre crema.</p>
+        </span>
+      </button>
+
+      <button type="button" class="lib-swatch" data-hex="#5C734F">
+        <span class="lib-swatch__block" style="background:#5C734F;">
+          <span class="lib-swatch__ref" style="color:#f2eddf;">Verde medio</span>
+          <span class="lib-swatch__copy-flag">Copiado!</span>
+        </span>
+        <span class="lib-swatch__info">
+          <p class="lib-swatch__name">Verde medio</p>
+          <p class="lib-swatch__hex">#5C734F</p>
+          <p class="lib-swatch__use">Footer, divisores tipo montaña, links secundarios de navbar.</p>
+        </span>
+      </button>
+
+      <button type="button" class="lib-swatch" data-hex="#9BBF8A">
+        <span class="lib-swatch__block" style="background:#9BBF8A;">
+          <span class="lib-swatch__ref" style="color:#293f27;">Verde claro</span>
+          <span class="lib-swatch__copy-flag">Copiado!</span>
+        </span>
+        <span class="lib-swatch__info">
+          <p class="lib-swatch__name">Verde claro</p>
+          <p class="lib-swatch__hex">#9BBF8A</p>
+          <p class="lib-swatch__use">Puntos y líneas inactivas en listas de progreso.</p>
+        </span>
+      </button>
+
+      <button type="button" class="lib-swatch" data-hex="#F2EDDF">
+        <span class="lib-swatch__block lib-swatch__block--outline" style="background:#F2EDDF;">
+          <span class="lib-swatch__ref" style="color:#293f27;">Crema</span>
+          <span class="lib-swatch__copy-flag">Copiado!</span>
+        </span>
+        <span class="lib-swatch__info">
+          <p class="lib-swatch__name">Crema</p>
+          <p class="lib-swatch__hex">#F2EDDF</p>
+          <p class="lib-swatch__use">Fondo base de página, texto sobre fondos oscuros.</p>
+        </span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     TIPOGRAFÍA
+     ============================================ -->
+<section class="lib-section" id="lib-tipografia">
+  <div class="lib-section__inner">
+    <p class="lib-section__eyebrow">Type system</p>
+    <h2 class="lib-section__title">Tipografías <span class="lib-section__title-accent">Y ESCALA</span></h2>
+    <p class="lib-section__desc">
+      Tres familias, tres roles muy claros: Panton Rust para golpes de efecto
+      (títulos grandes, acentos), Bogart Trial para el tono cálido/manuscrito
+      (subtítulos, citas), e Inter para todo el texto funcional.
+    </p>
+
+    <div class="lib-type-specimen">
+      <div class="lib-type-card lib-type-card--block">
+        <p class="lib-type-card__sample">Habitar la montaña</p>
+        <div class="lib-type-card__meta">
+          <p class="lib-type-card__meta-name">Panton Rust — display / acento</p>
+          <p class="lib-type-card__meta-desc">Mayúsculas, peso 800. Se usa en títulos de impacto, palabras clave dentro de un título y badges numéricos grandes.</p>
+          <code>font-family: var(--font-block);</code>
+        </div>
+      </div>
+
+      <div class="lib-type-card lib-type-card--script">
+        <p class="lib-type-card__sample">la montaña</p>
+        <div class="lib-type-card__meta">
+          <p class="lib-type-card__meta-name">Bogart Trial — script</p>
+          <p class="lib-type-card__meta-desc">Peso 700. Aporta el registro más humano: subtítulos de hero, títulos de sección, citas y nombres de tarjetas.</p>
+          <code>font-family: var(--font-script);</code>
+        </div>
+      </div>
+
+      <div class="lib-type-card lib-type-card--body">
+        <p class="lib-type-card__sample">Creamos programas de aventura a tu medida con el conocimiento y la experiencia de toda una vida dedicada a las montañas.</p>
+        <div class="lib-type-card__meta">
+          <p class="lib-type-card__meta-name">Inter — texto funcional</p>
+          <p class="lib-type-card__meta-desc">Variable, de 100 a 900. Todo el cuerpo de texto, navegación, botones, labels y listas.</p>
+          <code>font-family: var(--font-body);</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="lib-scale">
+      <div class="lib-scale__row lib-scale--display">
+        <span class="lib-scale__label">Display</span>
+        <span class="lib-scale__sample">HABiTAR</span>
+        <span class="lib-scale__size">clamp(3rem, 8vw, 7rem)</span>
+      </div>
+      <div class="lib-scale__row lib-scale--h1">
+        <span class="lib-scale__label">Título H1</span>
+        <span class="lib-scale__sample">Primer paso para habitar la montaña</span>
+        <span class="lib-scale__size">clamp(1.8rem, 3.4vw, 2.6rem)</span>
+      </div>
+      <div class="lib-scale__row lib-scale--h2">
+        <span class="lib-scale__label">Título H2</span>
+        <span class="lib-scale__sample">¿En qué consiste?</span>
+        <span class="lib-scale__size">clamp(1.6rem, 2.8vw, 2.2rem)</span>
+      </div>
+      <div class="lib-scale__row lib-scale--body-lg">
+        <span class="lib-scale__label">Body grande</span>
+        <span class="lib-scale__sample">Desarrollá las capacidades necesarias para construir un vínculo duradero con la montaña.</span>
+        <span class="lib-scale__size">clamp(0.95rem, 1.15vw, 1.1rem)</span>
+      </div>
+      <div class="lib-scale__row lib-scale--body">
+        <span class="lib-scale__label">Body</span>
+        <span class="lib-scale__sample">Cada semana hacemos un seguimiento para ajustar el entrenamiento.</span>
+        <span class="lib-scale__size">clamp(0.92rem, 1.1vw, 1.05rem)</span>
+      </div>
+      <div class="lib-scale__row lib-scale--small">
+        <span class="lib-scale__label">Eyebrow</span>
+        <span class="lib-scale__sample">Preguntas frecuentes</span>
+        <span class="lib-scale__size">clamp(0.75rem, 1vw, 0.9rem)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     BOTONES Y BADGES
+     ============================================ -->
+<section class="lib-section" id="lib-botones">
+  <div class="lib-section__inner">
+    <p class="lib-section__eyebrow">Componentes</p>
+    <h2 class="lib-section__title">Botones <span class="lib-section__title-accent">Y BADGES</span></h2>
+    <p class="lib-section__desc">
+      Un único estilo de botón —pill lima con flecha— para mantener foco visual
+      en la acción principal de cada pantalla. Los badges/pills se usan como
+      etiquetas de estado (nivel, modalidad, "el más elegido").
+    </p>
+
+    <div class="lib-component-block">
+      <p class="lib-component-block__label">Botón primario — .btn.btn--primary</p>
+      <div class="lib-row">
+        <a href="#" class="btn btn--primary" onclick="return false;">
+          INSCRIBIRME
+          <svg class="btn__arrow" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M1 7H17M17 7L11 1M17 7L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a href="#" class="btn btn--primary" onclick="return false;">
+          VER MÁS
+          <svg class="btn__arrow" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M1 7H17M17 7L11 1M17 7L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="lib-component-block lib-component-block--dark">
+      <p class="lib-component-block__label">Pills / badges</p>
+      <div class="lib-row">
+        <span class="ui-pill ui-pill--outline-red">Principiantes</span>
+        <span class="ui-pill ui-pill--outline-light">Modalidad: Mixta</span>
+        <span class="ui-pill ui-pill--solid-lime">El más elegido</span>
+        <span class="ui-pill ui-pill--solid-dark">Expertos</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     ÍCONOS
+     ============================================ -->
+<section class="lib-section" id="lib-iconos">
+  <div class="lib-section__inner">
+    <p class="lib-section__eyebrow">Iconografía</p>
+    <h2 class="lib-section__title">Íconos <span class="lib-section__title-accent">DE LÍNEA</span></h2>
+    <p class="lib-section__desc">
+      Todos los íconos del sitio son trazos simples (stroke, sin relleno), a
+      1.6–2px, encerrados en un recuadro con borde lima sobre fondo oscuro.
+      Mantener ese mismo grosor de trazo en cualquier ícono nuevo.
+    </p>
+
+    <div class="lib-icons">
+      <div class="lib-icon">
+        <span class="lib-icon__box" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4.5" width="18" height="16" rx="1.8" stroke="currentColor" stroke-width="1.8"/><path d="M3 9.5h18M7.5 2.5v4M16.5 2.5v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </span>
+        <span class="lib-icon__label">Duración</span>
+      </div>
+      <div class="lib-icon">
+        <span class="lib-icon__box" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="2.5" y="4" width="19" height="13" rx="1.5" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 20.5h7M12 17v3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </span>
+        <span class="lib-icon__label">Modalidad</span>
+      </div>
+      <div class="lib-icon">
+        <span class="lib-icon__box" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="2"/><path d="M20 20L15.2 15.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </span>
+        <span class="lib-icon__label">Diagnóstico</span>
+      </div>
+      <div class="lib-icon">
+        <span class="lib-icon__box" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 3v18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M6 4h11l-3 4 3 4H6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        </span>
+        <span class="lib-icon__label">Expedición</span>
+      </div>
+      <div class="lib-icon">
+        <span class="lib-icon__box" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M3 19L9 8l4 6 2-3 6 8H3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        </span>
+        <span class="lib-icon__label">Formación</span>
+      </div>
+      <div class="lib-icon">
+        <span class="lib-icon__box" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="2"/><path d="M9 8h6M9 12h6M9 16h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </span>
+        <span class="lib-icon__label">Planificación</span>
+      </div>
+      <div class="lib-icon">
+        <span class="lib-icon__box" aria-hidden="true">
+          <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="17" cy="17" r="16" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M17 10V24M17 24L12 19M17 24L22 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="lib-icon__label">Acordeón</span>
+      </div>
+      <div class="lib-icon">
+        <span class="lib-icon__box" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12.5L10 17.5L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span class="lib-icon__label">Check</span>
+      </div>
+      <div class="lib-icon">
+        <span class="lib-icon__box" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor"/></svg>
+        </span>
+        <span class="lib-icon__label">Instagram</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     CARDS
+     ============================================ -->
+<section class="lib-section" id="lib-cards">
+  <div class="lib-section__inner">
+    <p class="lib-section__eyebrow">Componentes</p>
+    <h2 class="lib-section__title">Tarjetas <span class="lib-section__title-accent">Y CONTENEDORES</span></h2>
+    <p class="lib-section__desc">
+      Cada patrón de tarjeta resuelve una necesidad de contenido distinta:
+      datos rápidos, comparación con flip, exploración con hover, contenido
+      colapsable o una cita. Tocá / pasá el mouse por cada demo para ver la
+      interacción.
+    </p>
+
+    <div class="lib-cards-grid">
+
+      <!-- Info card -->
+      <div class="lib-card-demo">
+        <div class="ui-card--info">
+          <span class="ui-card--info__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4.5" width="18" height="16" rx="1.8" stroke="currentColor" stroke-width="1.8"/><path d="M3 9.5h18M7.5 2.5v4M16.5 2.5v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </span>
+          <span>
+            <p class="ui-card--info__label">Duración</p>
+            <p class="ui-card--info__value">4 MESES</p>
+          </span>
+        </div>
+        <p class="lib-card-demo__caption">Card de dato rápido — ícono + label + valor. Basada en <span class="lib-tag">.course-info__card</span></p>
+      </div>
+
+      <!-- Quote card -->
+      <div class="lib-card-demo">
+        <div class="ui-card--quote">
+          <span class="ui-card--quote__mark" aria-hidden="true">&#8220;</span>
+          <p class="ui-card--quote__text">Cada expedición comienza mucho antes de dar el primer paso en la montaña.</p>
+          <cite class="ui-card--quote__cite">@Cúspides</cite>
+        </div>
+        <p class="lib-card-demo__caption">Cita / testimonio. Basada en <span class="lib-tag">.testimonial__card</span></p>
+      </div>
+
+      <!-- Flip card -->
+      <div class="lib-card-demo">
+        <div class="ui-card--flip" tabindex="0" role="button" aria-pressed="false" aria-label="Card de ejemplo con flip, tocar para ver el reverso" data-flip-card>
+          <div class="ui-card--flip__inner">
+            <div class="ui-card--flip__face ui-card--flip__face--front">
+              <p class="ui-card--flip__eyebrow">Curso</p>
+              <h3 class="ui-card--flip__name">EJEMPLO</h3>
+              <p class="ui-card--flip__price">$000.000</p>
+              <span class="ui-card--flip__hint">Tocar / hover</span>
+            </div>
+            <div class="ui-card--flip__face ui-card--flip__face--back">
+              <p class="ui-card--flip__eyebrow">Descripción</p>
+              <p class="ui-card--flip__desc">El reverso se revela con hover en desktop y con un tap en mobile — mismo mecanismo que las cards de cursos y expediciones. Los números siempre en Panton Rust, nunca en Bogart (sus dígitos no están completos en la fuente).</p>
+              <p class="ui-card--flip__price">$000.000</p>
+            </div>
+          </div>
+        </div>
+        <p class="lib-card-demo__caption">Card con flip 3D. Basada en <span class="lib-tag">.course-card / .exp-card</span></p>
+      </div>
+
+    </div>
+
+    <!-- Hover-expand row -->
+    <div class="lib-card-demo" style="margin-top: clamp(24px, 3vw, 36px);">
+      <div class="ui-cards-hover-row">
+        <article class="ui-card--hover" tabindex="0">
+          <div class="ui-card--hover__main">
+            <h3 class="ui-card--hover__title">Piolet</h3>
+            <div class="ui-card--hover__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6 3v18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M6 4h11l-3 4 3 4H6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+          <div class="ui-card--hover__desc">
+            <div class="ui-card--hover__desc-inner">
+              <p class="ui-card--hover__desc-label">Descripción:</p>
+              <p class="ui-card--hover__desc-text">Herramienta clave del alpinismo para progresión y autodetención.</p>
+            </div>
+          </div>
+        </article>
+        <article class="ui-card--hover" tabindex="0">
+          <div class="ui-card--hover__main">
+            <h3 class="ui-card--hover__title">Arnés</h3>
+            <div class="ui-card--hover__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><rect x="2.5" y="4" width="19" height="13" rx="1.5" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 20.5h7M12 17v3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+          <div class="ui-card--hover__desc">
+            <div class="ui-card--hover__desc-inner">
+              <p class="ui-card--hover__desc-label">Descripción:</p>
+              <p class="ui-card--hover__desc-text">Equipo de seguridad que reparte el impacto de una caída de forma segura.</p>
+            </div>
+          </div>
+        </article>
+        <article class="ui-card--hover" tabindex="0">
+          <div class="ui-card--hover__main">
+            <h3 class="ui-card--hover__title">Mosquetón</h3>
+            <div class="ui-card--hover__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M8 12h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+          <div class="ui-card--hover__desc">
+            <div class="ui-card--hover__desc-inner">
+              <p class="ui-card--hover__desc-label">Descripción:</p>
+              <p class="ui-card--hover__desc-text">Conecta cuerdas, arneses y anclajes de forma rápida y segura.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+      <p class="lib-card-demo__caption">Fila con hover-expand (100% CSS, colapsa a stack en mobile/touch). Basada en <span class="lib-tag">.gear-card</span></p>
+    </div>
+
+    <!-- Accordion -->
+    <div class="lib-card-demo" style="margin-top: clamp(24px, 3vw, 36px);">
+      <div class="ui-accordion" id="libAccordion">
+        <div class="ui-accordion__item">
+          <button type="button" class="ui-accordion__header" aria-expanded="false">
+            <h3 class="ui-accordion__title"><span class="ui-accordion__index">1.</span> Pregunta o paso</h3>
+            <span class="ui-accordion__arrow" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="17" cy="17" r="16" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M17 10V24M17 24L12 19M17 24L22 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+          <div class="ui-accordion__panel">
+            <div class="ui-accordion__panel-inner">
+              <hr class="ui-accordion__divider">
+              <p class="ui-accordion__desc">Panel colapsable animado con grid-template-rows (0fr → 1fr), 100% CSS y sin medir alturas por JS. Un solo panel abierto a la vez.</p>
+            </div>
+          </div>
+        </div>
+        <div class="ui-accordion__item">
+          <button type="button" class="ui-accordion__header" aria-expanded="false">
+            <h3 class="ui-accordion__title"><span class="ui-accordion__index">2.</span> Otra pregunta o paso</h3>
+            <span class="ui-accordion__arrow" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="17" cy="17" r="16" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M17 10V24M17 24L12 19M17 24L22 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+          <div class="ui-accordion__panel">
+            <div class="ui-accordion__panel-inner">
+              <hr class="ui-accordion__divider">
+              <p class="ui-accordion__desc">Mismo patrón exacto que "Programa Personalizado" y "Preguntas frecuentes" del curso.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="lib-card-demo__caption">Acordeón. Basado en <span class="lib-tag">.course-step / .faq-item</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     ESPACIADO Y RADIOS
+     ============================================ -->
+<section class="lib-section" id="lib-espaciado">
+  <div class="lib-section__inner">
+    <p class="lib-section__eyebrow">Fundamentos</p>
+    <h2 class="lib-section__title">Espaciado <span class="lib-section__title-accent">Y RADIOS</span></h2>
+    <p class="lib-section__desc">
+      El padding lateral de todas las secciones responde a un único token
+      fluido, y los radios de borde son consistentes según el tipo de
+      elemento: chico para botones internos, medio para cards, y pill
+      completo para botones y badges.
+    </p>
+
+    <div class="lib-component-block">
+      <p class="lib-component-block__label">Padding de contenedor — --container-pad</p>
+      <div class="lib-spacing-row">
+        <div class="lib-spacing-bar">
+          <span class="lib-spacing-bar__fill" style="width: 20px;"></span>
+          <span class="lib-spacing-bar__label">mobile: 20px</span>
+        </div>
+        <div class="lib-spacing-bar">
+          <span class="lib-spacing-bar__fill" style="width: 42px;"></span>
+          <span class="lib-spacing-bar__label">tablet: ~4vw</span>
+        </div>
+        <div class="lib-spacing-bar">
+          <span class="lib-spacing-bar__fill" style="width: 64px;"></span>
+          <span class="lib-spacing-bar__label">desktop: 64px</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="lib-component-block">
+      <p class="lib-component-block__label">Escala de radios</p>
+      <div class="lib-radii">
+        <div class="lib-radius-demo">
+          <div class="lib-radius-demo__box" style="border-radius: 10px;"></div>
+          <span class="lib-radius-demo__label">10px — íconos</span>
+        </div>
+        <div class="lib-radius-demo">
+          <div class="lib-radius-demo__box" style="border-radius: 14px;"></div>
+          <span class="lib-radius-demo__label">14px — acordeón</span>
+        </div>
+        <div class="lib-radius-demo">
+          <div class="lib-radius-demo__box" style="border-radius: 16px;"></div>
+          <span class="lib-radius-demo__label">16px — info card</span>
+        </div>
+        <div class="lib-radius-demo">
+          <div class="lib-radius-demo__box" style="border-radius: 20px;"></div>
+          <span class="lib-radius-demo__label">20px — faq / flip</span>
+        </div>
+        <div class="lib-radius-demo">
+          <div class="lib-radius-demo__box" style="border-radius: 24px;"></div>
+          <span class="lib-radius-demo__label">24px — gear card</span>
+        </div>
+        <div class="lib-radius-demo">
+          <div class="lib-radius-demo__box" style="border-radius: 999px;"></div>
+          <span class="lib-radius-demo__label">999px — botones / pills</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     FOOTER (sincronizado con el footer del resto del sitio)
+     ============================================ -->
+<svg class="final-cta__divider" viewBox="0 0 1000 420" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0,420 L0,405 L214,405 L214,402 L218,396 L223,389 L227,383 L232,377 L236,371 L240,365 L245,363 L249,362 L254,363 L258,364 L262,365 L267,365 L271,358 L276,341 L280,334 L284,330 L288,329 L293,327 L297,325 L302,323 L306,321 L310,320 L315,318 L319,318 L324,318 L328,319 L332,321 L337,324 L341,328 L346,330 L350,334 L354,337 L359,340 L363,343 L368,346 L372,349 L376,352 L380,359 L385,368 L390,372 L394,374 L398,378 L402,380 L407,384 L411,386 L416,389 L420,392 L424,394 L429,394 L433,392 L438,391 L442,390 L446,388 L451,388 L455,389 L460,392 L464,395 L468,399 L473,402 L473,405 L1000,405 L1000,420 Z" fill="#5c7350"/>
+</svg>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__brand">
+      <img class="site-footer__logo" src="assets/home/logo1.png" alt="Cúspides">
+      <div class="site-footer__socials">
+        <a class="site-footer__social" href="https://www.instagram.com/cuspides/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Cúspides">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/>
+            <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/>
+            <circle cx="17.3" cy="6.7" r="1.1" fill="currentColor"/>
+          </svg>
+        </a>
+        <a class="site-footer__social" href="https://www.tiktok.com/@cuspides" target="_blank" rel="noopener noreferrer" aria-label="TikTok de Cúspides">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M16.6 2.8c.4 2.2 1.8 3.7 4 4v3.1c-1.5.1-2.9-.3-4-1.1v6.5c0 3.4-2.7 6.1-6.1 6.1S4.4 18.7 4.4 15.3c0-3.3 2.6-5.9 5.8-6.1v3.2c-1.5.2-2.6 1.4-2.6 2.9 0 1.6 1.3 2.9 2.9 2.9 1.6 0 2.9-1.3 2.9-2.9V2.8h3.2z" fill="currentColor"/>
+          </svg>
+        </a>
+        <a class="site-footer__social" href="https://wa.me/5490000000000" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp de Cúspides">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 3a9 9 0 0 0-7.75 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+            <path d="M8.6 8.4c.2-.5.4-.5.6-.5h.5c.2 0 .4 0 .5.4.2.5.6 1.6.6 1.7.1.1.1.3 0 .4-.1.2-.1.3-.3.4-.1.2-.3.3-.4.5-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.5 1.5.2.1.4.1.5-.1.2-.2.6-.7.8-.9.2-.2.4-.2.6-.1l1.5.7c.2.1.4.2.4.3.1.2.1.9-.2 1.4-.3.6-1.5 1.2-2 1.2-.6.1-1.1.1-2.5-.5-2.1-.9-3.5-2.9-3.6-3.1-.1-.1-.9-1.2-.9-2.4 0-1.2.6-1.7.8-2Z" fill="currentColor"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <nav class="site-footer__col" aria-label="Inicio">
+      <p class="site-footer__col-title">Inicio</p>
+      <a href="index.html#quienes-somos">Quienes somos</a>
+      <a href="index.html#metodo">Método cúspides</a>
+      <a href="index.html#experiencias">Expediciones</a>
+    </nav>
+
+    <nav class="site-footer__col" aria-label="Cursos">
+      <p class="site-footer__col-title">Cursos</p>
+      <a href="detalle-autonomia.html">Autonomía</a>
+      <a href="detalle-habitar.html">Habitar</a>
+      <a href="detalle-expedicion.html">Expedición</a>
+    </nav>
+
+    <nav class="site-footer__col" aria-label="Información">
+      <p class="site-footer__col-title">Información</p>
+      <a href="preguntas-frecuentes.html">Preguntas frecuentes</a>
+      <a href="atencion-al-cliente.html">Atención al cliente</a>
+      <a href="envios.html">Envíos</a>
+    </nav>
+  </div>
+
+  <div class="site-footer__bottom">
+    <p class="site-footer__copyright">2026 - Cúspides ®</p>
+  </div>
+</footer>
+
+<script src="biblioteca.js"></script>
+</body>
+</html>
